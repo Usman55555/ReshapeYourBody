@@ -33,7 +33,11 @@ const port = process.env.PORT || 3000;
 /* SERVER SETUP */
 
 var app = express();
+var server = http.createServer(app);
 
+server.listen(port, () => {
+  console.log(`Server started on port ${port}`);
+});
 
 /* SOCKET.IO SETUP */
 
@@ -115,6 +119,11 @@ var {
 require("./passport/facebook");
 require("./passport/google");
 
+/* VIEWS - JADE */
+
+app.set("view engine","jade")
+app.set('views', path.join(__dirname, '/views'));
+
 /* ROUTES */
 
 var userRoutes = require("./routes/user");
@@ -156,10 +165,3 @@ app.use(express.static(__dirname + '/publicVue/'));
 app.get(/.*/, (req, res) => {
   res.sendFile(__dirname + '/publicVue/index.html')
 })
-
-// server
-var server = http.createServer(app);
-
-server.listen(port, () => {
-  console.log(`Server started on port ${port}`);
-});

@@ -1295,9 +1295,20 @@ router.get(
     async function(req, res) {
         // const doc = await User.findOne({'email':req.user._json.email});
         const doc = await User.findByEmail(req.user._json.email);
+        
         // console.log(doc);
-        // console.log('profile is here.');
-        // console.log(req.user._json);
+        if (doc != null){
+          if (doc.photo !== undefined && doc.photo !== null) {
+            if (doc.photo === '' || doc.photo === address)
+              doc.photo = req.user._json.picture.data.url
+            else if (doc.photo.slice(0, 4) !== "http")
+              doc.photo = address + doc.photo
+          } else {
+            delete doc.photo;
+          }
+        }
+        console.log('picture is here.--------------------------');
+        // console.log(req.user._json.picture.data.url);
         if (doc == null){
             // console.log('picture is here.');
             // console.log(req.user._json.picture);
@@ -1307,12 +1318,12 @@ router.get(
                 'firstname': req.user._json.first_name,
                 'verification': '',
                 // 'photo': `http://graph.facebook.com/${req.user._json.id}/picture?type=large&redirect=true&width=500&height=500`
-                'photo': req.user._json.picture.url
+                'photo': req.user._json.picture.data.url
             });
             // console.log(user);
             
             var doc1 = await user.save();
-            console.log(doc1);
+            // console.log(doc1);
             const token = await doc1.generateAuthToken();
             // var decoded = jwt_decode(token);
             
@@ -1320,13 +1331,15 @@ router.get(
                 userid: doc1._id,
                 email: doc1.email,
                 token: token,
+                lastname: req.user._json.last_name,
+                firstname: req.user._json.first_name,
+                photo: req.user._json.picture.data.url
                 // global: globalString
                 // tokenexp: decoded.exp
             }
-            console.log(body1);
+            // console.log(body1);
+            res.render('loginresponse', {body1: body1});
 
-
-            res.status(200).send(body1);
         }
         else{
             console.log(doc);
@@ -1339,11 +1352,14 @@ router.get(
                 userid: doc._id,
                 email: doc.email,
                 token: token,
+                lastname: doc.lastname,
+                firstname: doc.firstname,
+                photo: doc.photo
                 // global: object.str
                 // tokenexp: decoded.exp
             }
-            // console.log(body1);
-            res.status(200).send(body1);
+            console.log(body1);
+            res.render('loginresponse', {body1: body1});
             // generate token...
             // res.send the token to the user for their local storage
             // if you get the token on a request, match the token
@@ -1374,7 +1390,18 @@ router.get(
     // console.log(req.user._json.email);
     if (req.user._json.email_verified) {
       const doc = await User.findByEmail(req.user._json.email);
-      // console.log(doc);
+      
+      if (doc != null){
+        if (doc.photo !== undefined && doc.photo !== null) {
+          if (doc.photo === '' || doc.photo === address)
+            doc.photo = req.user._json.picture
+          else if (doc.photo.slice(0, 4) !== "http")
+            doc.photo = address + doc.photo
+        } else {
+          delete doc.photo;
+        }
+      }
+      
       if (doc == null) {
         var user = new User({
           email: req.user._json.email,
@@ -1386,7 +1413,7 @@ router.get(
         // console.log(user);
 
         var doc1 = await user.save();
-        console.log(doc1);
+        // console.log(doc1);
         const token = await doc1.generateAuthToken();
         // var decoded = jwt_decode(token);
 
@@ -1394,21 +1421,29 @@ router.get(
           userid: doc1._id,
           email: doc1.email,
           token: token,
+          lastname: req.user._json.family_name,
+          firstname: req.user._json.given_name,
+          photo: req.user._json.picture
           // tokenexp: decoded.exp
         };
         // console.log(body1);
-        res.status(200).send(body1);
+        res.render('loginresponse', {body1: body1});
+
       } else {
-        console.log(doc);
+        // console.log(doc);
         const token = await doc.generateAuthToken();
 
         var body1 = {
           userid: doc._id,
           email: doc.email,
           token: token,
+          lastname: doc.lastname,
+          firstname: doc.firstname,
+          photo: doc.photo
           // tokenexp: decoded.exp
         };
-        res.status(200).send(body1);
+        res.render('loginresponse', {body1: body1});
+
       }
     } else {
       res.status(401).send({

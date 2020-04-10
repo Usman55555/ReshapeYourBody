@@ -145,7 +145,7 @@ UserSchema.methods.toJSON = function () {
     ]);
 
   if (picked.photo !== undefined && picked.photo !== null) {
-    if (picked.photo.slice(0, 4) !== "http") {
+    if (picked.photo.slice(0, 4) !== "http" && picked.photo !== '') {
       picked.photo = address + picked.photo
     }
   } else {
