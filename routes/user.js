@@ -63,8 +63,7 @@ const upload = multer({
 });
 
 // Admin's home page
-// router.get('/home', adminauthenticate, async (req, res) => {
-router.get('/home', async (req, res) => {
+router.get('/home', adminauthenticate, async (req, res) => {
     var d = new Date();
      
     var date = d.getDate();

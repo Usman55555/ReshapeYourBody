@@ -13,7 +13,8 @@ var {
     authenticate
 } = require('../middleware/authenticate');
 var {
-    adminpartnerauthenticate
+    adminpartnerauthenticate,
+    userauthenticate
 } = require('../middleware/authenticate');
 
 function getRandomInt(min, max) {
@@ -52,6 +53,44 @@ router.post('/generateKey', adminpartnerauthenticate, async function (req, res) 
     try {
         await keyM.save();
         res.send(keyM);
+    } catch {
+        res.status(400).send({
+            errmsg: "Somethin bad happened"
+        });
+    }
+
+});
+
+router.put('/enterKey', userauthenticate, async function (req, res) {
+    var body = {
+        used: true,
+        owner: req.person
+    }
+    try {
+        var doc1 = await Key.findOneAndUpdate({
+                key: req.body.key
+            },
+            body, {
+                new: true
+            }
+        );
+        if (doc1 == null){
+            res.status(400).send({
+                errmsg: "You have entered the wrong key..."
+            });
+        }
+        else{
+            var doc = await User.findOneAndUpdate(
+              {
+                _id: req.person._id,
+              },
+              {
+                  usertype: 'customer'
+              },
+              { new: true }
+            );
+            res.status(200).send(doc);
+        }
     } catch {
         res.status(400).send({
             errmsg: "Somethin bad happened"
