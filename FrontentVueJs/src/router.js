@@ -71,7 +71,25 @@ const router = new Router({
                         redirect: '/apps/eCommerce/shop',
                     }
                 */
-
+        {
+          path: "/home",
+          name: "pages-home",
+          component: () => import("@/views/pages/home.vue"),
+          meta: {
+            breadcrumb: [
+              {
+                title: "Home",
+                url: "/home",
+                active: true
+              },
+              {
+                title: "Downloads"
+              }
+            ],
+            pageTitle: "Home",
+            rule: "editor"
+          }
+        },
         {
           path: "/pages/profile",
           name: "pages-profile",
