@@ -43,7 +43,7 @@ const router = new Router({
       path: "",
       component: () => import("./layouts/main/Main.vue"),
       beforeEnter(to, from, next) {
-        if (state.token) {
+        if (localStorage.getItem('user-token') != null) {
           next();
         } else {
           next("/pages/login");

@@ -75,20 +75,21 @@
 
                     <p>Connect with &nbsp;&nbsp;&nbsp;</p>
                     <!-- facebook -->
-                    <div 
-                    @click.prevent="facebook"
-                    class="bg-facebook pt-3 pb-2 px-4 rounded-lg cursor-pointer mr-4">
-                      <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook-f" class="text-white h-4 w-4 svg-inline--fa fa-facebook-f fa-w-9" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512"><path fill="currentColor" d="M215.8 85H264V3.6C255.7 2.5 227.1 0 193.8 0 124.3 0 76.7 42.4 76.7 120.3V192H0v91h76.7v229h94V283h73.6l11.7-91h-85.3v-62.7c0-26.3 7.3-44.3 45.1-44.3z"></path></svg>
-                    </div>
+                    <a v-on:click.left="facebook" v-on:click.right="facebook">
+                      <div 
+                      @click.prevent="facebook"
+                      class="bg-facebook pt-3 pb-2 px-4 rounded-lg cursor-pointer mr-4">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook-f" class="text-white h-4 w-4 svg-inline--fa fa-facebook-f fa-w-9" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512"><path fill="currentColor" d="M215.8 85H264V3.6C255.7 2.5 227.1 0 193.8 0 124.3 0 76.7 42.4 76.7 120.3V192H0v91h76.7v229h94V283h73.6l11.7-91h-85.3v-62.7c0-26.3 7.3-44.3 45.1-44.3z"></path></svg>
+                      </div>
+                    </a>
 
                     <p>or &nbsp;&nbsp;&nbsp;</p>
                     <!-- GOOGLE -->
-                    <div class="bg-google pt-3 pb-2 px-4 rounded-lg cursor-pointer mr-4">
-                      <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" class="text-white h-4 w-4 svg-inline--fa fa-google fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
-                    </div>
-                    <!-- <a href="http://localhost:3000/user/auth/facebook" v-on:click.right="copy">Login with Facebook</a> -->
-                    <a v-on:click.left="copy" v-on:click.right="copy">Login with Facebook</a>
-
+                    <a v-on:click.left="google" v-on:click.right="google">
+                      <div class="bg-google pt-3 pb-2 px-4 rounded-lg cursor-pointer mr-4">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" class="text-white h-4 w-4 svg-inline--fa fa-google fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
+                      </div>
+                    </a>
                   </div>
                 </div>
 
@@ -120,40 +121,34 @@ export default {
     this.getCode()
   },
   methods: {
+    watchForStorage() {
+      return new Promise((resolve, reject) => {
+        var timer = setInterval(function() {
+          if (localStorage.getItem('user-token') != null){
+            console.log('INSIDE')
+            clearInterval(timer);
+            resolve()
+          }
+        }, 250);
+      })
+    },
     getCode() {
       this.code = cryptoRandomString({length: 10, type: 'url-safe'}),
       console.log(this.code)
     },
-    copy () {
-      console.log('left clicked')
-      window.open("http://localhost:3000/api/user/auth/google", "_blank"); 
-      // axios.get('/user/auth/facebook').then(res => console.log(res))
-    },
     facebook () {
-      // http.request({
-      //   url: "http://localhost:3000/user/auth/facebook",
-      //   method: "GET",
-      //   // headers: { "Content-Type": "application/json" }
-      // })
-      // .then(response => {
-      //   console.log(response)
-      //   // var result = response.content.toJSON();
-      // }, error => {
-      //   console.error(error);
-      // });
-
-
-      // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-      // axios.defaults.headers.common['Access-Control-Allow-Headers'] = '*'
-      
-      // axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'https://www.facebook.com/*'
-      // axios.get('http://localhost:3000/api/user/auth/facebook'
-      // axios.get('http://localhost:3000/user/auth/facebook/callback'
-      // , {
-      //       headers: {'Access-Control-Allow-Origin': '*'}
-      //   }
-      // , { crossdomain: true }
-      // )
+      window.open("http://localhost:3000/api/user/auth/facebook", "_blank");
+      this.watchForStorage()
+      .then(() => {
+        this.$router.push({name:'pages-home'})
+      })
+    },
+    google () {
+      window.open("http://localhost:3000/api/user/auth/google", "_blank"); 
+      this.watchForStorage()
+      .then(() => {
+        this.$router.push({name:'pages-home'})
+      })
     },
     isEmailValid () {
       // return ((this.email === '') ? '' : (this.reg.test(this.email))? false : true)
