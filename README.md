@@ -2,6 +2,14 @@
 
 
 ## Project setup
+
+##### open terminal in the root directory (where index.js is)
+```
+npm install
+```
+
+##### move to the **FrontendVueJs** folder and open terminal there
+its separate because once in a the production mode, we won't need this...
 ```
 npm install
 ```
