@@ -1333,7 +1333,8 @@ router.get(
                 token: token,
                 lastname: req.user._json.last_name,
                 firstname: req.user._json.first_name,
-                photo: req.user._json.picture.data.url
+                photo: req.user._json.picture.data.url,
+                usertype: 'user'
                 // global: globalString
                 // tokenexp: decoded.exp
             }
@@ -1354,7 +1355,8 @@ router.get(
                 token: token,
                 lastname: doc.lastname,
                 firstname: doc.firstname,
-                photo: doc.photo
+                photo: doc.photo,
+                usertype: doc.usertype
                 // global: object.str
                 // tokenexp: decoded.exp
             }
@@ -1423,7 +1425,8 @@ router.get(
           token: token,
           lastname: req.user._json.family_name,
           firstname: req.user._json.given_name,
-          photo: req.user._json.picture
+          photo: req.user._json.picture,
+          usertype: 'user'
           // tokenexp: decoded.exp
         };
         // console.log(body1);
@@ -1439,7 +1442,8 @@ router.get(
           token: token,
           lastname: doc.lastname,
           firstname: doc.firstname,
-          photo: doc.photo
+          photo: doc.photo,
+          usertype: doc.usertype
           // tokenexp: decoded.exp
         };
         res.render('loginresponse', {body1: body1});
