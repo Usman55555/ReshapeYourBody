@@ -82,7 +82,8 @@ router.get('/home', async (req, res) => {
     var m, nexty, nextm
     const change  = 12 - month
     const m1 = change
-    for (let i = 0; i < 13; i++){ // getting last 12 to 13 months data
+    // for (let i = 0; i < 13; i++){ // getting last 12 to 13 months data
+    for (let i = 0; i < 12; i++){ // getting last 12 to 13 months data
         if (i <= change){
             y = year - 1
             m = 12 - change + i
@@ -103,8 +104,8 @@ router.get('/home', async (req, res) => {
         var pm2 = m
         var pm3 = m
         // console.log(i)
-        // console.log(y + " / " + pm1-- + " / " + 2)
-        // console.log(nexty + " / " + nextm + " / " + 1)
+        console.log(y + " / " + pm1-- + " / " + 2)
+        console.log(nexty + " / " + nextm + " / " + 1)
         var usersInMonth = await User.countDocuments(
             {"createdAt": {"$gte": new Date(y, pm2--, 2), 
                             "$lt": new Date(nexty, nextm, 1)}
@@ -130,11 +131,16 @@ router.get('/home', async (req, res) => {
     var countUsers = await User.countDocuments({'usertype': 'user'})
     var countCustomers = await User.countDocuments({'usertype': 'customer'})
     var countPartners = await User.countDocuments({'usertype': 'partner'})
-    console.log(countUsers)
-    console.log(countCustomers)
-    console.log(countPartners)
+    // console.log(countUsers)
+    // console.log(countCustomers)
+    // console.log(countPartners)
     res.status(200).send({
-        msg: 'good'
+        userArray,
+        customerArray,
+        partnerArray,
+        countUsers,
+        countCustomers,
+        countPartners
     });
 })
 

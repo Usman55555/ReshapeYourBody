@@ -80,6 +80,20 @@ const actions = {
 
   // Ali's work
 
+  home: ({
+    commit
+  }) => {
+    return new Promise((resolve, reject) => {
+      commit('AUTH_REQUEST')
+      axios.get('/user/home').then(res => {
+        commit('REQUEST_COMPLETE')
+        resolve(res)
+      }).catch(err => {
+        commit('REQUEST_COMPLETE')
+        reject(err)
+      })
+    })
+  },
   deleteAccount: ({
     commit
   }, doc) => {

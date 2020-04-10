@@ -27,17 +27,17 @@ export default [
   //   i18n: "Email",
   // },
   {
-    url: null,
-    name: "Dashboard",
-    tag: "2",
+    url: '/home',
+    name: "Home",
+    tag: "",
     tagColor: "warning",
     icon: "HomeIcon",
-    i18n: "Dashboard"
+    i18n: "Home"
   },
   {
-    header: "Apps",
+    header: "Menu",
     icon: "PackageIcon",
-    i18n: "Apps",
+    i18n: "Menu",
     items: [
       {
         url: null,
@@ -56,6 +56,7 @@ export default [
       {
         url: "/download",
         name: "Downloads",
+        icon: "PackageIcon",
         slug: "app-user-download",
         i18n: "Downloads"
       }
