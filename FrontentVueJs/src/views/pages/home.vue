@@ -99,9 +99,9 @@
         </div>
         <div>
             <div class="vx-row">
-                <div class="vx-col lg:w-1/5 mb-base">
+                <div class="vx-col lg:w-1/4 xl:w-1/4 mb-base">
                 </div>
-                <div class="vx-col w-full lg:w-1/2 mb-base">
+                <div class="vx-col w-full sm:w-full lg:w-1/2 xl:w-1/2 mb-base">
                     <div class="vx-row">
                         <div class="vx-col w-full mb-base">
                             <vx-card slot="no-body" class="text-center bg-primary-gradient greet-user">
@@ -125,7 +125,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="vx-col lg:w-1/5 mb-base">
+                <div class="vx-col lg:w-1/4 xl:w-1/4 mb-base">
                 </div>
             </div>            
             <!-- <vs-row>
@@ -149,7 +149,7 @@
         </div>
         <div>
             <div class="vx-row">
-                <div class="vx-col lg:w-1/5 mb-base">
+                <div class="vx-col lg:w-1/4 mb-base">
                 </div>
                 <div class="vx-col w-full lg:w-1/2 mb-base">
                     <div class="vx-row">
@@ -172,9 +172,55 @@
                         </div>
                     </div>
                 </div>
-                <div class="vx-col lg:w-1/5 mb-base">
+                <div class="vx-col lg:w-1/4 mb-base">
                 </div>
             </div>            
+        </div>
+        <div>
+            <div class="vx-row">
+                <div class="vx-col sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-base">
+                    <vx-card
+                        title="Gradient Background Color"
+                        title-color="#fff"
+                        content-color="#fff"
+                        card-background="linear-gradient(to right, #56ab2f, #a8e063)">
+                        <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p>
+                        <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
+                    </vx-card>
+                </div>
+                <div class="vx-col sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-base">
+                    <vx-card
+                        title="Gradient Background Color"
+                        title-color="#fff"
+                        content-color="#fff"
+                        card-background="linear-gradient(to right, #56ab2f, #a8e063)">
+                        <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p>
+                        <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
+                    </vx-card>
+                </div>
+            </div> 
+            <div class="vx-row">
+                <div class="vx-col lg:w-1/4 xl:w-1/4 mb-base">
+                </div>
+                <div class="vx-col w-full lg:w-1/2 mb-base">
+                  <span class="text-danger text-sm" v-show="isKeyValid">The key is not valid.</span>
+                  <vs-input
+                    name="key"
+                    type="key"
+                    label-placeholder="Key"
+                    placeholder="Key"
+                    v-model="key"
+                    class="w-full mt-6 mb-2" 
+                    />
+                  <vs-button @click="() => {this.key = ''}" color="danger" type="filled">Clear</vs-button>
+                  &nbsp;
+                  <vs-button 
+                    :disabled="isDisabled"
+                    @click="submit" 
+                    color="success" 
+                    type="filled">Sumbit</vs-button>
+                </div>
+            </div>           
         </div>
   </div>
 </template>
@@ -186,9 +232,10 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 export default {
   data() {
     return {
-        mUsers: null,
-        mCustomers: null,
-        mPartners: null,
+      key: '',
+      mUsers: null,
+      mCustomers: null,
+      mPartners: null,
       userData: {
       },
       themeColors: ['#7367F0', '#28C76F', '#EA5455', '#FF9F43', '#1E1E1E'],
@@ -237,8 +284,58 @@ export default {
     }
   },
   computed: {
+    isDisabled() {
+      if (this.key.length != 23){
+        return true
+      }
+      else{
+        return false
+      }
+    },
+    isKeyValid() {
+      this.key = this.key.toUpperCase();
+      String.prototype.splice = function(idx, rem, str) {
+          return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
+      };
+      if( this.key.length == 5){
+        this.key = this.key.splice(5, 0, "-")
+      }
+      else if( this.key.length == 11)
+        this.key = this.key.splice(11, 0, "-")
+      else if( this.key.length == 17 )
+        this.key = this.key.splice(17, 0, "-")
+      
+      if (this.key.length > 23){
+        return true
+      }
+      else{
+        return false
+      }
+    }
   },
   methods: {
+    submit() {
+      this.$store.dispatch('key', this.key)
+      .then(res => {
+        this.$vs.notify({
+          title: 'Congratulations',
+          text: 'You are now promoted to Customer',
+          color: 'success',
+          iconPack: 'feather',
+          position: 'top-center',
+          icon:'icon-check'
+        })
+      })
+      .catch(err => {
+        this.colorAlert = 'danger'
+        this.$vs.dialog({
+          color: this.colorAlert,
+          title: `Sooo sorry`,
+          text: `You must have provided the wrong key...`,
+          accept: this.acceptAlert
+        })
+      })
+    }
   },
   created () {
     this.userData = this.$store.state.AppActiveUser
