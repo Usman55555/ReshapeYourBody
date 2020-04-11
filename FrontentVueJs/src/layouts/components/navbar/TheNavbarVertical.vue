@@ -26,7 +26,7 @@
 
         <search-bar />
 
-        <profile-drop-down />
+        <span v-show="available"><profile-drop-down /></span>
 
       </vs-navbar>
     </div>
@@ -46,6 +46,14 @@ export default {
       type: String,
       default: '#fff'
     }
+  },
+  data() {
+    return {
+      available: null
+    }
+  },
+  created() {
+    this.ifAvailable()
   },
   components: {
     I18n,
@@ -74,6 +82,21 @@ export default {
     }
   },
   methods: {
+    ifAvailable () {
+      this.watchForStorage().then(() => {
+        this.available = true
+      })
+    },
+    watchForStorage() {
+      return new Promise((resolve, reject) => {
+        var timer = setInterval(function() {
+          if (localStorage.getItem('user-token') != null){
+            clearInterval(timer);
+            resolve()
+          }
+        }, 250);
+      })
+    },
     showSidebar () {
       this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', true)
     }
