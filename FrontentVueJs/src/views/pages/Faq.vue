@@ -20,7 +20,12 @@
         <div class="vx-row">
             <div class="vx-col w-full md:w-2/5 lg:w-1/4 rounded-lg">
                 <vx-card>
-                    <vs-button color="primary" type="filled" @click="goToAddFaqPage">Add Your FAQ</vs-button>
+                    <vs-button 
+                      v-show="activeUserInfo.usertype == 'admin'"
+                      color="primary" 
+                      type="filled" 
+                      @click="goToAddFaqPage"
+                      >Add Your FAQ</vs-button>
                     <br><br><h4>Table of Content</h4>
                     <ul class="faq-topics mt-4">
                         <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.id">

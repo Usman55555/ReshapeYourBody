@@ -91,7 +91,7 @@ const router = new Router({
           path: "/apps/user/user-list",
           name: "app-user-list",
           beforeEnter(to, from, next) {
-            if (localStorage.getItem('user-uertype') != null && localStorage.getItem('user-uertype') == admin) {
+            if (localStorage.getItem('user-usertype') != null && localStorage.getItem('user-usertype') == 'admin') {
               next();
             } else {
               next("/home");
@@ -172,6 +172,13 @@ const router = new Router({
         // =============================================================================
         {
           path: "/key/list-view",
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && (localStorage.getItem('user-usertype') == 'admin' || localStorage.getItem('user-usertype') == 'partner')) {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           name: "data-list-list-view",
           component: () =>
             import("@/views/ui-elements/data-list/list-view/Key.vue"),
