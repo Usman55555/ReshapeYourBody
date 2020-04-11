@@ -54,9 +54,9 @@ io.on("connection", (socket) =>
   socket.on("broadcastThisMessage",async (message,token) => {
     console.log(token)
     var decoded = jwt_decode(token);
-    console.log(decoded)
+    // console.log(decoded)
     var doc = await User.findById(decoded._id)
-    console.log(doc.usertype)
+    // console.log(doc.usertype)
     if (doc!=null && doc.usertype=="admin" && doc.usertype!=null){
     var doc1={
       body:message,
@@ -183,17 +183,8 @@ app.get("/api/:file", function (req, res) {
 app.use(express.static(__dirname + '/publicVue/'));
 // handle SPA
 
-app.get('/socket.io', function(req, res) {
-  
-});
 
 app.get(/.*/, (req, res) => {
   res.sendFile(__dirname + '/publicVue/index.html')
 })
 
-// server
-// var server = http.createServer(app);
-
-// server.listen(port, () => {
-//   console.log(`Server started on port ${port}`);
-// });
