@@ -55,7 +55,7 @@ const router = new Router({
         // =============================================================================
         {
           path: "/",
-          redirect: "/pages/faq"
+          redirect: "/home"
         },
         // =============================================================================
         // Application Routes
@@ -90,6 +90,13 @@ const router = new Router({
         {
           path: "/apps/user/user-list",
           name: "app-user-list",
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-uertype') != null && localStorage.getItem('user-uertype') == admin) {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           component: () => import("@/views/apps/user/user-list/UserList.vue"),
           meta: {
             breadcrumb: [

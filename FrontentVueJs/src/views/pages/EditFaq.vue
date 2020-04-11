@@ -31,7 +31,9 @@
                 icon-pack="feather"
                 label="Answer"
                 v-model="faq.answer"/>
-            <br /><br /><br />
+            <br />
+            <label>Select a category</label>
+            <br /><br />
             <vs-button class="btnx" type="filled">{{select}}</vs-button>
             <vs-dropdown>
             <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>

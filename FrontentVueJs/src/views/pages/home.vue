@@ -1,6 +1,6 @@
 <template>
     <div id="page-user-view">
-        <div>
+        <div v-show="userData.usertype === 'admin'">
             <div class="vx-row">
                 <div class="vx-col w-full md:w-full xl:w-1/2">
                     <div class="vx-row">
@@ -97,7 +97,7 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div v-show="userData.usertype === 'partner'">
             <div class="vx-row">
                 <div class="vx-col lg:w-1/4 xl:w-1/4 mb-base">
                 </div>
@@ -147,7 +147,7 @@
                 </vs-col>
             </vs-row> -->
         </div>
-        <div>
+        <div v-show="userData.usertype === 'customer'">
             <div class="vx-row">
                 <div class="vx-col lg:w-1/4 mb-base">
                 </div>
@@ -176,7 +176,7 @@
                 </div>
             </div>            
         </div>
-        <div>
+        <div v-show="userData.usertype === 'user'">
             <div class="vx-row">
                 <div class="vx-col sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-base">
                     <vx-card
@@ -338,7 +338,9 @@ export default {
     }
   },
   created () {
-    this.userData = this.$store.state.AppActiveUser
+    setTimeout(() => {
+      this.userData = this.$store.state.AppActiveUser
+    }, 500)
     this.$store.dispatch('home')
       .then(res => { 
         this.userData = res.data,
