@@ -21,18 +21,17 @@
 
     
         <vs-spacer />
-      <vs-row v-if='usertype=="admin"'>
-          <vs-input  v-model="broadcast_message" class="mb-2" />
-          <p>&nbsp;</p>
-          <vs-button
-                    color="success" 
-                    v-on:click="broadcast"
-                    >Broadcast
-          </vs-button>
-      </vs-row >
-      <vs-row v-if='usertype!=="admin"'> 
-      <vs-input class="mr-3 w-full" :disabled="disabled"   placeholder="Broadcats will appear here stay tuned"  id="text" v-model=broadcast_message ></vs-input>
-      </vs-row>
+
+        <vs-row v-if='usertype=="admin"'>
+            <div class="flex  w-full bg-white chat-input-container mr-3">
+                <vs-input v-model="broadcast_message" class="mr-3 w-full" placeholder="Type Your Message" ></vs-input>
+                <vs-button v-on:click="broadcast" icon-pack="feather" icon="icon-send" ></vs-button>
+            </div>
+        </vs-row >
+        <vs-row v-if='usertype!=="admin"'> 
+            <vs-input class="inputx mr-3 w-full" :disabled="disabled"  placeholder="Broadcats from Admin will appear here..." v-model="broadcast_message"  />
+        </vs-row>
+        
         <i18n />
 
         <search-bar />
@@ -52,19 +51,9 @@ import SearchBar            from './components/SearchBar.vue'
 import ProfileDropDown      from './components/ProfileDropDown.vue'
 var io = require('socket.io-client');
 
-// var socket = io("http://localhost:3000/");
-// var socket = io.connect('http://localhost:3000.com/api/socket.io');
 var socket = io.connect('http://localhost:3000', { resource: '/api/socket.io' });
 
 export default {
-   data () {
-    return {
-      broadcast_message: '',
-      usertype:this.$store.state.usertype,
-      disabled: true
-     
-    }
-  },
   name: 'the-navbar-vertical',
   props: {
     navbarColor: {
@@ -74,11 +63,19 @@ export default {
   },
   data() {
     return {
-      available: null
+      available: null,
+      broadcast_message: '',
+      usertype:this.$store.state.usertype,
+      disabled: true
     }
   },
   created() {
-    this.ifAvailable()
+    this.ifAvailable()    
+    socket.on("newMessage",(message)=>
+      {
+        // console.log(message)
+        this.broadcast_message=message
+      })
   },
   components: {
     I18n,
@@ -93,7 +90,7 @@ export default {
       return this.$store.state.verticalNavMenuWidth
     },
     textColor () {
-      return {'text-white': (this.navbarColor !== '#10163a' && this.$store.state.theme === 'dark') || (this.navbarColor !== '#fff' && this.$store.state.theme !== 'dark')}
+      return {'text-white': (this.navbarColor !== '#10163a' && this.$store.state.theme === 'dark') || (this.navbarColor !== '#fff' && this.$store.state.theme !== 'white')}
     },
     windowWidth () {
       return this.$store.state.windowWidth
@@ -108,13 +105,16 @@ export default {
   },
   methods: {
     ifAvailable () {
+        console.log('inside fun '+this.available)
       this.watchForStorage().then(() => {
         this.available = true
+        console.log(this.available)
       })
     },
     watchForStorage() {
       return new Promise((resolve, reject) => {
         var timer = setInterval(function() {
+        console.log(localStorage.getItem('user-token') != null)
           if (localStorage.getItem('user-token') != null){
             clearInterval(timer);
             resolve()
@@ -140,25 +140,13 @@ export default {
           
                   
       }
-
-     
-     
     }
-  },
-  created(){
-           socket.on("newMessage",(message)=>
-                          {
-                            console.log(message)
-                            this.broadcast_message=message
-                          })
-
   }
-  
 }
 </script>
 <style lang="scss">
 input:disabled {
-  background-color:black;
+  color: black
 }
 
 #txt {
