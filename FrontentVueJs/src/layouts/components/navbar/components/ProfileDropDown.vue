@@ -86,10 +86,11 @@ export default {
       this.$store.dispatch('logout').then(() => {
         // This is just for demo Purpose. If user clicks on logout -> redirect
         // this.$router.push('/pages/login').catch(() => {})
-        setTimeout(() => {
-          console.log("now the then runs")
-          this.$router.replace('/pages/login')
-        }, 2000)
+        // setTimeout(() => {
+        //   console.log("now the then runs")
+        //   this.$router.replace('/pages/login')
+        // }, 2000)
+        this.$router.replace('/pages/login')
       })
       .catch(err => {
         console.log("errrrrr")

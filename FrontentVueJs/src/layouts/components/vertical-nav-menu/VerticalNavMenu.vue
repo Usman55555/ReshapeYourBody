@@ -88,12 +88,14 @@
 
               <!-- Nav-Group -->
               <template v-else>
-                <v-nav-menu-group
-                  :key="`group-${index}`"
-                  :openHover="openGroupHover"
-                  :group="item"
-                  :groupIndex="index"
-                  :open="isGroupActive(item)" />
+                <template v-if="usertype === 'admin'">
+                  <v-nav-menu-group
+                    :key="`group-${index}`"
+                    :openHover="openGroupHover"
+                    :group="item"
+                    :groupIndex="index"
+                    :open="isGroupActive(item)" />
+                </template>
               </template>
               <!-- /Nav-Group -->
             </template>
@@ -128,6 +130,9 @@ export default {
     VuePerfectScrollbar,
     Logo
   },
+  created() {
+    this.usertype = this.$store.state.usertype
+  },
   props: {
     logo:             { type: String },
     openGroupHover:   { type: Boolean, default: false },
@@ -137,6 +142,7 @@ export default {
     title:            { type: String }
   },
   data: () => ({
+    usertype            : null,
     clickNotClose       : false, // disable close navMenu on outside click
     isMouseEnter        : false,
     reduce              : false, // determines if navMenu is reduce - component property

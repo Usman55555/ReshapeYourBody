@@ -1,8 +1,9 @@
 // en, de, fr, pt
 export default {
   en: {
+    Settings: 'Settings',
     Downlods: 'Downloads',
-    Menu: 'Downloads',
+    Menu: 'Menu',
     Home: 'Home',
     Keys: 'Keys',
     Dashboard: 'Dashboard',
@@ -134,6 +135,7 @@ export default {
     demoText: 'Cake sesame snaps cupcake gingerbread danish I love gingerbread. Apple pie pie jujubes chupa chups muffin halvah lollipop. Chocolate cake oat cake tiramisu marzipan sugar plum. Donut sweet pie oat cake dragée fruitcake cotton candy lemon drops.'
   },
   de: {
+    Settings: 'die Einstellungen',
     Downlods: 'Herunterladen',
     Menu: 'Speisekarte',
     Home: 'Zuhause',
@@ -267,6 +269,7 @@ export default {
     demoText: 'Kuchen Sesam Schnaps Cupcake Lebkuchen Dänisch Ich liebe Lebkuchen. Apfelkuchen-Torte-Jujuben chupa chups muffin halvah Lutscher. Schokoladenkuchenhaferkuchen Tiramisu-Marzipanzuckerpflaume. Donut süße Kuchen Hafer Kuchen Dragée Obstkuchen Zuckerwatte Zitrone Tropfen.'
   },
   fr: {
+    Settings: 'Paramètres',
     Downlods: 'Télécharger',
     Menu: 'Menu',
     Home: 'Accueil',
@@ -400,6 +403,7 @@ export default {
     demoText: 'Le gâteau au sésame s\'enclenche au petit pain au pain d\'épices danois J\'adore le pain d\'épices. Tarte aux pommes et jujubes chupa chups muffin halvah sucette. Tiramisu gâteau au chocolat gâteau d\'avoine tiramisu prune sucre. Donut tarte sucrée gâteau à l\'avoine dragée gouttes de fruits gâteau au citron en barbe à papa.'
   },
   pt: {
+    Settings: 'Definições',
     Downlods: 'Baixar',
     Menu: 'Cardápio',
     Home: 'Casa',

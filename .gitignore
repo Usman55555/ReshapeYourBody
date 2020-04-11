@@ -40,7 +40,10 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-uploads/
+# exclude everything
+uploads/*
+# exception to the rule
+!uploads/.gitkeep 
 publicVue/
 
 # TypeScript v1 declaration files
