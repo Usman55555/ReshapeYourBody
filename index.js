@@ -6,18 +6,20 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const logger = require("morgan");
-// const socketIO = require("socket.io");
-// var socketIO = require('socket.io').listen(app, { resource: '/api/socket.io' });
+const socketIO = require("socket.io");
 const http = require("http");
 const passport = require("passport");
-var {Broadcasts}=require("./models/broadcast")
 const jwt_decode = require("jwt-decode");
-/* LOCAL IMPORTS */
-// const WSS = require("./broadcast");
 
+/* LOCAL IMPORTS */
+
+// const WSS = require("./broadcast");
 var {
   mongoose
 } = require("./db/mongoose");
+var {
+  Broadcasts
+}=require("./models/broadcast")
 var {
   User
 } = require("./models/user");
@@ -33,7 +35,7 @@ var uploadRoutes = require("./routes/upload");
 const port = process.env.PORT || 3000;
 
 /* SERVER SETUP */
-// server
+
 var app = express();
 var server = http.createServer(app);
 
@@ -41,10 +43,9 @@ server.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
 
-
-
 /* SOCKET.IO SETUP */
-var io = require('socket.io').listen(server, { resource: '/api/socket.io' });
+
+var io = socketIO.listen(server, { resource: '/api/socket.io' });
 // var io = socketIO(server);
 
 io.on("connection", (socket) =>
@@ -68,12 +69,10 @@ io.on("connection", (socket) =>
       console.log("Message to be broadcasted: "+ message );
       socket.broadcast.emit("newMessage", message);
     }
-    
   });
 });
 
 /* APP CONFIGS */
-
 
 app.use((req, res, next) => {
   // console.log(req);
@@ -104,7 +103,7 @@ app.use(
 );
 app.use(cookieParser());
 
-/* Express session midleware */
+/* EXPRESS SESSION MIDDLEWARE */
 
 app.use(
   session({
@@ -178,13 +177,16 @@ app.get("/api/:file", function (req, res) {
     });
   }
 });
+
+/* SEND VUE AS STATIC FILE */
+
 // one server vue thing
 // static folder
 app.use(express.static(__dirname + '/publicVue/'));
 // handle SPA
 
-
 app.get(/.*/, (req, res) => {
   res.sendFile(__dirname + '/publicVue/index.html')
 })
 
+/* THE END */
