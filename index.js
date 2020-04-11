@@ -139,6 +139,11 @@ var {
 require("./passport/facebook");
 require("./passport/google");
 
+/* VIEWS - JADE */
+
+app.set("view engine","jade")
+app.set('views', path.join(__dirname, '/views'));
+
 /* ROUTES */
 
 var userRoutes = require("./routes/user");
