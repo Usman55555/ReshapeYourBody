@@ -6,12 +6,14 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const logger = require("morgan");
-const socketIO = require("socket.io");
+// const socketIO = require("socket.io");
+// var socketIO = require('socket.io').listen(app, { resource: '/api/socket.io' });
 const http = require("http");
 const passport = require("passport");
-
+var {Broadcasts}=require("./models/broadcast")
+const jwt_decode = require("jwt-decode");
 /* LOCAL IMPORTS */
-const WSS = require("./broadcast");
+// const WSS = require("./broadcast");
 
 var {
   mongoose
@@ -31,7 +33,7 @@ var uploadRoutes = require("./routes/upload");
 const port = process.env.PORT || 3000;
 
 /* SERVER SETUP */
-
+// server
 var app = express();
 var server = http.createServer(app);
 
@@ -39,21 +41,39 @@ server.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
 
+
+
 /* SOCKET.IO SETUP */
+var io = require('socket.io').listen(server, { resource: '/api/socket.io' });
+// var io = socketIO(server);
 
-var io = socketIO(server);
-
-io.on("connection", (socket) => {
+io.on("connection", (socket) =>
+ {
   console.log("New user connected");
 
-  socket.on("broadcastThisMessage", (message) => {
-    console.log("Message to be broadcasted: ", message);
-
-    socket.broadcast.emit("newMessage", message);
+  socket.on("broadcastThisMessage",async (message,token) => {
+    console.log(token)
+    var decoded = jwt_decode(token);
+    // console.log(decoded)
+    var doc = await User.findById(decoded._id)
+    // console.log(doc.usertype)
+    if (doc!=null && doc.usertype=="admin" && doc.usertype!=null){
+    var doc1={
+      body:message,
+      adminID:doc
+    }
+      var broadcast = new Broadcasts(doc1);
+      await broadcast.save();
+      // console.log(doc1)
+      console.log("Message to be broadcasted: "+ message );
+      socket.broadcast.emit("newMessage", message);
+    }
+    
   });
 });
 
 /* APP CONFIGS */
+
 
 app.use((req, res, next) => {
   // console.log(req);
@@ -162,6 +182,9 @@ app.get("/api/:file", function (req, res) {
 // static folder
 app.use(express.static(__dirname + '/publicVue/'));
 // handle SPA
+
+
 app.get(/.*/, (req, res) => {
   res.sendFile(__dirname + '/publicVue/index.html')
 })
+
