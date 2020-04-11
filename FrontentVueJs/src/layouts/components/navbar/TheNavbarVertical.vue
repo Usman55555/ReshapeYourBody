@@ -21,7 +21,18 @@
 
     
         <vs-spacer />
-
+      <vs-row v-if='usertype=="admin"'>
+          <vs-input  v-model="broadcast_message" class="mb-2" />
+          <p>&nbsp;</p>
+          <vs-button
+                    color="success" 
+                    v-on:click="broadcast"
+                    >Broadcast
+          </vs-button>
+      </vs-row >
+      <vs-row v-if='usertype!=="admin"'> 
+      <vs-input class="mr-3 w-full" :disabled="disabled"   placeholder="Broadcats will appear here stay tuned"  id="text" v-model=broadcast_message ></vs-input>
+      </vs-row>
         <i18n />
 
         <search-bar />
@@ -34,12 +45,26 @@
 </template>
 
 
+
 <script>
 import I18n                 from './components/I18n.vue'
 import SearchBar            from './components/SearchBar.vue'
 import ProfileDropDown      from './components/ProfileDropDown.vue'
+var io = require('socket.io-client');
+
+// var socket = io("http://localhost:3000/");
+// var socket = io.connect('http://localhost:3000.com/api/socket.io');
+var socket = io.connect('http://localhost:3000', { resource: '/api/socket.io' });
 
 export default {
+   data () {
+    return {
+      broadcast_message: '',
+      usertype:this.$store.state.usertype,
+      disabled: true
+     
+    }
+  },
   name: 'the-navbar-vertical',
   props: {
     navbarColor: {
@@ -76,8 +101,45 @@ export default {
   methods: {
     showSidebar () {
       this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', true)
+    },
+    broadcast(){
+      
+      
+      if (this.broadcast_message=="")
+      {
+        console.log("please enter something")
+      }
+      else{
+            
+            console.log("broadcast button clicked "+ this.$store.state.usertype,this.$store.state.token,this.broadcast_message)
+            socket.emit("broadcastThisMessage",this.broadcast_message,this.$store.state.token)
+            this.broadcast_message="";
+          
+                  
+      }
+
+     
+     
     }
+  },
+  created(){
+           socket.on("newMessage",(message)=>
+                          {
+                            console.log(message)
+                            this.broadcast_message=message
+                          })
+
   }
+  
 }
 </script>
+<style lang="scss">
+input:disabled {
+  background-color:black;
+}
 
+#txt {
+  color: red;
+}
+
+</style>
