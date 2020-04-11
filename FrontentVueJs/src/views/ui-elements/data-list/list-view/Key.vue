@@ -91,15 +91,11 @@
 </template>
 
 <script>
-import DataViewSidebar from '../DataViewSidebar.vue'
 
 import axios from 'axios'
 import VueClipboard from 'vue-clipboard2'
 
 export default {
-  components: {
-    DataViewSidebar
-  },
   data () {
     return {
       inline:'inline',
@@ -130,7 +126,8 @@ export default {
         this.keys.unshift(resp.data)
         this.$vs.dialog({
           color: 'success',
-          title: 'Key    ( '+resp.data.key+' )    added successfully',
+          title: 'Key added successfully',
+          text: resp.data.key,
           accept: this.acceptAlert
         })
         resolve(resp)
@@ -141,11 +138,20 @@ export default {
       });
     },
     onCopy: function (e) {
-      this.$vs.dialog({
-        color: 'warning',
-        title: 'You just copied:    ( '+e.text+' )',
-        accept: this.acceptAlert
-      })
+      this.$vs.notify({
+          title: 'Key copied',
+          text: e.text,
+          color: 'success',
+          iconPack: 'feather',
+          position: 'top-center',
+          icon:'icon-check'
+        })
+      // this.$vs.dialog({
+      //   color: 'warning',
+      //   title: 'Key copied',
+      //   text: e.text,
+      //   accept: this.acceptAlert
+      // })
     },
     onError: function (e) {
       this.$vs.dialog({

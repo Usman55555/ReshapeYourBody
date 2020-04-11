@@ -126,19 +126,22 @@ export default {
       this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', true)
     },
     broadcast(){
-      
-      
       if (this.broadcast_message=="")
       {
         console.log("please enter something")
       }
       else{
-            
-            console.log("broadcast button clicked "+ this.$store.state.usertype,this.$store.state.token,this.broadcast_message)
-            socket.emit("broadcastThisMessage",this.broadcast_message,this.$store.state.token)
-            this.broadcast_message="";
-          
-                  
+        console.log("broadcast this message: "+ this.broadcast_message)
+        socket.emit("broadcastThisMessage",this.broadcast_message,this.$store.state.token)
+        this.$vs.notify({
+          title: 'Message sent',
+          text: this.broadcast_message,
+          color: 'success',
+          iconPack: 'feather',
+          position: 'bottom-right',
+          icon:'icon-check'
+        })
+        this.broadcast_message="";
       }
     }
   }
