@@ -131,7 +131,7 @@ export default {
     Logo
   },
   created() {
-    this.usertype = this.$store.state.usertype
+    this.usertype = localStorage.getItem('user-usertype')
   },
   props: {
     logo:             { type: String },

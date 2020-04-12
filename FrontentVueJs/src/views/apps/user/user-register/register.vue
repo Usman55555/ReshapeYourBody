@@ -286,6 +286,14 @@ export default {
         if (this.dob !== '' || this.dob !== null || this.dob !== undefined){
           birthdate = new Date(this.dob).toISOString()
         }
+        this.$vs.notify({
+          title: 'Please wait...',
+          text: 'Please wait while we send the email.',
+          color: 'success',
+          iconPack: 'feather',
+          position: 'top-center',
+          icon:'icon-check'
+        })
         if (this.phone !== ''){          
             axios.post('/user/adminRegister',
                 {
