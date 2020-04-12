@@ -52,7 +52,8 @@ export default {
           firstname: this.$store.state.tempUserObj.firstname,
           lastname: this.$store.state.tempUserObj.lastname,
           about: this.$store.state.tempUserObj.about,
-          photoURL: this.$store.state.tempUserObj.photoURL === undefined ? require('@/assets/images/user/user.png') : this.$store.state.AppActiveUser.photoURL,
+          // photoURL: this.$store.state.tempUserObj.photoURL === undefined ? require('@/assets/images/user/user.png') : this.$store.state.AppActiveUser.photoURL,
+          photoURL: localStorage.getItem('user-photo')=== undefined ? require('@/assets/images/user/user.png') : localStorage.getItem('user-photo'),
           usertype: this.$store.state.tempUserObj.usertype,
           email: this.$store.state.tempUserObj.email
         }

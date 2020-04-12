@@ -46,6 +46,12 @@ export default [
         i18n: "User",
         submenu: [
           {
+            url: "/apps/user/user-register",
+            name: "Register",
+            slug: "app-user-register",
+            i18n: "Register"
+          },
+          {
             url: "/apps/user/user-list",
             name: "List",
             slug: "app-user-list",

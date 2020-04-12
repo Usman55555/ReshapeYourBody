@@ -19,11 +19,25 @@
         <span class="vx-logo-text text-primary">Vuexy</span>
       </router-link>
 
+      &nbsp;
+      &nbsp;
+      <vs-row v-if='admin()'>
+          <div class="flex  w-full bg-white chat-input-container mr-3">
+              <vs-input v-model="broadcast_message" class="mr-3 w-full" placeholder="Type Your Message" ></vs-input>
+              <vs-button v-on:click="broadcast" icon-pack="feather" icon="icon-send" ></vs-button>
+          </div>
+      </vs-row >
+
+      <vs-row v-else> 
+          <vs-input class="inputx mr-3 w-full" :disabled="disabled"  placeholder="Broadcats from Admin will appear here..." v-model="broadcast_message"  />
+      </vs-row>
+
       <i18n />
 
-      <search-bar />
+      <!-- <search-bar /> -->
 
-      <profile-drop-down />
+      &nbsp;
+      <span v-show="available"><profile-drop-down /></span>
 
     </vs-navbar>
   </div>
@@ -36,6 +50,10 @@ import SearchBar            from './components/SearchBar.vue'
 import ProfileDropDown      from './components/ProfileDropDown.vue'
 import Logo                 from '../Logo.vue'
 
+var io = require('socket.io-client');
+var socket = io.connect('http://localhost:3000', { resource: '/api/socket.io' });
+
+
 export default {
   name: 'the-navbar-horizontal',
   props: {
@@ -44,6 +62,22 @@ export default {
       type: String,
       required: true
     }
+  },
+  data() {
+    return {
+      available: null,
+      broadcast_message: '',
+      usertype:this.$store.state.usertype,
+      disabled: true
+    }
+  },
+  created() {
+    this.ifAvailable()    
+    socket.on("newMessage",(message)=>
+      {
+        // console.log(message)
+        this.broadcast_message=message
+      })
   },
   components: {
     Logo,
@@ -77,7 +111,49 @@ export default {
     scrollY ()              { return this.$store.state.scrollY                                                                     },
     verticalNavMenuWidth () { return this.$store.state.verticalNavMenuWidth                                                        },
     windowWidth ()          { return this.$store.state.windowWidth                                                                 }
-  }
+  },
+  methods: {
+    admin () {
+      return localStorage.getItem('user-usertype') === 'admin'
+    },
+    ifAvailable () {
+        console.log('inside fun '+this.available)
+      this.watchForStorage().then(() => {
+        this.available = true
+        // console.log(this.available)
+      })
+    },
+    watchForStorage() {
+      return new Promise((resolve, reject) => {
+        var timer = setInterval(function() {
+        // console.log(localStorage.getItem('user-token') != null)
+          if (localStorage.getItem('user-token') != null){
+            clearInterval(timer);
+            resolve()
+          }
+        }, 250);
+      })
+    },
+    broadcast(){
+      if (this.broadcast_message=="")
+      {
+        console.log("please enter something")
+      }
+      else{
+        console.log("broadcast this message: "+ this.broadcast_message)
+        socket.emit("broadcastThisMessage",this.broadcast_message,this.$store.state.token)
+        this.$vs.notify({
+          title: 'Message sent',
+          text: this.broadcast_message,
+          color: 'success',
+          iconPack: 'feather',
+          position: 'bottom-right',
+          icon:'icon-check'
+        })
+        this.broadcast_message="";
+      }
+    }
+  },
 }
 
 </script>
