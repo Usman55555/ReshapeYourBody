@@ -9,7 +9,9 @@
     <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
 
       <div class="con-img ml-3">
-        <img v-if="activeUserInfo.photoURL" key="onlineImg" :src="activeUserInfo.photoURL" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" />
+        <!-- <img key="onlineImg" :src="this.$store.state.photoUrl" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" /> -->
+        <!-- <img key="onlineImg" :src="activeUserInfo.photoURL" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" /> -->
+        <img key="onlineImg" :src="photoURL" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" />
       </div>
 
       <vs-dropdown-menu class="vx-navbar-dropdown">
@@ -41,10 +43,17 @@
 export default {
   data () {
     return {
-
     }
   },
   computed: {
+    photoURL () {
+      if (localStorage.getItem('user-photo').slice(0, 4) !== 'http'){
+        return require('@/assets/images/user/user.png')
+      }
+      else{
+        return localStorage.getItem('user-photo')
+      }
+    },
     activeUserInfo () {
       if (this.$store.state.tempUserObj.token !== undefined) {
         var obj = {
@@ -60,8 +69,6 @@ export default {
         if (obj.photoURL === null || obj.photoURL === undefined){
           obj.photoURL = require('@/assets/images/user/user.png')
         }
-        console.log(obj)
-        return obj
       }
       else {
         var obj = {
@@ -76,9 +83,9 @@ export default {
         if (obj.photoURL === null || obj.photoURL === undefined){
           obj.photoURL = require('@/assets/images/user/user.png')
         }
-        console.log(obj)
-        return obj
       }
+      console.log(obj)
+      return obj
     }
   },
   methods: {

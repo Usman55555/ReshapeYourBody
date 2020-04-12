@@ -103,6 +103,7 @@ const state = {
   token: localStorage.getItem('user-token') || '',
   id: localStorage.getItem('user-id') || '',
   photo: localStorage.getItem('user-photo') || '',
+  photoUrl: localStorage.getItem('user-photo'),
   email: localStorage.getItem('user-email') || '',
   firstname: localStorage.getItem('user-firstname') || '',
   lastname: localStorage.getItem('user-lastname') || '',
@@ -110,6 +111,7 @@ const state = {
   status: '',
   tempUserObj: {},
 
+  componentKey: 0,
   registerRequest: '',
 
   // Can be used to get current window with
