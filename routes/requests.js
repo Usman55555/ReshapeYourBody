@@ -13,6 +13,8 @@ var transporter = nodemailer.createTransport({
 });
 var { User } = require("../models/user");
 var { Requests } = require("../models/requests");
+
+const { address } = require("../config/config");
 var {
   usercustomerauthenticate,
   adminauthenticate,
@@ -44,7 +46,7 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
                     <h3>You got a new request.</h3>
                     <h5>Please click below to view the request</h5>
                     <a 
-                        href="http://localhost:3000/request/${doc1._id}"
+                        href="${address}request/${doc1._id}"
                         style="color: white;
                         text-decoration: none;">
                         <button style="
@@ -125,7 +127,7 @@ router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
                     <h3>Your request's status is ${req.body.status}.</h3>
                     <h5>Please click below to view the request</h5>
                     <a 
-                        href="http://localhost:3000/request/${update_status._id}"
+                        href="${address}request/${update_status._id}"
                         style="color: white;
                         text-decoration: none;">
                         <button style="

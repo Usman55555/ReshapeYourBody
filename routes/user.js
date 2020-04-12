@@ -246,7 +246,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 <h3>You are one step away from joining our community.</h3>
                 <h5>Please confirm your email by clicking the button below</h5>
                 <a 
-                    href="http://localhost:3000/user/${randomstring}/email/${doc1.email}"
+                    href="${address}user/${randomstring}/email/${doc1.email}"
                     style="color: white;
                     text-decoration: none;">
                     <button style="
@@ -266,7 +266,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 </button></a><br />
                 <h5>Or request a new email by clicking the button below.</h5>
                 <a 
-                    href="http://localhost:3000/user/email/${doc1.email}"
+                    href="${address}user/email/${doc1.email}"
                     style="color: white;
                     text-decoration: none;">
                     <button style="
@@ -322,7 +322,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 <h3>You are one step away from joining our community.</h3>
                 <h5>Please confirm your email by clicking the button below</h5>
                 <a 
-                    href="http://localhost:3000/user/${randomstring}/email/${user.email}"
+                    href="${address}user/${randomstring}/email/${user.email}"
                     style="color: white;
                     text-decoration: none;">
                     <button style="
@@ -342,7 +342,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 </button></a><br />
                 <h5>Or request a new email by clicking the button below.</h5>
                 <a 
-                    href="http://localhost:3000/user/email/${user.email}"
+                    href="${address}user/email/${user.email}"
                     style="color: white;
                     text-decoration: none;">
                     <button style="
@@ -675,7 +675,7 @@ router.post(
                     <h3>Your new password is: ${password}</h3>
                     <h5>Please confirm your email by clicking the button below</h5>
                     <a 
-                        href="http://localhost:3000/user/${randomstring}/email/${doc1.email}"
+                        href="${address}user/${randomstring}/email/${doc1.email}"
                         style="color: white;
                         text-decoration: none;">
                         <button style="
@@ -753,7 +753,7 @@ router.post(
                 <h3>Your new password is: ${password}</h3>
                 <h5>Please confirm your email by clicking the button below</h5>
                 <a 
-                    href="http://localhost:3000/user/${randomstring}/email/${body.email}"
+                    href="${address}user/${randomstring}/email/${body.email}"
                     style="color: white;
                     text-decoration: none;">
                     <button style="
@@ -1057,7 +1057,7 @@ router.patch("/editEmail", authenticate, async (req, res) => {
     );
     // console.log(doc);
     console.log(
-      `http://localhost:3000/user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}`
+      `${address}user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}`
     );
     if (doc != null) {
       var mailBody = `
@@ -1068,7 +1068,7 @@ router.patch("/editEmail", authenticate, async (req, res) => {
                 <h3>You are one step away from updatting your email address.</h3>
                 <h5>Please confirm your email by clicking the button below</h5>
                 <a 
-                    href="http://localhost:3000/user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}"
+                    href="${address}user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}"
                     style="color: white;
                     text-decoration: none;">
                     <button style="
@@ -1201,69 +1201,6 @@ router.patch("/reset", async (req, res) => {
   }
 });
 
-// const onChange = require('on-change');
-// global.object = [{}];
-// global.obj1
-// obj1 = {
-//     i: 0
-// }
-
-// global.watchedObject = onChange(object, function (path, value, previousValue) {
-//     console.log('Object changed:', obj1.i = obj1.i + 1);
-//     console.log('this:', this);
-//     console.log('path:', path);
-//     console.log('value:', value);
-//     console.log('previousValue:', previousValue);
-// });
-
-// setInterval(() => {
-//     console.log(object)
-// }, 5000)
-
-// var ch = async (password) => {
-//     return new Promise(async (resolve, reject) => {
-//         onChange(obj1, function (path, value, previousValue) {
-//             console.log('this:', this);
-//             console.log('path:', path);
-//             console.log('value:', value);
-//             console.log('previousValue:', previousValue);
-//             resolve()
-//         });
-//     })
-// }
-
-// router.get("/responseFb/:code", async (req, res) => {
-//     setInterval(() => {
-//     }, 2000)
-
-// });
-
-// router.get("/callFb/:code", async (req, res) => {
-//     const code = req.params.code;
-//     object.code = {
-//         exp: new Date.now() + 600000
-//     }
-//     res.redirect('/auth/facebook');
-// });
-
-// router.get("/responseGoogle/:code", async (req, res) => {
-
-// });
-
-// router.get("/callGoogle", async (req, res) => {
-
-// });
-
-
-// router.get("/test", async (req, res) => {
-//     obj1.i = 5
-//     console.log(obj1)
-//     ch().then(() => {
-//         console.log("WOW IT WORKED")
-//         res.status(200).send(object.str)
-//     })
-// });
-
 middle = (req, res, next) => {
     console.log('printing')
     // console.log(res)
@@ -1307,7 +1244,7 @@ router.get(
             delete doc.photo;
           }
         }
-        console.log('picture is here.--------------------------');
+        // console.log('picture is here.--------------------------');
         // console.log(req.user._json.picture.data.url);
         if (doc == null){
             // console.log('picture is here.');
@@ -1335,7 +1272,6 @@ router.get(
                 firstname: req.user._json.first_name,
                 photo: req.user._json.picture.data.url,
                 usertype: 'user'
-                // global: globalString
                 // tokenexp: decoded.exp
             }
             // console.log(body1);
@@ -1346,8 +1282,6 @@ router.get(
             console.log(doc);
             const token = await doc.generateAuthToken();
             // var decoded = jwt_decode(token);
-            // watchedObject.str = "This can be accessed anywhere!"
-            // console.log(obj1)
 
             var body1 = {
                 userid: doc._id,
@@ -1357,7 +1291,6 @@ router.get(
                 firstname: doc.firstname,
                 photo: doc.photo,
                 usertype: doc.usertype
-                // global: object.str
                 // tokenexp: decoded.exp
             }
             console.log(body1);
@@ -1493,7 +1426,7 @@ router.get("/email/:em", async (req, res) => {
                 <h3>You are one step away from joining our community.</h3>
                 <h5>Please confirm your email by clicking the button below</h5>
                 <a 
-                    href="http://localhost:3000/user/${randomstring}/email/${doc.email}"
+                    href="${address}user/${randomstring}/email/${doc.email}"
                     style="color: white;
                     text-decoration: none;">
                     <button style="
@@ -1513,7 +1446,7 @@ router.get("/email/:em", async (req, res) => {
                 </button></a><br />
                 <h5>Or request a new email by clicking the button below.</h5>
                 <a 
-                    href="http://localhost:3000/user/email/${doc.email}"
+                    href="${address}user/email/${doc.email}"
                     style="color: white;
                     text-decoration: none;">
                     <button style="

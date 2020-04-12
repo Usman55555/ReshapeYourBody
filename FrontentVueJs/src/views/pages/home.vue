@@ -10,7 +10,7 @@
                                 title-color="#fff"
                                 card-background="success"
                                 content-color="#fff">
-                                <p class="mb-3">Total Partners, Users and Customers in currently your database.</p>
+                                <p class="mb-3">Total Partners, Users and Customers currently in your database.</p>
                             </vx-card>
                             <br />
                         </div>
