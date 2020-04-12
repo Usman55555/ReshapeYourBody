@@ -108,13 +108,13 @@ export default {
         console.log('inside fun '+this.available)
       this.watchForStorage().then(() => {
         this.available = true
-        console.log(this.available)
+        // console.log(this.available)
       })
     },
     watchForStorage() {
       return new Promise((resolve, reject) => {
         var timer = setInterval(function() {
-        console.log(localStorage.getItem('user-token') != null)
+        // console.log(localStorage.getItem('user-token') != null)
           if (localStorage.getItem('user-token') != null){
             clearInterval(timer);
             resolve()

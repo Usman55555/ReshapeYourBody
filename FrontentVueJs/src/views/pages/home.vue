@@ -1,6 +1,6 @@
 <template>
-    <div id="page-user-view">
-        <div v-show="userData.usertype === 'admin'">
+    <div id="page-user-view" v-show="show">
+        <div v-show="admin()">
             <div class="vx-row">
                 <div class="vx-col w-full md:w-full xl:w-1/2">
                     <div class="vx-row">
@@ -21,7 +21,7 @@
                             hideChart
                             class="mb-base"
                             icon="HeartIcon"
-                            :statistic="userData.countPartners"
+                            :statistic="+userData.countPartners"
                             statisticTitle="Partners"/>
                         </div>
                         <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
@@ -29,7 +29,7 @@
                             hideChart
                             class="mb-base"
                             icon="SmileIcon"
-                            :statistic="userData.countCustomers"
+                            :statistic="+userData.countCustomers"
                             statisticTitle="Customers"
                             color="success" />
                         </div>
@@ -38,7 +38,7 @@
                             hideChart
                             class="mb-base"
                             icon="EyeIcon"
-                            :statistic="userData.countUsers"
+                            :statistic="+userData.countUsers"
                             statisticTitle="Users" />
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                             hideChart
                             class="mb-base"
                             icon="HeartIcon"
-                            :statistic="mPartners"
+                            :statistic="+mPartners"
                             statisticTitle="Partners"/>
                         </div>
                         <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
@@ -71,7 +71,7 @@
                             hideChart
                             class="mb-base"
                             icon="SmileIcon"
-                            :statistic="mCustomers"
+                            :statistic="+mCustomers"
                             statisticTitle="Customers"
                             color="success" />
                         </div>
@@ -80,7 +80,7 @@
                             hideChart
                             class="mb-base"
                             icon="EyeIcon"
-                            :statistic="mUsers"
+                            :statistic="+mUsers"
                             statisticTitle="Users" />
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                 </div>
             </div>
         </div>
-        <div v-show="userData.usertype === 'partner'">
+        <div v-show="partner()">
             <div class="vx-row">
                 <div class="vx-col lg:w-1/4 xl:w-1/4 mb-base">
                 </div>
@@ -147,7 +147,7 @@
                 </vs-col>
             </vs-row> -->
         </div>
-        <div v-show="userData.usertype === 'customer'">
+        <div v-show="customer()">
             <div class="vx-row">
                 <div class="vx-col lg:w-1/4 mb-base">
                 </div>
@@ -176,7 +176,7 @@
                 </div>
             </div>            
         </div>
-        <div v-show="userData.usertype === 'user'">
+        <div v-show="user()">
             <div class="vx-row">
                 <div class="vx-col sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-base">
                     <vx-card
@@ -232,12 +232,13 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 export default {
   data() {
     return {
+      show: false,
       key: '',
       mUsers: null,
       mCustomers: null,
       mPartners: null,
-      userData: {
-      },
+      activeUser: {},
+      userData: {},
       themeColors: ['#7367F0', '#28C76F', '#EA5455', '#FF9F43', '#1E1E1E'],
       columnChart: {
         series: [],
@@ -314,6 +315,18 @@ export default {
     }
   },
   methods: {
+    admin () {
+      return localStorage.getItem('user-usertype') === 'admin'
+    },
+    partner () {
+      return localStorage.getItem('user-usertype') === 'partner'
+    },
+    customer () {
+      return localStorage.getItem('user-usertype') === 'customer'
+    },
+    user () {
+      return localStorage.getItem('user-usertype') === 'user'
+    },
     submit() {
       this.$store.dispatch('key', this.key)
       .then(res => {
@@ -339,7 +352,9 @@ export default {
   },
   created () {
     setTimeout(() => {
-      this.userData = this.$store.state.AppActiveUser
+      this.activeUser = this.$store.state.AppActiveUser
+      console.log(this.activeUser.usertype)
+      this.show = true
     }, 500)
     this.$store.dispatch('home')
       .then(res => { 
