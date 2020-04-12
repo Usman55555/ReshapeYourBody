@@ -1,6 +1,7 @@
 <template>
   <vx-card no-shadow>
 
+    <vs-progress :height="4" :percent=progressBar color="success"></vs-progress>
     <!-- Img Row -->
     <div class="flex flex-wrap items-center mb-base">
       <vs-avatar :src="photo" size="70px" class="mr-4 mb-4" />
@@ -75,6 +76,7 @@ export default {
         uploadButtonTitle: uploadButtonTitle,
         file: '',
         loadingText: '',
+        progressBar: 0,
         progress: '',
         err: '',
         loading: false,
@@ -117,6 +119,7 @@ export default {
               id
             },
             onUploadProgress: (uploadEvent) => {
+              this.progressBar = +Math.round(uploadEvent.loaded / uploadEvent.total * 100)
               this.progress = 'Upload progress: ' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%'
           }}
           ).then(response => {
@@ -132,11 +135,11 @@ export default {
                   // this.$refs.uploadInput = undefined
                 }
                 else{
+                  this.progressBar = 0
 				          this.err = response.data.errmsg
                   this.loading = false
                   this.photo = this.$store.state.photo
                   this.$refs.uploadInput.value = undefined
-                  this.errors.push(e)
                 }
               }, 900)
             })
@@ -150,9 +153,13 @@ export default {
           .then(result => {
             localStorage.removeItem('user-photo')
             this.photo = require('@/assets/images/user/user.png')
+            this.loading = false
+            this.$refs.uploadInput.value = undefined
+            this.progressBar = 0
           })
           .catch(e => {
-            this.errors.push(e)
+            console.log(e)
+            this.progressBar = 0
           })
       })
 		}
