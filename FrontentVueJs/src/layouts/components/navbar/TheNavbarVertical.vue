@@ -38,7 +38,7 @@
         <!-- <search-bar /> -->
 
         &nbsp;
-        <span v-show="available"><profile-drop-down /></span>
+        <span v-show="available"><profile-drop-down :key="watchIt"/></span>
 
       </vs-navbar>
     </div>
@@ -85,6 +85,10 @@ export default {
     ProfileDropDown
   },
   computed: {
+    watchIt () {
+      console.log(this.$store.state.componentKey)
+      return this.$store.state.componentKey
+    },
     navbarColorLocal () {
       return this.$store.state.theme === 'dark' && this.navbarColor === '#fff' ? '#10163a' : this.navbarColor
     },

@@ -7,6 +7,7 @@
       <vs-avatar :src="photo" size="70px" class="mr-4 mb-4" />
       <div>
         <vs-button
+          :disabled="isDisabled()"
           v-if="!loading"
           size="md"
           variant="primary"
@@ -85,6 +86,12 @@ export default {
     }
   },
   created () {
+    if ((localStorage.getItem('user-photo') !== null || localStorage.getItem('user-photo') !== undefined || localStorage.getItem('user-photo') !== '') && localStorage.getItem('user-photo') !== require('@/assets/images/user/user.png')){
+      this.progressBar = 100
+    }    
+    if (localStorage.getItem('user-photo').slice(0, 4) !== 'http'){
+      this.progressBar = 0
+    }
     this.changePhoto()
   },
   computed: {
@@ -93,8 +100,20 @@ export default {
     }
   },
   methods: {
+    isDisabled () {
+      if (localStorage.getItem('user-photo') === null)
+        return false
+      else if (localStorage.getItem('user-photo') === require('@/assets/images/user/user.png'))
+        return false
+      else if (localStorage.getItem('user-photo').slice(0, 4) !== 'http'){
+        return false
+      }
+      else
+        return true
+    },
     changePhoto() {
-      this.photo = this.$store.state.photo 
+      // this.photo = this.$store.state.photo
+      this.photo = localStorage.getItem('user-photo')
     },
 		selectImage () {
 			this.$refs.uploadInput.click()
@@ -127,6 +146,8 @@ export default {
               console.log(response.data.errmsg)
                 if (response.data.errmsg === null || response.data.errmsg === undefined){
                   // this.$store.mutations.photoURL(response.photo)
+                  this.$store.dispatch('updatePhoto', response.data.photo)
+                  console.log(this.$store.state.photo)
                   localStorage.setItem('user-photo', response.data.photo)
                   this.$store.state.photoURL = response.data.photo
                   this.photo = response.data.photo
@@ -151,7 +172,9 @@ export default {
       this.$store.getters.getId.then(id => { 
         axios.patch(`/image/${id}`)
           .then(result => {
-            localStorage.removeItem('user-photo')
+            this.$store.dispatch('updatePhoto', require('@/assets/images/user/user.png'))
+            // localStorage.removeItem('user-photo')
+            localStorage.setItem('user-photo', require('@/assets/images/user/user.png'))
             this.photo = require('@/assets/images/user/user.png')
             this.loading = false
             this.$refs.uploadInput.value = undefined

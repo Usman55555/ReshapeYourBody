@@ -80,6 +80,10 @@ const actions = {
 
   // Ali's work
 
+  updatePhoto: ({commit}, url) => {
+    console.log(url)
+    commit('photoURL', url)
+  },
   key: ({commit}, key) => {
     return new Promise((resolve, reject) => {
       commit('AUTH_REQUEST')

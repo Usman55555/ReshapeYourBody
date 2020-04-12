@@ -166,7 +166,7 @@ router.post(
       };
       console.log(body1.photo);
 
-      if (body1.photo !== undefined && body1.photo !== null) {
+      if (body1.photo !== undefined && body1.photo !== null && body1.photo !== '') {
         if (body1.photo.slice(0, 4) !== "http") {
           body1.photo = address + body1.photo;
         }

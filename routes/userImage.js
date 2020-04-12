@@ -35,6 +35,25 @@ router.patch('/add', authenticate, async (req, res) => {
                         console.log(err);
                     }else{
                         console.log(req.file);
+                        console.log(req.person)
+                        if (req.person.photo != null  || req.person.photo != ''){
+                            var doc1 = await User.findByIdAndUpdate(
+                                {_id:  req.person._id}, 
+                                {photo: ''}
+                                );
+                            // console.log(doc);
+                            try{
+                                let $filePath= "./uploads/" + doc1.photo
+                                fs.unlinkSync($filePath, (err)=>{
+                                    if(err){
+                                        console.log("couldnt delete " + doc1.photo + " image");
+                                    }              
+                                });
+                            }
+                            catch(e){
+                                console.log("couldnt find " + doc1.photo + " to be deleted");
+                            }
+                        }
                         var doc = await User.findByIdAndUpdate(
                             {_id:  id}, 
                             {photo: req.file.filename}, 
@@ -73,15 +92,20 @@ router.patch("/:id", authenticate, async (req,res)=>{
             {photo: ''}
             );
         console.log(doc);
-        let $filePath= "./uploads/" + doc.photo
-        fs.unlinkSync($filePath, (err)=>{
-            if(err){
-                console.log("couldnt delete " + doc.photo + " image");
-                res.status(400).send({
-                    "errmsg": "Sorry, couldnt delete image..."
-                })
-            }              
-        });
+        try{
+            let $filePath= "./uploads/" + doc.photo
+            fs.unlinkSync($filePath, (err)=>{
+                if(err){
+                    console.log("couldnt delete " + doc.photo + " image");
+                    res.status(400).send({
+                        "errmsg": "Sorry, couldnt delete image..."
+                    })
+                }              
+            });
+        }
+        catch(e){
+            console.log("couldnt find " + doc.photo + " to be deleted");
+        }
         res.status(200).send({
             "msg": "The image is deleted..."
         })
@@ -92,15 +116,20 @@ router.patch("/:id", authenticate, async (req,res)=>{
             {photo: ''}
             );
         // console.log(doc);
-        let $filePath= "./uploads/" + doc.photo
-        fs.unlinkSync($filePath, (err)=>{
-            if(err){
-                console.log("couldnt delete " + doc.photo + " image");
-                res.status(400).send({
-                    "errmsg": "Sorry, couldnt delete image..."
-                })
-            }              
-        });
+        try{
+            let $filePath= "./uploads/" + doc.photo
+            fs.unlinkSync($filePath, (err)=>{
+                if(err){
+                    console.log("couldnt delete " + doc.photo + " image");
+                    res.status(400).send({
+                        "errmsg": "Sorry, couldnt delete image..."
+                    })
+                }              
+            });
+        }
+        catch(e){
+            console.log("couldnt find " + doc.photo + " to be deleted");
+        }
         res.status(200).send({
             "msg": "The image is deleted..."
         })

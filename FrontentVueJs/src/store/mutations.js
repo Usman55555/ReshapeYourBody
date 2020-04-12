@@ -126,9 +126,11 @@ const mutations = {
   },
 
   // Ali's work
-  photoURL: (url) => {
+  photoURL: (state, url) => {
     localStorage.setItem('user-photo', url)
-    state.photo = url
+    state.photoUrl = url
+    state.componentKey += 1
+    console.log(state.photoUrl)
   },
   sendingRequest: (state) => {
     state.registerRequest = 'loading'
