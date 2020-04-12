@@ -22,20 +22,22 @@
     
         <vs-spacer />
 
-        <vs-row v-if='usertype=="admin"'>
+        <vs-row v-if='admin()'>
             <div class="flex  w-full bg-white chat-input-container mr-3">
                 <vs-input v-model="broadcast_message" class="mr-3 w-full" placeholder="Type Your Message" ></vs-input>
                 <vs-button v-on:click="broadcast" icon-pack="feather" icon="icon-send" ></vs-button>
             </div>
         </vs-row >
-        <vs-row v-if='usertype!=="admin"'> 
+
+        <vs-row v-else> 
             <vs-input class="inputx mr-3 w-full" :disabled="disabled"  placeholder="Broadcats from Admin will appear here..." v-model="broadcast_message"  />
         </vs-row>
         
         <i18n />
 
-        <search-bar />
+        <!-- <search-bar /> -->
 
+        &nbsp;
         <span v-show="available"><profile-drop-down /></span>
 
       </vs-navbar>
@@ -104,6 +106,9 @@ export default {
     }
   },
   methods: {
+    admin () {
+      return localStorage.getItem('user-usertype') === 'admin'
+    },
     ifAvailable () {
         console.log('inside fun '+this.available)
       this.watchForStorage().then(() => {
