@@ -315,6 +315,19 @@ export default {
     }
   },
   methods: {
+    rellood(){
+      if( window.localStorage )
+      {
+        if( !localStorage.getItem( 'firstLoad' ) )
+        {
+          localStorage[ 'firstLoad' ] = true;
+          window.location.reload();
+        }  
+
+        else
+          localStorage.removeItem( 'firstLoad' );
+      }
+    },
     admin () {
       return localStorage.getItem('user-usertype') === 'admin'
     },
@@ -351,6 +364,7 @@ export default {
     }
   },
   created () {
+    this.rellood()
     setTimeout(() => {
       this.activeUser = this.$store.state.AppActiveUser
       console.log(this.activeUser.usertype)

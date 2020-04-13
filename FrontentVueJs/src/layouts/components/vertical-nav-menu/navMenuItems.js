@@ -17,8 +17,9 @@
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
-
-export default [
+let userType = localStorage.getItem('user-usertype')
+console.log(userType);
+let exportList = [
   // {
   //   url: "/apps/email",
   //   name: "Email",
@@ -38,14 +39,12 @@ export default [
     header: "Menu",
     icon: "PackageIcon",
     i18n: "Menu",
-    items: [
-      {
+    items: [{
         url: null,
         name: "User",
         icon: "UserIcon",
         i18n: "User",
-        submenu: [
-          {
+        submenu: [{
             url: "/apps/user/user-register",
             name: "Register",
             slug: "app-user-register",
@@ -66,37 +65,36 @@ export default [
         slug: "app-user-download",
         i18n: "Downloads"
       },
-      {
-        url: "/key/list-view",
-        name: "Keys",
-        icon: "LayoutIcon",
-        // iconPack: 'feather',
-        // position: 'top-center',
-        // icon:'icon-email',
-        slug: "data-list-list-view",
-        i18n: "Keys"
-      }
+      // {
+      //   url: "/key/list-view",
+      //   name: "Keys",
+      //   icon: "LayoutIcon",
+      //   // iconPack: 'feather',
+      //   // position: 'top-center',
+      //   // icon:'icon-email',
+      //   slug: "data-list-list-view",
+      //   i18n: "Keys"
+      // }
     ]
   },
   {
     header: "Others",
     icon: "FileIcon",
     i18n: "Others",
-    items: [
-      {
+    items: [{
         url: "/pages/user-settings",
         slug: "page-user-settings",
         name: "User Settings",
         icon: "SettingsIcon",
         i18n: "UserSettings"
       },
-      {
-        url: "/pages/faq",
-        slug: "page-faq",
-        name: "FAQ",
-        icon: "HelpCircleIcon",
-        i18n: "FAQ"
-      }
+      // {
+      //   url: "/pages/faq",
+      //   slug: "page-faq",
+      //   name: "FAQ",
+      //   icon: "HelpCircleIcon",
+      //   i18n: "FAQ"
+      // }
       // ,{
       //   url: null,
       //   name: "Authentication",
@@ -251,3 +249,27 @@ export default [
   //   ]
   // }
 ];
+
+if (userType === 'admin' || userType === 'partner') {
+  exportList[1].items.push({
+    url: "/key/list-view",
+    name: "Keys",
+    icon: "LayoutIcon",
+    // iconPack: 'feather',
+    // position: 'top-center',
+    // icon:'icon-email',
+    slug: "data-list-list-view",
+    i18n: "Keys"
+  })
+  exportList[2].items.push({
+    url: "/pages/faq",
+    slug: "page-faq",
+    name: "FAQ",
+    icon: "HelpCircleIcon",
+    i18n: "FAQ"
+  })
+
+}
+
+
+export default exportList
