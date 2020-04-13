@@ -294,7 +294,7 @@ export default {
           position: 'top-center',
           icon:'icon-check'
         })
-        if (this.phone !== ''){          
+        if (this.validphone !== ''){          
             axios.post('/user/adminRegister',
                 {
                     firstname: this.firstname,

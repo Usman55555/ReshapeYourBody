@@ -113,7 +113,7 @@ export default {
   methods: {
     isEmailValid () {
       // return ((this.email === '') ? '' : (this.reg.test(this.email))? false : true)
-      return !((this.email === '') ? '' : (this.reg.test(this.email)))
+      return !((this.email === '') ? true : (this.reg.test(this.email)))
     },
     isDisabled () {
       return !(!this.errors.any() && this.code.length === 6 && this.reg.test(this.email) && this.password !== '' && this.confirm_password !== '')

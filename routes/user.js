@@ -17,7 +17,7 @@ var { Key } = require("../models/key");
 var { Requests } = require("../models/requests");
 
 var { authenticate, adminauthenticate } = require("../middleware/authenticate");
-const { email, password, forgetSecret, address } = require("../config/config");
+const { project, email, password, forgetSecret, address } = require("../config/config");
 
 // Email sending setup
 var transporter = nodemailer.createTransport({
@@ -288,7 +288,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
             `;
 
       const mailOptions = {
-        from: '"CodeCrafterz 👻" <codecrafterz@gmail.com>', // sender address
+        from: `"${project}" <${email}>`, // sender address
         to: doc1.email, // list of receivers
         subject: "Confirm Your Email", // Subject line
         html: mailBody,
@@ -366,7 +366,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
       var doc2 = await user.save();
       console.log(doc2);
       const mailOptions = {
-        from: '"CodeCrafterz 👻" <codecrafterz@gmail.com>', // sender address
+        from: `"${project}" <${email}>`, // sender address
         to: user.email, // list of receivers
         subject: "Confirm Your Email", // Subject line
         html: mailBody,
@@ -569,7 +569,7 @@ router.post("/forget", async (req, res) => {
             `;
 
       const mailOptions = {
-        from: '"CodeCrafterz 👻" <codecrafterz@gmail.com>', // sender address
+        from: `"${project}" <${email}>`, // sender address
         to: doc.email, // list of receivers
         subject: "Forget password code", // Subject line
         html: mailBody,
@@ -697,7 +697,7 @@ router.post(
                 `;
 
             const mailOptions = {
-              from: '"CodeCrafterz 👻" <codecrafterz@gmail.com>', // sender address
+              from: `"CodeCrafterz 👻" <${email}>`, // sender address
               to: body.email, // list of receivers
               subject: "Invitation to join our community", // Subject line
               html: mailBody,
@@ -775,7 +775,7 @@ router.post(
             `;
 
         const mailOptions = {
-          from: '"CodeCrafterz 👻" <codecrafterz@gmail.com>', // sender address
+          from: `"${project}" <${email}>`, // sender address
           to: noway.email, // list of receivers
           subject: "Confirm Your Email", // Subject line
           html: mailBody,
@@ -1092,7 +1092,7 @@ router.patch("/editEmail", authenticate, async (req, res) => {
             `;
 
       const mailOptions = {
-        from: '"CodeCrafterz 👻" <codecrafterz@gmail.com>', // sender address
+        from: `"${project}" <${email}>`, // sender address
         to: body.email, // list of receivers
         subject: "Confirm Your New Email", // Subject line
         html: mailBody,
@@ -1468,7 +1468,7 @@ router.get("/email/:em", async (req, res) => {
             `;
 
       const mailOptions = {
-        from: '"CodeCrafterz 👻" <codecrafterz@gmail.com>', // sender address
+        from: `"${project}" <${email}>`, // sender address
         to: doc.email, // list of receivers
         subject: "Confirm Your Email", // Subject line
         html: mailBody,
