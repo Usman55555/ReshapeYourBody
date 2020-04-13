@@ -58,7 +58,6 @@
                                 <span class="text-danger text-sm">{{ errors.first('email') }}</span>
 
                                 <vs-input
-                                  v-validate="'required'"
                                   data-vv-validate-on="blur"
                                   name="phone"
                                   type="phone"
@@ -66,7 +65,6 @@
                                   placeholder="Phone (Starting with the country code)"
                                   v-model="phone"
                                   class="w-full mt-6" />
-                                <span class="text-danger text-sm">{{ errors.first('phone') }}</span><br />
                                 <span class="text-danger text-sm" v-show="isPhoneValid">The phone number must be valid.</span>
 
                                 <div class="my-4">
@@ -289,7 +287,7 @@ export default {
     },
     validateForm () {
       // return !this.errors.any() && this.birthDate !== '' && this.firstname !== '' && this.email !== '' && this.password !== '' && this.confirm_password !== '' && this.isTermsConditionAccepted === true
-      return !this.errors.any() && this.validphone !== '' && this.lastname !== '' && this.firstname !== '' && this.email !== '' && this.password !== '' && this.confirm_password !== '' && this.isTermsConditionAccepted === true
+      return !this.errors.any() && this.lastname !== '' && this.firstname !== '' && this.email !== '' && this.password !== '' && this.confirm_password !== '' && this.isTermsConditionAccepted === true
     },
     windowWidth () {
       return this.$store.state.windowWidth
@@ -311,70 +309,109 @@ export default {
     // successUpload(){
     //   this.$vs.notify({color:'success',title:'Upload Success',text:'Lorem ipsum dolor sit amet, consectetur'})
     // },
-    checkLogin () {
-      // If user is already logged in notify
-      if (this.$store.state.auth.isUserLoggedIn()) {
-
-        // Close animation if passed as payload
-        // this.$vs.loading.close()
-
-        this.$vs.notify({
-          title: 'Login Attempt',
-          text: 'You are already logged in!',
-          iconPack: 'feather',
-          icon: 'icon-alert-circle',
-          color: 'warning'
-        })
-
-        return false
-      }
-      return true
-    },
     registerUser () {
       // If form is not validated or user is already login return
-      if (!this.validateForm || !this.checkLogin()) return
+      if (!this.validateForm) return
 
       if (this.password != this.confirm_password) return
       else{
-        const payload = {
-          userDetails: {
-            firstname: this.firstname,
-            lastname: this.lastname,
-            email: this.email,
-            password: this.password,
-            phone: this.validphone,
-            languages: this.addedLanguages,
-            address1: this.address1,
-            address2: this.address2,
-            city: this.city,
-            country: this.country,
-            postal: this.postal
-          },
+        if (this.validphone !== ''){   
+          const payload = {
+            userDetails: {
+              firstname: this.firstname,
+              lastname: this.lastname,
+              email: this.email,
+              password: this.password,
+              phone: this.validphone,
+              languages: this.addedLanguages,
+              address1: this.address1,
+              address2: this.address2,
+              city: this.city,
+              country: this.country,
+              postal: this.postal
+            },
           notify: this.$vs.notify
-        }
-        if (this.birthDate !== ''){
-          payload.userDetails.birthdate = new Date(this.birthDate).toISOString()
-        }
-        console.log(payload)
-        this.$store.dispatch('register', payload.userDetails).then(() => {
-          this.colorAlert = 'success'
-          this.$vs.dialog({
-            color: this.colorAlert,
-            title: `You are registered`,
-            text: `Now, you just need to confirm your email address... then you're allowed to login.`,
-            accept: this.acceptAlert
+          }  
+          if (this.birthDate !== ''){
+            payload.userDetails.birthdate = new Date(this.birthDate).toISOString()
+          }
+          this.$vs.notify({
+            title: 'Please wait...',
+            text: 'Please wait while we send the email.',
+            color: 'success',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })       
+          console.log(payload)
+          this.$store.dispatch('register', payload.userDetails).then(() => {
+            this.colorAlert = 'success'
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `You are registered`,
+              text: `Now, you just need to confirm your email address... then you're allowed to login.`,
+              accept: this.acceptAlert
+            })
           })
-        })
-        .catch(e => {
-          console.log(e)
-          this.colorAlert = 'danger'
-          this.$vs.dialog({
-            color: this.colorAlert,
-            title: `Unable to register`,
-            text: `The email or phone number you are entering must be already registered...`,
-            accept: this.acceptAlert
+          .catch(e => {
+            console.log(e)
+            this.colorAlert = 'danger'
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Unable to register`,
+              text: `The email or phone number you are entering must be already registered...`,
+              accept: this.acceptAlert
+            })
           })
-        })
+        }
+        else{   
+          const payload = {
+            userDetails: {
+              firstname: this.firstname,
+              lastname: this.lastname,
+              email: this.email,
+              password: this.password,
+              languages: this.addedLanguages,
+              address1: this.address1,
+              address2: this.address2,
+              city: this.city,
+              country: this.country,
+              postal: this.postal
+            },
+          notify: this.$vs.notify
+          }          
+          if (this.birthDate !== ''){
+            payload.userDetails.birthdate = new Date(this.birthDate).toISOString()
+          }
+          this.$vs.notify({
+            title: 'Please wait...',
+            text: 'Please wait while we send the email.',
+            color: 'success',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })       
+          console.log(payload)
+          this.$store.dispatch('register', payload.userDetails).then(() => {
+            this.colorAlert = 'success'
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `You are registered`,
+              text: `Now, you just need to confirm your email address... then you're allowed to login.`,
+              accept: this.acceptAlert
+            })
+          })
+          .catch(e => {
+            console.log(e)
+            this.colorAlert = 'danger'
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Unable to register`,
+              text: `The email or phone number you are entering must be already registered...`,
+              accept: this.acceptAlert
+            })
+          })
+        }
         // this.$store.dispatch('auth/registerUserJWT', payload)
       }
     }

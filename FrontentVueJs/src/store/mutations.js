@@ -126,6 +126,15 @@ const mutations = {
   },
 
   // Ali's work
+  changeStorage: (state, id, photo, email, first, last, type) => {
+    state.status = 'success'
+    state.id = id
+    state.photo = photo
+    state.email = email
+    state.firstname = first
+    state.lastname = last
+    state.usertype = type
+  },
   photoURL: (state, url) => {
     localStorage.setItem('user-photo', url)
     state.photoUrl = url

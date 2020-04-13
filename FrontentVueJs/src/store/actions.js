@@ -93,14 +93,13 @@ const actions = {
         console.log(resp)
         commit('SET_USER', resp.data)
         const token = resp.data.token
-        localStorage.setItem('user-token', token) // store the token in localstorage
         localStorage.setItem('user-id', resp.data._id)
         localStorage.setItem('user-photo', resp.data.photo)
         localStorage.setItem('user-email', resp.data.email)
         localStorage.setItem('user-firstname', resp.data.firstname)
         localStorage.setItem('user-lastname', resp.data.lastname)
         localStorage.setItem('user-usertype', resp.data.usertype)
-        commit('AUTH_SUCCESS', token, resp.data._id, resp.data.photo, resp.data.email, resp.data.firstname, resp.data.lastname, resp.data.usertype)
+        commit('changeStorage', resp.data._id, resp.data.photo, resp.data.email, resp.data.firstname, resp.data.lastname, resp.data.usertype)
 
         resolve(resp)
       }).catch(err => {

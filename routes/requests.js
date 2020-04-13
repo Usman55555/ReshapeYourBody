@@ -3,7 +3,16 @@ var router = express.Router();
 const passport = require("passport");
 const _ = require("lodash");
 var nodemailer = require("nodemailer");
-const { email, password } = require("../config/config");
+
+var { User } = require("../models/user");
+var { Requests } = require("../models/requests");
+const { project, email, password, address } = require("../config/config");
+var {
+  usercustomerauthenticate,
+  adminauthenticate,
+  authenticate
+} = require("../middleware/authenticate");
+
 var transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -11,15 +20,6 @@ var transporter = nodemailer.createTransport({
     pass: password
   }
 });
-var { User } = require("../models/user");
-var { Requests } = require("../models/requests");
-
-const { address } = require("../config/config");
-var {
-  usercustomerauthenticate,
-  adminauthenticate,
-  authenticate
-} = require("../middleware/authenticate");
 
 router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
   //   console.log('user type'+req._id)
@@ -76,7 +76,7 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
       to = to.slice(1);
 
       const mailOptions = {
-        from: '"CodeCrafterz 👻"<codecrafterz@gmail.com>', // sender address
+        from: `"${project}" <${email}>`, // sender address
         to: to, // list of receivers
         subject: "You've got a new request", // Subject line
         html: mailBody
@@ -150,7 +150,7 @@ router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
                 `;
 
     const mailOptions = {
-      from: '"CodeCrafterz 👻"<codecrafterz@gmail.com>', // sender address
+      from: `"${project}" <${email}>`, // sender address
       to: user.email, // list of receivers
       subject: "Your request status is updated.", // Subject line
       html: mailBody

@@ -73,7 +73,7 @@ export default {
   methods: {
     isEmailValid () {
       // return ((this.email === '') ? '' : (this.reg.test(this.email))? false : true)
-      return !((this.email === '') ? '' : (this.reg.test(this.email)))
+      return !((this.email === '') ? true : (this.reg.test(this.email)))
     },
     isDisabled () {
       return !(this.reg.test(this.email))

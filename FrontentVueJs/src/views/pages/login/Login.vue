@@ -152,7 +152,7 @@ export default {
     },
     isEmailValid () {
       // return ((this.email === '') ? '' : (this.reg.test(this.email))? false : true)
-      return !((this.email === '') ? '' : (this.reg.test(this.email)))
+      return !((this.email === '') ? true : (this.reg.test(this.email)))
     },
     isPasswordValid () {
       return (!(this.password.length === 0 || this.password.length >= 6))
