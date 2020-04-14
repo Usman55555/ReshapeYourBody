@@ -3,7 +3,7 @@
     <div v-if="activeUserInfo.usertype === 'admin'" class="grid-layout-container alignment-block">
       <vs-row vs-align="center" vs-type="flex" vs-justify="center" vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4    ">
-          <vs-button color="danger" type="gradient" @click="goToUpload">Upload</vs-button>
+          <vs-button color="primary" type="gradient" @click="goToUpload">Upload</vs-button>
         </vs-col>
       </vs-row>
       <br />
@@ -55,7 +55,7 @@
                   <div class="vx-card__body">
                     <div class="text-center">
                       <vs-button
-                        color="warning"
+                        color="primary"
                         type="flat"
                         v-if="activeUserInfo.usertype === 'admin'"
                         @click="goToEdit(downloads._id)"
@@ -70,6 +70,7 @@
                         <small class="text-black font-bold">CreatedAt</small>
                       </span>
                     </div>
+                    <!-- style="background: rgb(100, 154, 76);" -->
                     <!-- Dropdown Button 1 -->
                     <div class="examplex">
                       <vs-dropdown vs-custom-content vs-trigger-click>
@@ -78,7 +79,7 @@
                             type="button"
                             name="button"
                             class="vs-component vs-button w-full vs-button-null vs-button-gradient btnx"
-                            style="background: linear-gradient(30deg, rgb(115, 103, 240) 0%, rgb(206, 159, 252) 100%);"
+                            style="background: linear-gradient(30deg, rgb(100, 154, 76) 0%, rgb(143, 182, 126) 100%);"
                           >
                             <!---->
                             <!---->
@@ -164,7 +165,7 @@
                 <div class="vx-card__body">
                   <div class="text-center">
                     <vs-button
-                      color="warning"
+                      color="primary"
                       type="flat"
                       v-if="activeUserInfo.usertype === 'admin'"
                       @click="goToEdit(downloadd._id)"
@@ -187,7 +188,7 @@
                           type="button"
                           name="button"
                           class="vs-component vs-button w-full vs-button-null vs-button-gradient btnx"
-                          style="background: linear-gradient(30deg, rgb(115, 103, 240) 0%, rgb(206, 159, 252) 100%);"
+                            style="background: linear-gradient(30deg, rgb(100, 154, 76) 0%, rgb(143, 182, 126) 100%);"
                         >
                           <!---->
                           <!---->
@@ -272,7 +273,7 @@
                 <div class="vx-card__body">
                   <div class="text-center">
                     <vs-button
-                      color="warning"
+                      color="primary"
                       type="flat"
                       v-if="activeUserInfo.usertype === 'admin'"
                       @click="goToEdit(downloads._id)"
@@ -294,7 +295,7 @@
                           type="button"
                           name="button"
                           class="vs-component vs-button w-full vs-button-null vs-button-gradient btnx"
-                          style="background: linear-gradient(30deg, rgb(115, 103, 240) 0%, rgb(206, 159, 252) 100%);"
+                            style="background: linear-gradient(30deg, rgb(100, 154, 76) 0%, rgb(143, 182, 126) 100%);"
                         >
                           <!---->
                           <!---->
@@ -379,7 +380,7 @@
                 <div class="vx-card__body">
                   <div class="text-center">
                     <vs-button
-                      color="warning"
+                      color="primary"
                       type="flat"
                       v-if="activeUserInfo.usertype === 'admin'"
                       @click="goToEdit(downloads._id)"
@@ -401,7 +402,7 @@
                           type="button"
                           name="button"
                           class="vs-component vs-button w-full vs-button-null vs-button-gradient btnx"
-                          style="background: linear-gradient(30deg, rgb(115, 103, 240) 0%, rgb(206, 159, 252) 100%);"
+                            style="background: linear-gradient(30deg, rgb(100, 154, 76) 0%, rgb(143, 182, 126) 100%);"
                         >
                           <!---->
                           <!---->

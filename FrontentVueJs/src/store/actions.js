@@ -80,6 +80,10 @@ const actions = {
 
   // Ali's work
 
+  // vNavReload: ({commit}) => {
+  //   console.log('called')
+  //   commit('vNavReload')
+  // },
   updatePhoto: ({commit}, url) => {
     console.log(url)
     commit('photoURL', url)

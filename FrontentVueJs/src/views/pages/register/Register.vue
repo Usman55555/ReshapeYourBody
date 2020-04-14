@@ -238,7 +238,7 @@ export default {
   },
   data () {
     return {
-      languages: ['English', 'German', 'French'],
+      languages: ['English', 'German', 'Spanish'],
       addedLanguages: [],
 
       showDate: new Date(),
@@ -338,14 +338,14 @@ export default {
           this.$vs.notify({
             title: 'Please wait...',
             text: 'Please wait while we send the email.',
-            color: 'success',
+            color: 'primary',
             iconPack: 'feather',
             position: 'top-center',
             icon:'icon-check'
           })       
           console.log(payload)
           this.$store.dispatch('register', payload.userDetails).then(() => {
-            this.colorAlert = 'success'
+            this.colorAlert = 'primary'
             this.$vs.dialog({
               color: this.colorAlert,
               title: `You are registered`,
@@ -386,14 +386,14 @@ export default {
           this.$vs.notify({
             title: 'Please wait...',
             text: 'Please wait while we send the email.',
-            color: 'success',
+            color: 'primary',
             iconPack: 'feather',
             position: 'top-center',
             icon:'icon-check'
           })       
           console.log(payload)
           this.$store.dispatch('register', payload.userDetails).then(() => {
-            this.colorAlert = 'success'
+            this.colorAlert = 'primary'
             this.$vs.dialog({
               color: this.colorAlert,
               title: `You are registered`,

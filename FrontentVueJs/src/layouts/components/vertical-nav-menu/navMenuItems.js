@@ -250,7 +250,7 @@ let exportList = [
   // }
 ];
 
-if (userType === 'admin' || userType === 'partner') {
+if (localStorage.getItem('user-usertype') === 'admin' || localStorage.getItem('user-usertype') === 'partner') {
   exportList[1].items.push({
     url: "/key/list-view",
     name: "Keys",
@@ -271,5 +271,5 @@ if (userType === 'admin' || userType === 'partner') {
 
 }
 
-
+console.log(exportList)
 export default exportList

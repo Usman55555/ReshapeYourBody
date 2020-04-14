@@ -47,8 +47,8 @@
                           <vx-tooltip v-if="(activeUserInfo.id)&&(activeUserInfo.id===que.askedBy._id || activeUserInfo.usertype==='admin')" :style="{display:inline,float:'right'}" color="danger" text="Delete this faq">
                             <vs-button v-if="(activeUserInfo.id)&&(activeUserInfo.id===que.askedBy._id || activeUserInfo.usertype==='admin')" :style="{display:inline}" color="danger" type="line" icon="delete" size="large" @click="deleteFaq(que._id)"></vs-button>
                           </vx-tooltip>
-                          <vx-tooltip v-if="activeUserInfo.id===que.askedBy._id" :style="{display:inline,float:'right'}" color="success" text="Edit this faq">
-                            <vs-button :style="{display:inline}" color="success" type="line" icon="edit" size="large" @click="goToEdit(que._id)"></vs-button>
+                          <vx-tooltip v-if="activeUserInfo.id===que.askedBy._id" :style="{display:inline,float:'right'}" color="primary" text="Edit this faq">
+                            <vs-button :style="{display:inline}" color="primary" type="line" icon="edit" size="large" @click="goToEdit(que._id)"></vs-button>
                           </vx-tooltip><br>
                           <p :style="pSet" class="dark"><user-plus-icon size="1.6x" class="custom-class"></user-plus-icon>&nbsp;POSTED BY:&nbsp;(&nbsp;</p>
                           <span :style="spanSet" class="success">{{que.askedBy.firstname}}</span>&nbsp;
@@ -255,7 +255,7 @@
 }
 
 .primary {
-  color:#5b3cc4
+  color:#649a4c
 }
 .success {
   color:rgb(23, 201, 100)

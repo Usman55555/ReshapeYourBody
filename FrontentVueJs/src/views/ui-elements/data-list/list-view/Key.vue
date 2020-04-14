@@ -74,7 +74,8 @@
                 <vs-chip :color="getOrderStatusColor(tr.used)" class="product-order-status">{{ tr.used}}</vs-chip>
               </vs-td>
               <vs-td>
-                <p class="product-category">{{ tr.owner }}</p>
+                <p v-if="tr.owner !== null" class="product-category">{{ tr.owner.email }}</p>
+                <p v-else></p>
               </vs-td>
 
               <vs-td class="whitespace-no-wrap">
@@ -125,7 +126,7 @@ export default {
         axios.post('/key/generateKey').then(resp => {
         this.keys.unshift(resp.data)
         this.$vs.dialog({
-          color: 'success',
+          color: 'primary',
           title: 'Key added successfully',
           text: resp.data.key,
           accept: this.acceptAlert
@@ -141,7 +142,7 @@ export default {
       this.$vs.notify({
           title: 'Key copied',
           text: e.text,
-          color: 'success',
+          color: 'primary',
           iconPack: 'feather',
           position: 'top-center',
           icon:'icon-check'

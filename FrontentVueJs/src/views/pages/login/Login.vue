@@ -166,7 +166,7 @@ export default {
         this.$vs.notify({
           title: 'Success',
           text: 'You logged in successfully',
-          color: 'success',
+          color: 'primary',
           iconPack: 'feather',
           position: 'top-center',
           icon:'icon-check'
