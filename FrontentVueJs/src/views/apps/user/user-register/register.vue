@@ -192,9 +192,8 @@ export default {
 
       langOptions: [
         { label: 'English',  value: 'english'  },
-        { label: 'French',   value: 'french'   },
+        { label: 'Spanish',   value: 'spanish'   },
         { label: 'German',   value: 'german'   },
-        { label: 'Portugues',   value: 'portugues' },
       ]}
   },
   watch: {

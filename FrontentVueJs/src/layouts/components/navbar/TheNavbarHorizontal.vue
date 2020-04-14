@@ -149,7 +149,7 @@ export default {
         this.$vs.notify({
           title: 'Message sent',
           text: this.broadcast_message,
-          color: 'success',
+          color: 'primary',
           iconPack: 'feather',
           position: 'bottom-right',
           icon:'icon-check'
