@@ -1,7 +1,7 @@
 <template>
   <vx-card no-shadow>
 
-    <vs-progress :height="4" :percent=progressBar color="success"></vs-progress>
+    <vs-progress :height="4" :percent=progressBar color="primary"></vs-progress>
     <!-- Img Row -->
     <div class="flex flex-wrap items-center mb-base">
       <vs-avatar :src="photo" size="70px" class="mr-4 mb-4" />

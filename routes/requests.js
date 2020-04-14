@@ -25,6 +25,7 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
   //   console.log('user type'+req._id)
   var body = {
     madeBy: req.person,
+
     status: "Pending"
   };
   var newrequest = new Requests(body);
@@ -51,20 +52,18 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
       var mailBody = `
                 <div style="
                     background-color:#fafafa;
-                    padding-left: 20px;"><br />
+                    padding-left: 20px;">
                     <h1>Hi Admin </h1>
                     <h3>You got a new request.</h3>
-                    <h5 >${doc1.firstname} have requested to become a
-                     pertner.</h5><br>
-                     <p>Please review user's request and update ${doc1.firstname}'s status.
+                    <h3 >${doc1.madeBy.firstname} have requested to become a
+                     pertner.</h3><br>
+                     <p>Please review user's request and update ${doc1.madeBy.firstname}'s status.
                      This will let user to know how much rights user have to your services </h5><br>
 
                      <h3> User Information</h3>
-                     <p>Name: ${doc1.firstname} + ${doc1.lastname}</p>
-                     <p>Email: ${doc1.email}</p>
-                    <h2> Thank You </h2>
-                    <br />
-                   
+                     <p>Name: ${doc1.madeBy.firstname} ${doc1.madeBy.lastname}</p>
+                     <p>Email: ${doc1.madeBy.email}</p>
+                    <h3> Thank You </h3>
                 </div>
                 `;
       const mailOptions = {

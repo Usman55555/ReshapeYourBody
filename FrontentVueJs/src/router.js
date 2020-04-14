@@ -124,6 +124,13 @@ const router = new Router({
           name: "app-user-register",
           component: () =>
             import("@/views/apps/user/user-register/register.vue"),
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && localStorage.getItem('user-usertype') == 'admin') {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           meta: {
             breadcrumb: [
               {
@@ -149,6 +156,13 @@ const router = new Router({
           path: "/apps/user/user-edit/:userId",
           name: "app-user-edit",
           component: () => import("@/views/apps/user/user-edit/UserEdit.vue"),
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && localStorage.getItem('user-usertype') == 'admin') {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           meta: {
             breadcrumb: [
               {
@@ -202,6 +216,13 @@ const router = new Router({
           name: "user-requests",
           component: () =>
             import("@/views/ui-elements/data-list/list-view/requests.vue"),
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && (localStorage.getItem('user-usertype') == 'admin' || localStorage.getItem('user-usertype') == 'user' || localStorage.getItem('user-usertype') == 'customer')) {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           meta: {
             breadcrumb: [
               {
@@ -220,6 +241,13 @@ const router = new Router({
         {
           path: "/download",
           name: "file-download",
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && (localStorage.getItem('user-usertype') == 'admin' || localStorage.getItem('user-usertype') == 'partner' || localStorage.getItem('user-usertype') == 'customer')) {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           component: () =>
             import("@/views/ui-elements/data-list/list-view/download.vue"),
           meta: {
@@ -242,6 +270,13 @@ const router = new Router({
           name: "file-upload",
           component: () =>
             import("@/views/ui-elements/data-list/list-view/upload.vue"),
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && localStorage.getItem('user-usertype') == 'admin') {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           meta: {
             breadcrumb: [
               {
@@ -262,6 +297,13 @@ const router = new Router({
           name: "file-update",
           component: () =>
             import("@/views/ui-elements/data-list/list-view/update.vue"),
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && (localStorage.getItem('user-usertype') == 'admin')) {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           meta: {
             breadcrumb: [
               {
@@ -316,6 +358,13 @@ const router = new Router({
           path: "/pages/faq",
           name: "page-faq",
           component: () => import("@/views/pages/Faq.vue"),
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && (localStorage.getItem('user-usertype') == 'admin' || localStorage.getItem('user-usertype') == 'partner')) {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           meta: {
             breadcrumb: [
               {
@@ -338,6 +387,13 @@ const router = new Router({
           path: "/pages/addfaq",
           name: "page-faq-add",
           component: () => import("@/views/pages/AddFaq.vue"),
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && (localStorage.getItem('user-usertype') == 'admin' || localStorage.getItem('user-usertype') == 'partner')) {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           meta: {
             breadcrumb: [
               {
@@ -361,6 +417,13 @@ const router = new Router({
           name: "page-faq-edit",
           props: true,
           component: () => import("@/views/pages/EditFaq.vue"),
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && (localStorage.getItem('user-usertype') == 'admin' || localStorage.getItem('user-usertype') == 'partner')) {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           meta: {
             breadcrumb: [
               {
