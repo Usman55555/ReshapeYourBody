@@ -110,7 +110,7 @@ export default {
       this.$vs.notify({
         title: 'Success',
         text: 'You logged out successfully',
-        color: 'success',
+        color: 'primary',
         iconPack: 'feather',
         position: 'top-center',
         icon:'icon-check'

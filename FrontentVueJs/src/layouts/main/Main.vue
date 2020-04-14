@@ -214,6 +214,10 @@ export default {
     }
   },
   computed: {
+    // watchIt () {
+    //   console.log("vNavKey: ",this.$store.state.vNavKey)
+    //   return this.$store.state.vNavKey
+    // },
     bodyOverlay () { return this.$store.state.bodyOverlay },
     contentAreaClass () {
       if (this.mainLayoutType === 'vertical') {

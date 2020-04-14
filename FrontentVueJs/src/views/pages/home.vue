@@ -8,8 +8,8 @@
                             <vx-card
                                 title="The whole summery"
                                 title-color="#fff"
-                                card-background="success"
-                                content-color="#fff">
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
                                 <p class="mb-3">Total Partners, Users and Customers currently in your database.</p>
                             </vx-card>
                             <br />
@@ -30,8 +30,7 @@
                             class="mb-base"
                             icon="SmileIcon"
                             :statistic="+userData.countCustomers"
-                            statisticTitle="Customers"
-                            color="success" />
+                            statisticTitle="Customers"/>
                         </div>
                         <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
                             <statistics-card-line
@@ -49,8 +48,8 @@
                             <vx-card
                                 title="A month summery"
                                 title-color="#fff"
-                                card-background="success"
-                                content-color="#fff">
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
                                 <!-- <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p> -->
                                 <p class="mb-3">Partners, Users and Customers registered in the last 30 days.</p>
                             </vx-card>
@@ -72,8 +71,7 @@
                             class="mb-base"
                             icon="SmileIcon"
                             :statistic="+mCustomers"
-                            statisticTitle="Customers"
-                            color="success" />
+                            statisticTitle="Customers"/>
                         </div>
                         <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
                             <statistics-card-line
@@ -118,7 +116,7 @@
                                 title="Gradient Background Color"
                                 title-color="#fff"
                                 content-color="#fff"
-                                card-background="linear-gradient(to right, #56ab2f, #a8e063)">
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
                                 <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p>
                                 <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
                             </vx-card>
@@ -136,7 +134,7 @@
                                 title="Gradient Background Color"
                                 title-color="#fff"
                                 content-color="#fff"
-                                card-background="linear-gradient(to right, #56ab2f, #a8e063)">
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
                                 <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p>
                                 <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
                             </vx-card>
@@ -158,15 +156,14 @@
                                 title="Gradient Background Color"
                                 title-color="#fff"
                                 content-color="#fff"
-                                card-background="linear-gradient(to right, #56ab2f, #a8e063)">
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
                                 <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p>
                                 <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
                             </vx-card>
                             <br />
                             <vs-button 
                                 @click="() => {this.$router.push({name:'file-download'})}"
-                                vs-justify="center" 
-                                color="success" 
+                                vs-justify="center"  
                                 type="gradient">
                                 Go to the download section</vs-button>
                         </div>
@@ -183,7 +180,7 @@
                         title="Gradient Background Color"
                         title-color="#fff"
                         content-color="#fff"
-                        card-background="linear-gradient(to right, #56ab2f, #a8e063)">
+                        card-background="linear-gradient(to right, #649a4c, #8fb67e)">
                         <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p>
                         <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
                     </vx-card>
@@ -193,7 +190,7 @@
                         title="Gradient Background Color"
                         title-color="#fff"
                         content-color="#fff"
-                        card-background="linear-gradient(to right, #56ab2f, #a8e063)">
+                        card-background="linear-gradient(to right, #649a4c, #8fb67e)">
                         <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p>
                         <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
                     </vx-card>
@@ -217,7 +214,7 @@
                   <vs-button 
                     :disabled="isDisabled"
                     @click="submit" 
-                    color="success" 
+                    color="#649a4c" 
                     type="filled">Sumbit</vs-button>
                 </div>
             </div>           
@@ -226,6 +223,7 @@
 </template>
 
 <script>
+// require('../../layouts/components/vertical-nav-menu/navMenuItems')
 import VueApexCharts from 'vue-apexcharts'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 
@@ -351,6 +349,7 @@ export default {
           position: 'top-center',
           icon:'icon-check'
         })
+        window.location.reload();
       })
       .catch(err => {
         this.colorAlert = 'danger'
@@ -364,6 +363,9 @@ export default {
     }
   },
   created () {
+    // setTimeout(() => {
+    //   this.$store.dispatch('vNavReload')
+    // }, 2000)
     this.rellood()
     setTimeout(() => {
       this.activeUser = this.$store.state.AppActiveUser

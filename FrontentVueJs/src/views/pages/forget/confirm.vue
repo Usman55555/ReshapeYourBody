@@ -82,7 +82,7 @@
                     name="email" 
                     class="float-left" 
                     @click.prevent="submitted"
-                    :disabled="isDisabled()">Request a confirmation email</vs-button>
+                    :disabled="isDisabled()">Request a password reset</vs-button>
 
                   <br />
                   <br />
@@ -130,7 +130,7 @@ export default {
               this.$vs.notify({
                 title: 'Success',
                 text: 'Password updated successfully',
-                color: 'success',
+                color: 'primary',
                 iconPack: 'feather',
                 position: 'top-center',
                 icon:'icon-check'

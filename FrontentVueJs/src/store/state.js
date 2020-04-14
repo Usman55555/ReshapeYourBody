@@ -112,6 +112,7 @@ const state = {
   tempUserObj: {},
 
   componentKey: 0,
+  // vNavKey: 0,
   registerRequest: '',
 
   // Can be used to get current window with

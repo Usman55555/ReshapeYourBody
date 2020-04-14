@@ -1254,8 +1254,8 @@ router.get(
                 'lastname': req.user._json.last_name,
                 'firstname': req.user._json.first_name,
                 'verification': '',
-                // 'photo': `http://graph.facebook.com/${req.user._json.id}/picture?type=large&redirect=true&width=500&height=500`
-                'photo': req.user._json.picture.data.url
+                'photo': `http://graph.facebook.com/${req.user._json.id}/picture?type=large&redirect=true&width=500&height=500`
+                // 'photo': req.user._json.picture.data.url
             });
             // console.log(user);
             
@@ -1578,9 +1578,11 @@ router.get("/:reg/email/:em", async (req, res) => {
       );
       // console.log(doc1);
       if (doc1.verification == "") {
-        res.status(200).send({
-          msg: "Email verified, now go to login page...",
-        });
+        // res.status(200).send({
+        //   msg: "Email verified, now go to login page...",
+        // });
+        console.log(`${address.slice(0,-4)}`)
+        res.redirect(`${address.slice(0,-4)}`);
       } else {
         res.status(401).send({
           errmsg: "Couldn't update... don't know why...",

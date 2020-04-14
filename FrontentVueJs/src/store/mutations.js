@@ -135,6 +135,10 @@ const mutations = {
     state.lastname = last
     state.usertype = type
   },
+  // vNavReload: (state) => {
+  //   console.log('adding')
+  //   state.vNavKey += 1
+  // },
   photoURL: (state, url) => {
     localStorage.setItem('user-photo', url)
     state.photoUrl = url

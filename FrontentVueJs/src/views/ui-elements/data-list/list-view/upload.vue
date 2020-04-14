@@ -79,7 +79,7 @@
 
       <vs-row vs-align="center" vs-type="flex" vs-justify="flex-end" vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4    ">
-          <vs-button color="success" type="gradient" @click="post()">Next</vs-button>
+          <vs-button color="primary" type="gradient" @click="post()">Next</vs-button>
         </vs-col>
       </vs-row>
     </div>
@@ -87,7 +87,7 @@
     <div class="vx-row tab2" style="display: none;">
       <vs-row vs-align="center" vs-type="flex" vs-justify="flex-end" vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4    ">
-          <vs-button color="danger" type="gradient" @click="redirect">Redirect</vs-button>
+          <vs-button color="primary" type="gradient" @click="redirect">Redirect</vs-button>
         </vs-col>
       </vs-row>
       <div class="vx-col md:w-full w-full mt-5">
@@ -176,14 +176,14 @@
   z-index: -1;
 }
 .inputfile-2 + label {
-  color: #d3394c;
+  color: #649a4c;
   border: 2px solid currentColor;
 }
 
 .inputfile-2:focus + label,
 .inputfile-2.has-focus + label,
 .inputfile-2 + label:hover {
-  color: #321bb6;
+  color: #8fb67e;
 }
 </style>
 <script>
@@ -272,13 +272,14 @@ export default {
             axios
               .post("/uploads/", this.file)
               .then(resp => {
-                this.colorAlert = "success";
-                this.alertMessage = "Please Proceed to Next Step";
-                this.$vs.dialog({
-                  color: this.colorAlert,
-                  title: this.alertMessage,
-                  accept: this.acceptAlert
-                });
+                this.$vs.notify({
+                  title: 'Success',
+                  text: 'Please Proceed to Next Step',
+                  color: 'primary',
+                  iconPack: 'feather',
+                  position: 'top-center',
+                  icon:'icon-check'
+                })
                 resolve(resp);
                 this.objid = resp.data._id;
 
@@ -316,7 +317,7 @@ export default {
         axios
           .put(urll, formData)
           .then(resp => {
-            this.colorAlert = "success";
+            this.colorAlert = "primary";
             this.alertMessage =
               "File uploaded. If you want to add further files please add or click button to redirect towards download page";
             this.$vs.dialog({
