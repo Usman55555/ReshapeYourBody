@@ -344,7 +344,7 @@ export default {
         this.$vs.notify({
           title: 'Congratulations',
           text: 'You are now promoted to Customer',
-          color: 'success',
+          color: 'primary',
           iconPack: 'feather',
           position: 'top-center',
           icon:'icon-check'
