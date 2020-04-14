@@ -268,7 +268,19 @@ if (localStorage.getItem('user-usertype') === 'admin' || localStorage.getItem('u
     icon: "HelpCircleIcon",
     i18n: "FAQ"
   })
-
+}
+if (localStorage.getItem('user-usertype') === 'admin' || localStorage.getItem('user-usertype') === 'customer' || localStorage.getItem('user-usertype') === 'user') {
+  exportList[1].items.push(
+    {
+      url: "/requests",
+      name: "Requests",
+      icon: "LayoutIcon",
+      // iconPack: 'feather',
+      // position: 'top-center',
+      // icon:'icon-email',
+      slug: "data-list-list-view",
+      i18n: "Requests"
+    })
 }
 
 console.log(exportList)

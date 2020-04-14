@@ -198,6 +198,26 @@ const router = new Router({
           }
         },
         {
+          path: "/requests",
+          name: "user-requests",
+          component: () =>
+            import("@/views/ui-elements/data-list/list-view/requests.vue"),
+          meta: {
+            breadcrumb: [
+              {
+                title: "Home",
+                url: "/"
+              },
+              {
+                title: "Requests",
+                active: true
+              }
+            ],
+            pageTitle: "Requests",
+            rule: "editor"
+          }
+        },
+        {
           path: "/download",
           name: "file-download",
           component: () =>

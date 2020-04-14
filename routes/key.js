@@ -67,29 +67,44 @@ router.put('/enterKey', userauthenticate, async function (req, res) {
         owner: req.person
     }
     try {
-        var doc1 = await Key.findOneAndUpdate({
-                key: req.body.key
-            },
-            body, {
-                new: true
+        var doc2 = await Key.find({key: req.body.key})
+        if (doc2 != null){
+            if (!doc2[0].used){
+                console.log('here')
+                var doc1 = await Key.findOneAndUpdate({
+                    key: req.body.key
+                },
+                body, {
+                    new: true
+                });
+                if (doc1 == null){
+                    res.status(400).send({
+                        errmsg: "You have entered the wrong key..."
+                    });
+                }
+                else{
+                    var doc = await User.findOneAndUpdate(
+                    {
+                        _id: req.person._id,
+                    },
+                    {
+                        usertype: 'customer'
+                    },
+                    { new: true }
+                    );
+                    res.status(200).send(doc);
+                }
             }
-        );
-        if (doc1 == null){
+            else{
+                res.status(400).send({
+                    errmsg: "You have entered the used key..."
+                });
+            }
+        }
+        else{
             res.status(400).send({
                 errmsg: "You have entered the wrong key..."
             });
-        }
-        else{
-            var doc = await User.findOneAndUpdate(
-              {
-                _id: req.person._id,
-              },
-              {
-                  usertype: 'customer'
-              },
-              { new: true }
-            );
-            res.status(200).send(doc);
         }
     } catch {
         res.status(400).send({
@@ -140,7 +155,7 @@ router.get('/getKeys', adminpartnerauthenticate, async function (req, res) {
     try {
         var doc1 = await Key.find({}).sort({
             creadtedAt: -1
-        }).populate('owner');
+        }).populate('owner', [ 'email', 'firstname', 'lastname' ]);
         res.status(200).send(doc1);
     } catch (e) {
         res.status(400).send({
@@ -154,7 +169,7 @@ router.get('/getKeyByOwner', authenticate, async function (req, res) {
     try {
         var doc1 = await Key.find({
             owner: req.person
-        }).populate('owner');
+        }).populate('owner', [ 'email', 'firstname', 'lastname' ]);
         res.status(200).send(doc1);
     } catch (e) {
         res.status(400).send({
@@ -166,7 +181,7 @@ router.get('/getKeyByOwner', authenticate, async function (req, res) {
 
 router.get('/getKeyById', adminpartnerauthenticate, async function (req, res) {
     try {
-        var doc1 = await Key.findById(req.query.keyId).populate('owner');
+        var doc1 = await Key.findById(req.query.keyId).populate('owner', [ 'email', 'firstname', 'lastname' ]);
         res.status(200).send(doc1);
     } catch (e) {
         res.status(400).send({
