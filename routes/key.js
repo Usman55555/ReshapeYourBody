@@ -155,7 +155,7 @@ router.get('/getKeys', adminpartnerauthenticate, async function (req, res) {
     try {
         var doc1 = await Key.find({}).sort({
             creadtedAt: -1
-        }).populate('owner');
+        }).populate('owner', [ 'email', 'firstname', 'lastname' ]);
         res.status(200).send(doc1);
     } catch (e) {
         res.status(400).send({
@@ -169,7 +169,7 @@ router.get('/getKeyByOwner', authenticate, async function (req, res) {
     try {
         var doc1 = await Key.find({
             owner: req.person
-        }).populate('owner');
+        }).populate('owner', [ 'email', 'firstname', 'lastname' ]);
         res.status(200).send(doc1);
     } catch (e) {
         res.status(400).send({
@@ -181,7 +181,7 @@ router.get('/getKeyByOwner', authenticate, async function (req, res) {
 
 router.get('/getKeyById', adminpartnerauthenticate, async function (req, res) {
     try {
-        var doc1 = await Key.findById(req.query.keyId).populate('owner');
+        var doc1 = await Key.findById(req.query.keyId).populate('owner', [ 'email', 'firstname', 'lastname' ]);
         res.status(200).send(doc1);
     } catch (e) {
         res.status(400).send({

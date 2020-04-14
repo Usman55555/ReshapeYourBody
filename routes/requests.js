@@ -24,11 +24,11 @@ var transporter = nodemailer.createTransport({
 router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
   //   console.log('user type'+req._id)
   var body = {
-    madeBy: req.person._id,
+    madeBy: req.person,
     status: "Pending"
   };
   var newrequest = new Requests(body);
-  console.log(body.madeBy);
+  console.log(newrequest);
 
   check_duplicate = await (await Requests.find({ madeBy: body.madeBy })).length;
   if (check_duplicate >= 1) {
@@ -95,7 +95,7 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
 });
 router.get("/AllRequests", adminauthenticate, async (req, res) => {
   try {
-    var all_requests = await Requests.find({});;
+    var all_requests = await Requests.find({}).populate('madeBy', [ 'email', 'firstname', 'lastname' ]);
     res.status(200).send(all_requests);
   } catch (e) {
     res.status(400).send({
@@ -199,8 +199,8 @@ router.get('/viewMyRequests', usercustomerauthenticate, async (req, res) =>
     {
 
         try {
-            var my_requests = await Requests.find({madeBy:req.person._id});
-            // console.log('usertype'+user_type)
+            var my_requests = await Requests.find({madeBy:req.person}).populate('madeBy', [ 'email', 'firstname', 'lastname' ]);
+            console.log('my request___________', my_requests)
             res.status(200).send(my_requests);
         }catch (e) {
             res.status(400).send({

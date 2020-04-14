@@ -3,11 +3,12 @@ const {
 } = require('../db/mongoose');
 var Schema = mongoose.Schema;
 const _ = require('lodash');
-// var ObjectId = Schema.ObjectId;
+var ObjectId = Schema.ObjectId;
 const RequestSchema = new mongoose.Schema({
   madeBy:{
-            type:mongoose.Schema.Types.ObjectId,
+            type: ObjectId,
             required:true,
+            ref: 'User',
             enum:['user','customer'],
          },
   status:{
