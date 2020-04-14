@@ -216,6 +216,13 @@ const router = new Router({
           name: "user-requests",
           component: () =>
             import("@/views/ui-elements/data-list/list-view/requests.vue"),
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && (localStorage.getItem('user-usertype') == 'admin' || localStorage.getItem('user-usertype') == 'user' || localStorage.getItem('user-usertype') == 'customer')) {
+              next();
+            } else {
+              next("/home");
+            }
+          },
           meta: {
             breadcrumb: [
               {
