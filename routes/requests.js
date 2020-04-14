@@ -23,7 +23,7 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
   //   console.log('user type'+req._id)
   var body = {
     madeBy: req.person._id,
-    status: "pending"
+    status: "Pending"
   };
   var newrequest = new Requests(body);
   console.log(body.madeBy);
@@ -93,7 +93,7 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
 });
 router.get("/AllRequests", adminauthenticate, async (req, res) => {
   try {
-    var all_requests = await Requests.find({});
+    var all_requests = await Requests.find({});;
     res.status(200).send(all_requests);
   } catch (e) {
     res.status(400).send({
@@ -105,8 +105,13 @@ router.get("/AllRequests", adminauthenticate, async (req, res) => {
 
 router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
   try {
+    // console.log(req.person.usertype)
+    if (req.body.status=="accepted")
+    {
+
+    }
     var update_status = await Requests.findByIdAndUpdate(
-      req.query.reqId,
+      req.body.reqId,
       {
         status: req.body.status
       },
@@ -157,7 +162,7 @@ router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
       if (err) console.log(err);
       else console.log(info);
     });
-
+    console.log(update_status,"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     res.status(200).send(update_status);
   } catch {
     res.status(400).send({
@@ -188,19 +193,19 @@ router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
 
 // });
 
-// router.get('/viewMyRequests', usercustomerauthenticate, async (req, res) =>
-//     {
+router.get('/viewMyRequests', usercustomerauthenticate, async (req, res) =>
+    {
 
-//         try {
-//             var my_requests = await Requests.find({madeBy:req.person._id});
-//             // console.log('usertype'+user_type)
-//             res.status(200).send(my_requests);
-//         }catch (e) {
-//             res.status(400).send({
-//                 errmsg: "Sorry, no user exists"
-//             });
-//         }
-//     });
+        try {
+            var my_requests = await Requests.find({madeBy:req.person._id});
+            // console.log('usertype'+user_type)
+            res.status(200).send(my_requests);
+        }catch (e) {
+            res.status(400).send({
+                errmsg: "Sorry, no user exists"
+            });
+        }
+    });
 
 router.delete("/delete", adminauthenticate, async (req, res) => {
   try {
@@ -231,18 +236,19 @@ router.delete("/deleteMyRequest",usercustomerauthenticate,async (req, res) =>
   }
 );
 
-router.get("/:id", authenticate, async (req, res) => {
+router.get("/:id", adminauthenticate, async (req, res) => {
   console.log("get id: " + req.params.id);
 
   // var url=req.url
   // console.log(url+'url')
   try {
     var my_requests = await Requests.findById(req.params.id);
+    console.log(my_requests);
     res.status(200).send(my_requests);
   } catch (e) {
     res.status(400).send({
       errmsg: "Unable to find any requests"
-    });
+    }); 
   }
 });
 

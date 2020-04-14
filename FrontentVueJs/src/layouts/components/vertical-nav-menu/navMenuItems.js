@@ -99,6 +99,44 @@ export default [
       }
     ]
   },
+  
+  {
+    header: "UI",
+    icon: "LayersIcon",
+    i18n: "UI",
+    items: [
+      {
+        url: "/requests",
+        name: "Requests",
+        icon: "LayoutIcon",
+        // iconPack: 'feather',
+        // position: 'top-center',
+        // icon:'icon-email',
+        slug: "data-list-list-view",
+        i18n: "Requests"
+      },
+      {
+        url: null,
+        name: "Grid",
+        icon: "LayoutIcon",
+        i18n: "Grid",
+        submenu: [
+          {
+            url: "/ui-elements/grid/vuesax",
+            name: "Vuesax",
+            slug: "grid-vuesax",
+            i18n: "Vuesax"
+          },
+          {
+            url: "/ui-elements/grid/tailwind",
+            name: "Tailwind",
+            slug: "grid-tailwind",
+            i18n: "Tailwind"
+          }
+        ]
+      }
+    ]
+  },
   {
     header: "Pages",
     icon: "FileIcon",
