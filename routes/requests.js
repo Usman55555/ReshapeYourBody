@@ -25,6 +25,7 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
   //   console.log('user type'+req._id)
   var body = {
     madeBy: req.person,
+
     status: "Pending"
   };
   var newrequest = new Requests(body);
@@ -38,6 +39,8 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
   } else {
     try {
       var doc1 = await newrequest.save();
+      doc1 = await doc1.populate('madeBy', [ 'email', 'firstname', 'lastname' ])
+      console.log(doc1)
       var mailBody = `
                 <div style="
                     background-color:#fafafa;
