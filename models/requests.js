@@ -12,7 +12,7 @@ const RequestSchema = new mongoose.Schema({
          },
   status:{
             type:String,
-            enum:['reviewed', 'pending', 'rejected', 'acepted'],
+            enum:['Reviewed', 'Pending', 'Rejected', 'Accepted'],
          },
   createdAt: {
             type: Date,
