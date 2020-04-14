@@ -51,8 +51,9 @@ router.post('/generateKey', adminpartnerauthenticate, async function (req, res) 
     }
     var keyM = new Key(body);
     try {
-        await keyM.save();
-        res.send(keyM);
+        var doc = await keyM.save();
+        doc = await doc.populate('owner', [ 'email', 'firstname', 'lastname' ]);
+        res.send(doc);
     } catch {
         res.status(400).send({
             errmsg: "Somethin bad happened"
@@ -76,7 +77,7 @@ router.put('/enterKey', userauthenticate, async function (req, res) {
                 },
                 body, {
                     new: true
-                });
+                }).populate('owner', [ 'email', 'firstname', 'lastname' ]);
                 if (doc1 == null){
                     res.status(400).send({
                         errmsg: "You have entered the wrong key..."
@@ -126,7 +127,7 @@ router.put('/useKey', adminpartnerauthenticate, async function (req, res) {
             body, {
                 new: true
             }
-        );
+        ).populate('owner', [ 'email', 'firstname', 'lastname' ]);
         res.status(200).send(doc1);
     } catch {
         res.status(400).send({
@@ -145,7 +146,7 @@ router.delete('/deleteKey', adminpartnerauthenticate, async function (req, res) 
     } catch (e) {
         console.log(e)
         res.status(400).send({
-            errmsg: "Somethin bad happened"
+            errmsg: "Something bad happened"
         });
     }
 
