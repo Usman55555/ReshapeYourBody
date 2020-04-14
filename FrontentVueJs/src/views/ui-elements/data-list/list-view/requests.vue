@@ -1,6 +1,6 @@
 
 <template>
-  <div id="data-list-list-view" class="data-list-container">
+  <div v-if='usertype=="admin"'   id="data-list-list-view" class="data-list-container">
 
     <!-- <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" /> -->
 
@@ -9,47 +9,6 @@
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
 
         <div class="flex flex-wrap-reverse items-center data-list-btn-container">
-
-          <!-- ACTION - DROPDOWN -->
-          <!-- <vs-dropdown vs-trigger-click class="dd-actions cursor-pointer mr-4 mb-4">
-
-            <div class="p-4 shadow-drop rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-center text-lg font-medium w-32 w-full">
-              <span class="mr-2">Actions</span>
-              <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-            </div> -->
-
-            <!-- <vs-dropdown-menu>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Delete</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="ArchiveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Archive</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="FileIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Print</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="SaveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Another Action</span>
-                </span>
-              </vs-dropdown-item>
-
-            </vs-dropdown-menu>
-          </vs-dropdown> -->
 
           <!-- ADD NEW -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler">
@@ -77,7 +36,133 @@
         </div>
 
         <!-- ITEMS PER PAGE -->
-          <div v-if='usertype!="admin"' class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-success border border-solid border-success" @click="addNewData">
+          <!-- <div v-if='usertype!="admin"' class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-success border border-solid border-success" @click="addNewData">
+              <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
+              <span class="ml-2 text-base text-danger">Request for Partner</span>
+          </div> -->
+        
+      </div>
+
+      <template slot="thead">
+        <!-- <vs-th sort-key="name">Name</vs-th>  -->
+          <vs-th sort-key="category">First Name</vs-th>
+        <vs-th sort-key="popularity">Second Name</vs-th>
+        <vs-th sort-key="popularity">User Email</vs-th> 
+        <vs-th sort-key="order_status">Request Status</vs-th>
+        <vs-th sort-key="category">Created At</vs-th>
+        <!-- <vs-th sort-key="price">Price</vs-th> -->
+        <vs-th>Action</vs-th>
+        
+      </template>
+
+        <!-- <template > -->
+          <!-- <tbody  > -->
+            <!-- <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data"> -->
+<!-- 
+            <vs-tr :key="indextr" v-for="(tr, indextr) in my_request">
+              <vs-td>
+                <vs-chip :color="getOrderStatusColor(tr.status)" class="product-order-status">{{ tr.status }}</vs-chip>
+              </vs-td> -->
+
+              <!-- <vs-td>
+                <p class="product-price">${{ tr.price }}</p>
+              </vs-td> -->
+                <!-- <vs-td>
+                 <p class="product-category">{{ tr.createdAt }}</p>
+              </vs-td> -->
+
+              <!-- <vs-td class="whitespace-no-wrap"> -->
+                <!-- <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" /> -->
+                <!-- <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr._id)" />
+              </vs-td>
+           
+            </vs-tr>
+          </tbody>
+        </template> -->
+         <template >
+          <tbody  >
+            <!-- <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data"> -->
+
+            <vs-tr :key="indextr" v-for="(tr, indextr) in admin_requests">
+              <vs-td>
+                 <p class="product-category">{{ tr.madeBy.firstname }}</p>
+              </vs-td>
+              <vs-td>
+                 <p class="product-category">{{ tr.madeBy.lastname }}</p>
+              </vs-td>
+              <vs-td>
+                 <p class="product-category">{{ tr.madeBy.email }}</p>
+              </vs-td>
+              <vs-td>
+                <vs-chip :color="getOrderStatusColor(tr.status)" class="product-order-status">{{ tr.status }}</vs-chip>
+        
+              </vs-td>
+
+              <vs-td>
+                 <p class="product-category">{{ tr.createdAt }}</p>
+              </vs-td>
+
+              <vs-td class="whitespace-no-wrap">
+                  
+              
+          <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="popupActive=true" />
+          <!-- <vs-button @click="popupActive=true" color="primary" type="border">Open Default popup</vs-button> -->
+       
+              <vs-popup class="holamundo" title="Update Status" :active.sync="popupActive">
+              <vs-button @click="update(tr,'pending',indextr)" color="primary" type="border">Pending</vs-button>&nbsp;
+              <vs-button @click="update(tr,'accepted',indextr)" color="primary" type="border">Accepted</vs-button>&nbsp;
+              <vs-button @click="update(tr,'reviewed',indextr)" color="primary" type="border">Reviewed</vs-button>&nbsp;
+              <vs-button @click="update(tr,'rejected',indextr)" color="primary" type="border">Rejected</vs-button>&nbsp;
+          </vs-popup>
+       
+                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteUserData(tr._id)" />
+              </vs-td>
+              
+                
+            </vs-tr>
+          </tbody>
+        </template>
+         
+    </vs-table>
+    
+  </div>
+  <div v-else  id="data-list-list-view" class="data-list-container">
+
+    <!-- <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" /> -->
+
+    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="my_request">
+
+      <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
+
+        <div class="flex flex-wrap-reverse items-center data-list-btn-container">
+
+          <!-- ADD NEW -->
+        <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler">
+          <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+            <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ my_request.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : my_request.length }} of {{ queriedItems }}</span>
+            <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
+          </div>
+          <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
+          <vs-dropdown-menu>
+
+            <vs-dropdown-item @click="itemsPerPage=4">
+              <span>4</span>
+            </vs-dropdown-item>
+            <vs-dropdown-item @click="itemsPerPage=10">
+              <span>10</span>
+            </vs-dropdown-item>
+            <vs-dropdown-item @click="itemsPerPage=15">
+              <span>15</span>
+            </vs-dropdown-item>
+            <vs-dropdown-item @click="itemsPerPage=20">
+              <span>20</span>
+            </vs-dropdown-item>
+          </vs-dropdown-menu>
+        </vs-dropdown>
+        </div>
+
+        <!-- ITEMS PER PAGE -->
+          <div  class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-success border border-solid border-success" @click="addNewData">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
               <span class="ml-2 text-base text-danger">Request for Partner</span>
           </div>
@@ -85,9 +170,10 @@
       </div>
 
       <template slot="thead">
-        <!-- <vs-th sort-key="name">Name</vs-th>
-
-        <vs-th sort-key="popularity">Popularity</vs-th> -->
+        <!-- <vs-th sort-key="name">Name</vs-th> -->
+       <vs-th sort-key="category">First Name</vs-th>
+        <vs-th sort-key="popularity">Second Name</vs-th>
+        <vs-th sort-key="popularity">User Email</vs-th>
         <vs-th sort-key="order_status">Request Status</vs-th>
         <vs-th sort-key="category">Created At</vs-th>
         <!-- <vs-th sort-key="price">Price</vs-th> -->
@@ -100,8 +186,17 @@
             <!-- <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data"> -->
 
             <vs-tr :key="indextr" v-for="(tr, indextr) in my_request">
+                <vs-td>
+                 <p class="product-category">{{ tr.madeBy.firstname }}</p>
+              </vs-td>
               <vs-td>
-                <vs-chip :color="getOrderStatusColor(tr.order_status)" class="product-order-status">{{ tr.status }}</vs-chip>
+                 <p class="product-category">{{ tr.madeBy.lastname }}</p>
+              </vs-td>
+              <vs-td>
+                 <p class="product-category">{{ tr.madeBy.email }}</p>
+              </vs-td>
+              <vs-td>
+                <vs-chip :color="getOrderStatusColor(tr.status)" class="product-order-status">{{ tr.status }}</vs-chip>
               </vs-td>
 
               <!-- <vs-td>
@@ -119,40 +214,40 @@
             </vs-tr>
           </tbody>
         </template>
-         <template v-if='usertype=="admin"'>
-          <tbody  >
+         <!-- <template v-if='usertype=="admin"'>
+          <tbody  > -->
             <!-- <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data"> -->
 
-            <vs-tr :key="indextr" v-for="(tr, indextr) in admin_requests">
+            <!-- <vs-tr :key="indextr" v-for="(tr, indextr) in admin_requests">
               <vs-td>
-                <vs-chip :color="getOrderStatusColor(tr.order_status)" class="product-order-status">{{ tr.status }}</vs-chip>
+                <vs-chip :color="getOrderStatusColor(tr.status)" class="product-order-status">{{ tr.status }}</vs-chip>
         
-              </vs-td>
+              </vs-td> -->
 
-              <vs-td>
+              <!-- <vs-td>
                  <p class="product-category">{{ tr.createdAt }}</p>
               </vs-td>
 
-              <vs-td class="whitespace-no-wrap">
+              <vs-td class="whitespace-no-wrap"> -->
                   
               
-          <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="popupActive=true" />
+          <!-- <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="popupActive=true" /> -->
           <!-- <vs-button @click="popupActive=true" color="primary" type="border">Open Default popup</vs-button> -->
        
-              <vs-popup class="holamundo" title="Update Status" :active.sync="popupActive">
+              <!-- <vs-popup class="holamundo" title="Update Status" :active.sync="popupActive">
               <vs-button @click="update(tr,'pending')" color="primary" type="border">Pending</vs-button>&nbsp;
               <vs-button @click="update(tr,'accepted')" color="primary" type="border">Accepted</vs-button>&nbsp;
               <vs-button @click="update(tr,'reviewed')" color="primary" type="border">Reviewed</vs-button>&nbsp;
               <vs-button @click="update(tr,'rejected')" color="primary" type="border">Rejected</vs-button>&nbsp;
-          </vs-popup>
+          </vs-popup> -->
        
-                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteUserData(tr._id)" />
+                <!-- <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteUserData(tr._id)" />
               </vs-td>
               
                 
             </vs-tr>
           </tbody>
-        </template>
+        </template> -->
          
     </vs-table>
     
@@ -173,6 +268,7 @@ export default {
       selected: [],
       popupActive: false,
       // products: [],
+      user_request:[],
        colorAlert:'success',
       alertMessage:'',
       itemsPerPage: 4,
@@ -199,9 +295,19 @@ export default {
     // products () {
     //   return this.$store.state.dataList.products
     // },
-    queriedItems () {
-      return this.$refs.table ? this.$refs.table.queriedResults.length : this.admin_requests.length
-    }
+    
+      queriedItems () {
+        if (this.usertype=="admin")
+        {
+          return this.$refs.table ? this.$refs.table.queriedResults.length : this.admin_requests.length
+          }
+        if(this.usertype!="admin"){
+          return this.$refs.table ? this.$refs.table.queriedResults.length : this.my_request.length
+        }
+            
+          }
+         
+    
   },
   methods: {
     addNewData () {
@@ -242,25 +348,27 @@ export default {
         })
       });
     },
-    update(data,str){
+    update(data,str,index){
       console.log(data._id)
      
         var obj={
           status:str,
-          reqId:data._id
+          reqId:data._id,
+          madeBy:data.madeBy._id
        };
     
       console.log(obj)
-        return new Promise((resolve, reject) => {
-                   axios.put('/request/updateRequestStatus',obj)
-          }).then(resp => {
+        
+                   axios.put('/request/updateRequestStatus',obj).then(resp => {
                       
                   
                    console.log(resp,"hhhhhhhhhhhhhhhhhhhhhhhhhh")
-                    resolve(resp)
+                    this.admin_requests[index]=resp.data
+                   
+                    
                     }).catch(err => {
                        
-                        reject(err)
+                      
                     })
                 
                 
@@ -329,9 +437,9 @@ export default {
       
     },
     getOrderStatusColor (status) {
-      if (status === 'on_hold')   return 'warning'
-      if (status === 'delivered') return 'success'
-      if (status === 'canceled')  return 'danger'
+      if (status === 'reviewed')   return 'warning'
+      if (status === 'accepted') return 'success'
+      if (status === 'rejected')  return 'danger'
       return 'primary'
     },
     // getPopularityColor (num) {

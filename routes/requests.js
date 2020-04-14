@@ -39,45 +39,35 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
   } else {
     try {
       var doc1 = await newrequest.save();
-      doc1 = await doc1.populate('madeBy', [ 'email', 'firstname', 'lastname' ])
-      console.log(doc1)
-      var mailBody = `
-                <div style="
-                    background-color:#fafafa;
-                    padding-left: 20px;"><br />
-                    <h1>Hi, Admin</h1>
-                    <h3>You got a new request.</h3>
-                    <h5>Please click below to view the request</h5>
-                    <a 
-                        href="${address}request/${doc1._id}"
-                        style="color: white;
-                        text-decoration: none;">
-                        <button style="
-                        background-color:#4CAF50;
-                        border: none;
-                        color: white;
-                        padding: 16px 32px;
-                        text-align: center;
-                        text-decoration: none;
-                        display: inline-block;
-                        font-size: 16px;
-                        margin: 4px 2px;
-                        transition-duration: 0.4s;
-                        cursor: pointer;
-                        border-radius: 10px;"
-                    >View the request
-                    </button></a><br />
-                   
-                </div>
-                `;
+      doc1= await doc1.populate('madeBy', [ 'email', 'firstname', 'lastname' ]);
+    //  console.log(doc1,+"asddddddddddddddddddddd")
       var findadmin = await User.find({ usertype: "admin" });
       to = "";
       for (let i = 0; i < findadmin.length; i++) {
         to += "," + findadmin[i].email;
         // console.log(to)
       }
-      to = to.slice(1);
 
+      to = to.slice(1);
+      var mailBody = `
+                <div style="
+                    background-color:#fafafa;
+                    padding-left: 20px;"><br />
+                    <h1>Hi Admin </h1>
+                    <h3>You got a new request.</h3>
+                    <h5 >${doc1.firstname} have requested to become a
+                     pertner.</h5><br>
+                     <p>Please review user's request and update ${doc1.firstname}'s status.
+                     This will let user to know how much rights user have to your services </h5><br>
+
+                     <h3> User Information</h3>
+                     <p>Name: ${doc1.firstname} + ${doc1.lastname}</p>
+                     <p>Email: ${doc1.email}</p>
+                    <h2> Thank You </h2>
+                    <br />
+                   
+                </div>
+                `;
       const mailOptions = {
         from: `"${project}" <${email}>`, // sender address
         to: to, // list of receivers
@@ -109,11 +99,23 @@ router.get("/AllRequests", adminauthenticate, async (req, res) => {
 //admin view users
 
 router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
+  
   try {
-    // console.log(req.person.usertype)
+   
     if (req.body.status=="accepted")
     {
-
+      console.log(req.body.madeBy+"iddddddddddddd")
+      var user_update = await User.findByIdAndUpdate(
+        {_id:req.body.madeBy},
+        {
+          usertype: 'partner'
+        },
+        {
+          new: true
+        }
+      )
+      console.log("user_update_id")
+     console.log(user_update)
     }
     var update_status = await Requests.findByIdAndUpdate(
       req.body.reqId,
@@ -123,7 +125,7 @@ router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
       {
         new: true
       }
-    );
+    ).populate('madeBy', [ 'email', 'firstname', 'lastname' ]);
     var user = await User.findOne({ _id: update_status.madeBy });
 
     console.log(update_status);
@@ -133,26 +135,8 @@ router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
                     padding-left: 20px;"><br />
                     <h1>Hi, ${user.firstname} </h1>
                     <h3>Your request's status is ${req.body.status}.</h3>
-                    <h5>Please click below to view the request</h5>
-                    <a 
-                        href="${address}request/${update_status._id}"
-                        style="color: white;
-                        text-decoration: none;">
-                        <button style="
-                        background-color:#4CAF50;
-                        border: none;
-                        color: white;
-                        padding: 16px 32px;
-                        text-align: center;
-                        text-decoration: none;
-                        display: inline-block;
-                        font-size: 16px;
-                        margin: 4px 2px;
-                        transition-duration: 0.4s;
-                        cursor: pointer;
-                        border-radius: 10px;"
-                    >Welcome...
-                    </button></a><br />
+                    <h5>You can now view your status </h5>
+                    <br />
                    
                 </div>
                 `;
