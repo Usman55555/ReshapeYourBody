@@ -1,15 +1,15 @@
 const util = require('util');
 const Cloud = require('@google-cloud/storage');
 const path = require('path');
-const serviceKey = path.join(__dirname, './reshape-my-body-558a1d40b8cb.json');
+const serviceKey = path.join(__dirname, './vibrant-reach-274319-4ebf25890e2b.json');
 
 const { Storage } = Cloud
 const storage = new Storage({
     keyFilename: serviceKey,
-    projectId: 'reshape-my-body',
+    projectId: 'vibrant-reach-274319',
 })
 
-const bucket = storage.bucket('reshape-your-body'); // should be your bucket name
+const bucket = storage.bucket('reshape-your-body3'); // should be your bucket name
 
 const { format } = util
 
