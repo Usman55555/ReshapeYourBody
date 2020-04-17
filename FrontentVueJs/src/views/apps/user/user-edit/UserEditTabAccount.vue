@@ -24,7 +24,7 @@
     </div>
 
     <!-- Content Row -->
-    <div class="vx-row">
+    <div v-if="this.lang != 'de' && this.lang != 'sp'" class="vx-row">
       <div class="vx-col md:w-1/2 w-full">
 
         <vs-input class="w-full mt-4" label="First Name" v-model="data_local.firstname" v-validate="'required|alpha_spaces'" name="firstname" />
@@ -84,10 +84,140 @@
       </div>
     </div>
 
+    <div v-if="this.lang == 'sp'"  class="vx-row">
+      <div class="vx-col md:w-1/2 w-full">
+
+        <vs-input class="w-full mt-4" label="Primer nombre" v-model="data_local.firstname" v-validate="'required|alpha_spaces'" name="firstname" />
+        <span class="text-danger text-sm"  v-show="errors.has('firstname')">{{ errors.first('firstname') }}</span>
+       
+        <vs-input class="w-full mt-4" label="Apellido" v-model="data_local.lastname" v-validate="'required|alpha_spaces'" name="lastname" />
+        <span class="text-danger text-sm"  v-show="errors.has('lastname')">{{ errors.first('lastname') }}</span>
+
+
+
+        <vs-input class="w-full mt-4" label="Habla a 1" v-model="data_local.address1"  name="address1" />
+        <span class="text-danger text-sm"  v-show="errors.has('address1')">{{ errors.first('address1') }}</span>
+                <!-- langs -->
+        <div class="mt-8">
+          <label class="text-sm">Idiomas</label>
+          <v-select v-model="data_local.languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        </div>
+
+        <vs-input class="w-full mt-4" label="Habla a 2" v-model="data_local.address2"  name="address2" />
+        <span class="text-danger text-sm"  v-show="errors.has('address2')">{{ errors.first('address2') }}</span>
+      </div>
+
+      <div class="vx-col md:w-1/2 w-full">
+        <div class="mt-4">
+          <label class="vs-input--label">Papel</label>
+          <v-select v-model="data_local.usertype" :clearable="false" :options="roleOptions" v-validate="'required'" name="role" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          <span class="text-danger text-sm"  v-show="errors.has('role')">{{ errors.first('role') }}</span>
+        </div>
+        
+        <vs-input class="w-full mt-4" label="Ciudad" v-model="data_local.city" name="city" />
+        <span class="text-danger text-sm"  v-show="errors.has('city')">{{ errors.first('city') }}</span>
+
+        <vs-input class="w-full mt-4" label="Postal" v-model="data_local.postal"  name="postal" />
+        <span class="text-danger text-sm"  v-show="errors.has('postal')">{{ errors.first('postal') }}</span>
+
+        <vs-input class="w-full mt-4" label="País" v-model="data_local.country" name="country" />
+        <span class="text-danger text-sm"  v-show="errors.has('country')">{{ errors.first('country') }}</span>
+
+                <!-- dob -->
+        <div class="mt-8">
+          <label class="text-sm">Fecha de nacimiento</label>
+          <flat-pickr v-model="data_local.birthdate" :config="{ dateFormat: 'd F Y' }" class="w-full" />
+        </div>
+        <!-- phone Number -->
+        <span class="text-danger text-sm">{{ errors.first('phone') }}</span><br />
+        <span class="text-danger text-sm" v-show="isPhoneValid">El número de teléfono debe ser válido.</span>
+        <vs-input
+        v-validate="'required'"
+        data-vv-validate-on="blur"
+        name="phone"
+        type="phone"
+        label-placeholder="Telefono"
+        placeholder="Teléfono (a partir del código del país)"
+        v-model="data_local.phone"
+        class="w-full mt-6" />
+
+      </div>
+    </div>
+
+    <div v-if="this.lang == 'de'"  class="vx-row">
+      <div class="vx-col md:w-1/2 w-full">
+
+        <vs-input class="w-full mt-4" label="Vorname" v-model="data_local.firstname" v-validate="'required|alpha_spaces'" name="firstname" />
+        <span class="text-danger text-sm"  v-show="errors.has('firstname')">{{ errors.first('firstname') }}</span>
+       
+        <vs-input class="w-full mt-4" label="Nachname" v-model="data_local.lastname" v-validate="'required|alpha_spaces'" name="lastname" />
+        <span class="text-danger text-sm"  v-show="errors.has('lastname')">{{ errors.first('lastname') }}</span>
+
+
+
+        <vs-input class="w-full mt-4" label="Adresse 1" v-model="data_local.address1"  name="address1" />
+        <span class="text-danger text-sm"  v-show="errors.has('address1')">{{ errors.first('address1') }}</span>
+                <!-- langs -->
+        <div class="mt-8">
+          <label class="text-sm">Sprachen</label>
+          <v-select v-model="data_local.languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        </div>
+
+        <vs-input class="w-full mt-4" label="Adresse 2" v-model="data_local.address2"  name="address2" />
+        <span class="text-danger text-sm"  v-show="errors.has('address2')">{{ errors.first('address2') }}</span>
+      </div>
+
+      <div class="vx-col md:w-1/2 w-full">
+        <div class="mt-4">
+          <label class="vs-input--label">Rolle</label>
+          <v-select v-model="data_local.usertype" :clearable="false" :options="roleOptions" v-validate="'required'" name="role" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          <span class="text-danger text-sm"  v-show="errors.has('role')">{{ errors.first('role') }}</span>
+        </div>
+        
+        <vs-input class="w-full mt-4" label="Stadt" v-model="data_local.city" name="city" />
+        <span class="text-danger text-sm"  v-show="errors.has('city')">{{ errors.first('city') }}</span>
+
+        <vs-input class="w-full mt-4" label="Post" v-model="data_local.postal"  name="postal" />
+        <span class="text-danger text-sm"  v-show="errors.has('postal')">{{ errors.first('postal') }}</span>
+
+        <vs-input class="w-full mt-4" label="Land" v-model="data_local.country" name="country" />
+        <span class="text-danger text-sm"  v-show="errors.has('country')">{{ errors.first('country') }}</span>
+
+                <!-- dob -->
+        <div class="mt-8">
+          <label class="text-sm">Geburtstag</label>
+          <flat-pickr v-model="data_local.birthdate" :config="{ dateFormat: 'd F Y' }" class="w-full" />
+        </div>
+        <!-- phone Number -->
+        <span class="text-danger text-sm">{{ errors.first('phone') }}</span><br />
+        <span class="text-danger text-sm" v-show="isPhoneValid">Die Telefonnummer muss gültig sein.</span>
+        <vs-input
+        v-validate="'required'"
+        data-vv-validate-on="blur"
+        name="phone"
+        type="phone"
+        label-placeholder="Telefon"
+        placeholder="Telefon (beginnend mit der Landesvorwahl)"
+        v-model="data_local.phone"
+        class="w-full mt-6" />
+
+      </div>
+    </div>
+
     <!-- Save & Reset Button -->
     <div class="vx-row">
       <div class="vx-col w-full">
-        <div class="mt-8 flex flex-wrap items-center justify-end">
+        <div v-if="this.lang == 'sp'"  class="mt-8 flex flex-wrap items-center justify-end">
+          <vs-button class="ml-auto mt-2" @click="save_changes" :disabled="!validateForm">Guardar cambios</vs-button>
+          <vs-button class="ml-4 mt-2" type="border" color="warning" @click="reset_data">Reiniciar</vs-button>
+        </div>
+
+        <div v-if="this.lang == 'de'"  class="mt-8 flex flex-wrap items-center justify-end">
+          <vs-button class="ml-auto mt-2" @click="save_changes" :disabled="!validateForm">Änderungen speichern</vs-button>
+          <vs-button class="ml-4 mt-2" type="border" color="warning" @click="reset_data">Zurücksetzen</vs-button>
+        </div>
+
+        <div v-if="this.lang != 'de' && this.lang != 'sp'"  class="mt-8 flex flex-wrap items-center justify-end">
           <vs-button class="ml-auto mt-2" @click="save_changes" :disabled="!validateForm">Save Changes</vs-button>
           <vs-button class="ml-4 mt-2" type="border" color="warning" @click="reset_data">Reset</vs-button>
         </div>
@@ -132,6 +262,10 @@ export default {
       ]}
   },
   computed: {
+    lang() {
+      this.graphComponent += 1
+      return this.$i18n.locale
+    },
     role_local: {
       get () {
         return { label: this.capitalize(this.data_local.usertype),  value: this.data_local.usertype  }

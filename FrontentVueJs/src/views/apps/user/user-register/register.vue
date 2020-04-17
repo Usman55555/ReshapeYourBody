@@ -12,7 +12,246 @@
 
 
     <!-- Content Row -->
-    <div class="vx-row">
+    <div v-if="this.lang == 'sp'"  class="vx-row">
+      <div class="vx-col md:w-1/2 w-full">
+
+          <span class="text-danger text-sm">{{ errors.first('email') }}</span>
+            <!-- <label class="vs-input--label">Email</label> -->
+          <vs-input 
+            data-vv-validate-on="blur"
+            v-validate="'required|email'" 
+            name="email"
+            class="w-full mb-base" 
+            label-placeholder="Correo electrónico"
+            placeholder="Correo electrónico"
+            v-model="email" />
+
+        <span class="text-danger text-sm"  v-show="errors.has('firstname')">{{ errors.first('firstname') }}</span>
+       <vs-input 
+            data-vv-validate-on="blur"
+            label-placeholder="Primer nombre"
+            placeholder="Primer nombre"
+            class="w-full mt-4" label="First Name" v-model="firstname" v-validate="'required|alpha_spaces'" name="firstname" />
+        
+        <span class="text-danger text-sm"  v-show="errors.has('lastname')">{{ errors.first('lastname') }}</span>
+        <vs-input 
+            data-vv-validate-on="blur"
+            label-placeholder="Apellido"
+            placeholder="Apellido"
+            class="w-full mt-4" label="Last Name" v-model="lastname" v-validate="'required|alpha_spaces'" name="lastname" />
+        
+
+        <br />
+        <!-- <label class="text-sm">Role</label> -->
+        <span class="text-danger text-sm" v-show="isEmpty">El rol del usuario debe estar definido.</span>
+        <v-select 
+            label-placeholder="Papel"
+            placeholder="Papel"
+            v-model="role" :options="roleOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                
+                <!-- langs -->
+        <span class="text-danger text-sm" v-show="isLang">Seleccione por favor un idioma.</span>
+        <div class="mt-8">
+          <!-- <label class="text-sm">Languages</label> -->
+          <v-select 
+            label-placeholder="Idiomas"
+            placeholder="Idiomas"
+          v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        </div>
+
+        <div class="mt-8">
+          <!-- <label class="text-sm">Birth Date</label> -->
+            <flat-pickr 
+            label-placeholder="Fecha de nacimiento"
+            placeholder="Fecha de nacimiento"
+            v-model="dob" :config="{ dateFormat: 'd F Y' }" class="w-full" />
+        </div>
+
+      </div>
+
+      <div class="vx-col md:w-1/2 w-full">
+        
+            <div class="mt-4">
+
+            </div>
+            <!-- phone Number -->
+            <span class="text-danger text-sm" v-show="isPhoneValid">El número de teléfono debe ser válido.</span>
+            <vs-input
+            data-vv-validate-on="blur"
+            name="phone"
+            type="phone"
+            label-placeholder="Teléfono"
+            placeholder="Teléfono (a partir del código del país)"
+            v-model="phone"
+            class="w-full mt-6" />
+
+            
+            <br />
+            <vs-input 
+            label-placeholder="Habla a 1"
+            placeholder="Habla a 1"
+            class="w-full mt-4" v-model="address1" name="Address1" />
+            <!-- <span class="text-danger text-sm"  v-show="errors.has('city')">{{ errors.first('city') }}</span> -->
+
+            <vs-input 
+            label-placeholder="Habla a 2"
+            placeholder="Habla a 2"
+            class="w-full mt-4" v-model="address2"  name="Address2" />
+            <!-- <span class="text-danger text-sm"  v-show="errors.has('postal')">{{ errors.first('postal') }}</span> -->
+
+        <!-- Country -->
+        <div class="mt-8">
+        <!-- <label class="text-sm">Country</label> -->
+        <v-select 
+            label-placeholder="País"
+            placeholder="País"
+        v-model="country1" :options="countryOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        
+        </div>
+
+        <!-- City -->
+        <div class="mt-8">
+        <!-- <label class="text-sm">City</label> -->
+        <v-select 
+            label-placeholder="Ciudad"
+            placeholder="Ciudad"
+        v-model="city" :options="cityOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+
+        <vs-input
+        data-vv-validate-on="blur"
+        name="postal"
+        type="postal"
+        label-placeholder="Postal"
+        placeholder="Postal"
+        v-model="postal"
+        class="w-full mt-6" />
+    </div>
+
+      </div>
+    </div>
+
+        <!-- Content Row -->
+    <div v-if="this.lang == 'de'"  class="vx-row">
+      <div class="vx-col md:w-1/2 w-full">
+
+          <span class="text-danger text-sm">{{ errors.first('email') }}</span>
+            <!-- <label class="vs-input--label">Email</label> -->
+          <vs-input 
+            data-vv-validate-on="blur"
+            v-validate="'required|email'" 
+            name="email"
+            class="w-full mb-base" 
+            label-placeholder="Email"
+            placeholder="Email"
+            v-model="email" />
+
+        <span class="text-danger text-sm"  v-show="errors.has('firstname')">{{ errors.first('firstname') }}</span>
+       <vs-input 
+            data-vv-validate-on="blur"
+            label-placeholder="Vorname"
+            placeholder="Vorname"
+            class="w-full mt-4" label="First Name" v-model="firstname" v-validate="'required|alpha_spaces'" name="firstname" />
+        
+        <span class="text-danger text-sm"  v-show="errors.has('lastname')">{{ errors.first('lastname') }}</span>
+        <vs-input 
+            data-vv-validate-on="blur"
+            label-placeholder="Nachname"
+            placeholder="Nachname"
+            class="w-full mt-4" label="Last Name" v-model="lastname" v-validate="'required|alpha_spaces'" name="lastname" />
+        
+
+        <br />
+        <!-- <label class="text-sm">Role</label> -->
+        <span class="text-danger text-sm" v-show="isEmpty">Die Benutzerrolle muss definiert sein.</span>
+        <v-select 
+            label-placeholder="Rolle"
+            placeholder="Rolle"
+            v-model="role" :options="roleOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                
+                <!-- langs -->
+        <span class="text-danger text-sm" v-show="isLang">Bitte wählen Sie mindestens eine Sprache aus.</span>
+        <div class="mt-8">
+          <!-- <label class="text-sm">Languages</label> -->
+          <v-select 
+            label-placeholder="Sprachen"
+            placeholder="Sprachen"
+          v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        </div>
+
+        <div class="mt-8">
+          <!-- <label class="text-sm">Birth Date</label> -->
+            <flat-pickr 
+            label-placeholder="Geburtstag"
+            placeholder="Geburtstag"
+            v-model="dob" :config="{ dateFormat: 'd F Y' }" class="w-full" />
+        </div>
+
+      </div>
+
+      <div class="vx-col md:w-1/2 w-full">
+        
+            <div class="mt-4">
+
+            </div>
+            <!-- phone Number -->
+            <span class="text-danger text-sm" v-show="isPhoneValid">Die Telefonnummer muss gültig sein.</span>
+            <vs-input
+            data-vv-validate-on="blur"
+            name="phone"
+            type="phone"
+            label-placeholder="Telefon"
+            placeholder="Telefon (beginnend mit der Landesvorwahl)"
+            v-model="phone"
+            class="w-full mt-6" />
+
+            
+            <br />
+            <vs-input 
+            label-placeholder="Adresse 1"
+            placeholder="Adresse 1"
+            class="w-full mt-4" v-model="address1" name="Address1" />
+            <!-- <span class="text-danger text-sm"  v-show="errors.has('city')">{{ errors.first('city') }}</span> -->
+
+            <vs-input 
+            label-placeholder="Adresse 2"
+            placeholder="Adresse 2"
+            class="w-full mt-4" v-model="address2"  name="Address2" />
+            <!-- <span class="text-danger text-sm"  v-show="errors.has('postal')">{{ errors.first('postal') }}</span> -->
+
+        <!-- Country -->
+        <div class="mt-8">
+        <!-- <label class="text-sm">Country</label> -->
+        <v-select 
+            label-placeholder="Land"
+            placeholder="Land"
+        v-model="country1" :options="countryOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        
+        </div>
+
+        <!-- City -->
+        <div class="mt-8">
+        <!-- <label class="text-sm">City</label> -->
+        <v-select 
+            label-placeholder="Stadt"
+            placeholder="Stadt"
+        v-model="city" :options="cityOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+
+        <vs-input
+        data-vv-validate-on="blur"
+        name="postal"
+        type="postal"
+        label-placeholder="Post"
+        placeholder="Post"
+        v-model="postal"
+        class="w-full mt-6" />
+    </div>
+
+      </div>
+    </div>
+
+
+        <!-- Content Row -->
+    <div v-if="this.lang != 'de' && this.lang != 'sp'"  class="vx-row">
       <div class="vx-col md:w-1/2 w-full">
 
           <span class="text-danger text-sm">{{ errors.first('email') }}</span>
@@ -133,7 +372,23 @@
     <!-- Save & Reset Button -->
     <div class="vx-row">
       <div class="vx-col w-full">
-        <div class="mt-8 flex flex-wrap items-center justify-end">
+        <div v-if="this.lang == 'sp'"  class="mt-8 flex flex-wrap items-center justify-end">
+          <vs-button 
+            class="ml-auto mt-2" 
+            @click="save_changes" 
+            :disabled="validateForm">Guardar cambios</vs-button>
+          <vs-button class="ml-4 mt-2" type="border" color="warning" @click="reset_data">Reiniciar</vs-button>
+        </div>
+
+        <div v-if="this.lang == 'de'"  class="mt-8 flex flex-wrap items-center justify-end">
+          <vs-button 
+            class="ml-auto mt-2" 
+            @click="save_changes" 
+            :disabled="validateForm">Änderungen speichern</vs-button>
+          <vs-button class="ml-4 mt-2" type="border" color="warning" @click="reset_data">Zurücksetzen</vs-button>
+        </div>
+
+        <div v-if="this.lang != 'de' && this.lang != 'sp'"  class="mt-8 flex flex-wrap items-center justify-end">
           <vs-button 
             class="ml-auto mt-2" 
             @click="save_changes" 
@@ -211,6 +466,10 @@ export default {
     }
   },
   computed: {
+    lang() {
+      this.graphComponent += 1
+      return this.$i18n.locale
+    },
     isLang () {
         return this.languages.length <= 0
     },

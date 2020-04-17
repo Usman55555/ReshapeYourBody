@@ -19,7 +19,9 @@
         <div class="flex-grow">
           <vs-dropdown vs-trigger-click class="cursor-pointer">
             <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-              <span class="mr-2">{{ currentPage * paginationPageSize - (paginationPageSize - 1) }} - {{ usersData.length - currentPage * paginationPageSize > 0 ? currentPage * paginationPageSize : usersData.length }} of {{ usersData.length }}</span>
+              <span v-if="this.lang == 'sp'" class="mr-2">{{ currentPage * paginationPageSize - (paginationPageSize - 1) }} - {{ usersData.length - currentPage * paginationPageSize > 0 ? currentPage * paginationPageSize : usersData.length }} de {{ usersData.length }}</span>
+              <span v-if="this.lang == 'de'" class="mr-2">{{ currentPage * paginationPageSize - (paginationPageSize - 1) }} - {{ usersData.length - currentPage * paginationPageSize > 0 ? currentPage * paginationPageSize : usersData.length }} von {{ usersData.length }}</span>
+              <span v-if="this.lang != 'de' && this.lang != 'sp'" class="mr-2">{{ currentPage * paginationPageSize - (paginationPageSize - 1) }} - {{ usersData.length - currentPage * paginationPageSize > 0 ? currentPage * paginationPageSize : usersData.length }} of {{ usersData.length }}</span>
               <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
             </div>
             <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
@@ -45,12 +47,16 @@
         <div @click="$router.push('/apps/user/user-register').catch(() => {})" 
           class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary">
             <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-            <span class="ml-2 text-base text-primary">Register New User</span>
+            <span v-if="this.lang == 'sp'" class="ml-2 text-base text-primary">Registrar nuevo usuario</span>
+            <span v-if="this.lang == 'de'" class="ml-2 text-base text-primary">Neuen Benutzer registrieren</span>
+            <span v-if="this.lang != 'de' && this.lang != 'sp'" class="ml-2 text-base text-primary">Register New User</span>
         </div>
       <!-- </router-link> -->
         </div>
         <!-- TABLE ACTION COL-2: SEARCH & EXPORT AS CSV -->
-          <vs-input class="sm:mr-4 mr-0 sm:w-auto w-full sm:order-normal order-3 sm:mt-0 mt-4" v-model="searchQuery" @input="updateSearchQuery" placeholder="Search..." />
+          <vs-input v-if="this.lang == 'sp'" class="sm:mr-4 mr-0 sm:w-auto w-full sm:order-normal order-3 sm:mt-0 mt-4" v-model="searchQuery" @input="updateSearchQuery" placeholder="Buscar..." />
+          <vs-input v-if="this.lang == 'de'" class="sm:mr-4 mr-0 sm:w-auto w-full sm:order-normal order-3 sm:mt-0 mt-4" v-model="searchQuery" @input="updateSearchQuery" placeholder="Suche..." />
+          <vs-input v-if="this.lang != 'de' && this.lang != 'sp'" class="sm:mr-4 mr-0 sm:w-auto w-full sm:order-normal order-3 sm:mt-0 mt-4" v-model="searchQuery" @input="updateSearchQuery" placeholder="Search..." />
           <!-- <vs-button class="mb-4 md:mb-0" @click="gridApi.exportDataAsCsv()">Export as CSV</vs-button> -->
       </div>
 
@@ -116,7 +122,50 @@ export default {
         resizable: true,
         suppressMenu: true
       },
-      columnDefs: [
+      columnDefs: [],
+
+      // Cell Renderer Components
+      components: {
+        CellRendererLink,
+        CellRendererActions
+      }
+    }
+  },
+  watch: {
+    roleFilter (obj) {
+      this.setColumnFilter('role', obj.value)
+    },
+  },
+  computed: {
+    lang() {
+      this.graphComponent += 1
+      return this.$i18n.locale
+    },
+    usersData () {
+      return this.$store.state.displayListUser
+    },
+    paginationPageSize () {
+      if (this.gridApi) return this.gridApi.paginationGetPageSize()
+      else return 10
+    },
+    totalPages () {
+      if (this.gridApi) return this.gridApi.paginationGetTotalPages()
+      else return 0
+    },
+    currentPage: {
+      get () {
+        if (this.gridApi) return this.gridApi.paginationGetCurrentPage() + 1
+        else return 1
+      },
+      set (val) {
+        this.gridApi.paginationGoToPage(val - 1)
+      }
+    }
+  },
+  methods: {
+    changeLanHead(){
+      if(this.lang != 'de' && this.lang != 'sp'){
+        this.columnDefs= [
         {
           headerName: 'ID',
           field: '_id',
@@ -126,7 +175,7 @@ export default {
         {
           headerName: 'Photo',
           field: 'photo',
-          width: 90,
+          width: 120,
           cellRendererFramework: 'CellRendererLink'
         },
         {
@@ -171,43 +220,126 @@ export default {
           width: 150,
           cellRendererFramework: 'CellRendererActions'
         }
-      ],
-
-      // Cell Renderer Components
-      components: {
-        CellRendererLink,
-        CellRendererActions
+        ]
       }
-    }
-  },
-  watch: {
-    roleFilter (obj) {
-      this.setColumnFilter('role', obj.value)
-    },
-  },
-  computed: {
-    usersData () {
-      return this.$store.state.displayListUser
-    },
-    paginationPageSize () {
-      if (this.gridApi) return this.gridApi.paginationGetPageSize()
-      else return 10
-    },
-    totalPages () {
-      if (this.gridApi) return this.gridApi.paginationGetTotalPages()
-      else return 0
-    },
-    currentPage: {
-      get () {
-        if (this.gridApi) return this.gridApi.paginationGetCurrentPage() + 1
-        else return 1
-      },
-      set (val) {
-        this.gridApi.paginationGoToPage(val - 1)
+      else if(this.lang == 'sp'){
+        this.columnDefs= [
+        {
+          headerName: 'ID',
+          field: '_id',
+          width: 300,
+          filter: true,
+        },
+        {
+          headerName: 'Foto',
+          field: 'photo',
+          width: 120,
+          cellRendererFramework: 'CellRendererLink'
+        },
+        {
+          headerName: 'Primer nombre',
+          field: 'firstname',
+          filter: true,
+          width: 210,
+        },
+        {
+          headerName: 'Apellido',
+          field: 'lastname',
+          filter: true,
+          width: 210,
+        },
+        {
+          headerName: 'Correo electrónico',
+          field: 'email',
+          filter: true,
+          width: 265
+        },
+        {
+          headerName: 'Telefono',
+          field: 'phone',
+          filter: true,
+          width: 265
+        },
+        {
+          headerName: 'Papel',
+          field: 'usertype',
+          filter: true,
+          width: 180
+        },
+        {
+          headerName: 'Creado en',
+          field: 'createdAt',
+          filter: true,
+          width: 250
+        },
+        {
+          headerName: 'Comportamiento',
+          field: 'transactions',
+          width: 150,
+          cellRendererFramework: 'CellRendererActions'
+        }
+        ]
       }
-    }
-  },
-  methods: {
+      else if(this.lang == 'de'){
+        this.columnDefs= [
+        {
+          headerName: 'ID',
+          field: '_id',
+          width: 300,
+          filter: true,
+        },
+        {
+          headerName: 'Foto',
+          field: 'photo',
+          width: 120,
+          cellRendererFramework: 'CellRendererLink'
+        },
+        {
+          headerName: 'Vorname',
+          field: 'firstname',
+          filter: true,
+          width: 210,
+        },
+        {
+          headerName: 'Nachname',
+          field: 'lastname',
+          filter: true,
+          width: 210,
+        },
+        {
+          headerName: 'Email',
+          field: 'email',
+          filter: true,
+          width: 265
+        },
+        {
+          headerName: 'Telefon',
+          field: 'phone',
+          filter: true,
+          width: 265
+        },
+        {
+          headerName: 'Rolle',
+          field: 'usertype',
+          filter: true,
+          width: 180
+        },
+        {
+          headerName: 'Hergestellt in',
+          field: 'createdAt',
+          filter: true,
+          width: 250
+        },
+        {
+          headerName: 'Aktionen',
+          field: 'transactions',
+          width: 150,
+          cellRendererFramework: 'CellRendererActions'
+        }
+        ]
+      }
+      
+    },
     setColumnFilter (column, val) {
       const filter = this.gridApi.getFilterInstance(column)
       let modelObj = null
@@ -247,6 +379,7 @@ export default {
     }
   },
   created () {
+    this.changeLanHead()
     return new Promise((resolve, reject) => {
       axios.get('/user/all').then(resp => {
       this.$store.dispatch('addUserInList',resp.data)
