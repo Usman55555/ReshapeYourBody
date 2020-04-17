@@ -18,14 +18,18 @@
           <!-- ADD NEW -->
           <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary" @click="addNewData">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-              <span class="ml-2 text-base text-primary">Add New</span>
+              <span v-if="this.lang == 'sp'" class="ml-2 text-base text-primary">Agregar nuevo</span>
+              <span v-if="this.lang == 'de'" class="ml-2 text-base text-primary">Neue hinzufügen</span>
+              <span v-if="this.lang != 'de' && this.lang != 'sp'" class="ml-2 text-base text-primary">Add New</span>
           </div>
         </div>
 
         <!-- ITEMS PER PAGE -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler">
           <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-            <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ Keys.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : Keys.length }} of {{ queriedItems }}</span>
+            <span v-if="this.lang == 'sp'" class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ Keys.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : Keys.length }} de {{ queriedItems }}</span>
+            <span v-if="this.lang == 'de'" class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ Keys.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : Keys.length }} von {{ queriedItems }}</span>
+            <span v-if="this.lang != 'de' && this.lang != 'sp'" class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ Keys.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : Keys.length }} of {{ queriedItems }}</span>
             <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
           </div>
           <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
@@ -47,7 +51,23 @@
         </vs-dropdown>
       </div>
 
-      <template slot="thead">
+      <template v-if="this.lang == 'sp'" slot="thead">
+        <vs-th sort-key="key">Clave de producto</vs-th>
+        <vs-th sort-key="creadtedAt">Creado en</vs-th>
+        <vs-th sort-key="used">Usado</vs-th>
+        <vs-th sort-key="owner">Propietario</vs-th>
+        <vs-th>Acción</vs-th>
+      </template>
+
+       <template v-if="this.lang == 'de'" slot="thead">
+        <vs-th sort-key="key">Produktschlüssel</vs-th>
+        <vs-th sort-key="creadtedAt">Hergestellt in</vs-th>
+        <vs-th sort-key="used">Benutzt</vs-th>
+        <vs-th sort-key="owner">Inhaber</vs-th>
+        <vs-th>Aktion</vs-th>
+      </template>
+
+       <template v-if="this.lang != 'de' && this.lang != 'sp'" slot="thead">
         <vs-th sort-key="key">Product Key</vs-th>
         <vs-th sort-key="creadtedAt">Created At</vs-th>
         <vs-th sort-key="used">Used</vs-th>
@@ -61,7 +81,17 @@
 
               <vs-td>
                 <p class="product-name font-medium truncate">{{ tr.key }}</p>
-                <vs-chip color="primary"
+                <vs-chip v-if="this.lang == 'sp'" color="primary"
+                  v-clipboard:copy="tr.key"
+                  v-clipboard:success="onCopy"
+                  v-clipboard:error="onError">Haga clic para copiar la clave al portapapeles!</vs-chip>
+
+                <vs-chip v-if="this.lang == 'de'" color="primary"
+                  v-clipboard:copy="tr.key"
+                  v-clipboard:success="onCopy"
+                  v-clipboard:error="onError">Klicken Sie hier, um den Schlüssel in die Zwischenablage zu kopieren!</vs-chip>
+                
+                <vs-chip v-if="this.lang != 'de' && this.lang != 'sp'" color="primary"
                   v-clipboard:copy="tr.key"
                   v-clipboard:success="onCopy"
                   v-clipboard:error="onError">Click to Copy Key to Clipboard!</vs-chip>
@@ -107,6 +137,10 @@ export default {
     }
   },
   computed: {
+    lang() {
+        this.graphComponent += 1
+        return this.$i18n.locale
+      },
     currentPage () {
       if (this.isMounted) {
         return this.$refs.table.currentx

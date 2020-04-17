@@ -8,11 +8,103 @@
     <vs-col type="flex" vs-justify="center" vs-align="center" vs-w="10">
         <vs-card>
         <div slot="header">
-            <h3>
+            <h3 v-if="this.lang == 'sp'">
+            Editar preguntas frecuentes
+            </h3>
+            <h3 v-if="this.lang == 'de'">
+            FAQ bearbeiten
+            </h3>
+            <h3 v-if="this.lang != 'de' && this.lang != 'sp'">
             Edit FAQ
             </h3>
         </div>
-        <div vs-justify="center">
+        <div v-if="this.lang == 'sp'" vs-justify="center">
+            <vs-input
+                name="question"
+                icon-no-border
+                icon="icon icon-user"
+                icon-pack="feather"
+                label-placeholder="Pregunta"
+                v-model="faq.question"
+                class="w-full"/>
+            <br />
+            <vs-textarea
+                rows="7" 
+                name="answer"
+                height="200px" 
+                icon-no-border
+                icon="icon icon-user"
+                icon-pack="feather"
+                label="Responder"
+                v-model="faq.answer"/>
+            <br />
+            <label>Seleccione una categoría</label>
+            <br /><br />
+            <vs-button class="btnx" type="filled">{{select}}</vs-button>
+            <vs-dropdown>
+            <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
+            <!-- <a href="#">Hola mundo</a> -->
+            <vs-dropdown-menu>
+                <vs-dropdown-item>
+                <span @click="faq.category='General'; select='General'">General</span>
+                </vs-dropdown-item>
+                <vs-dropdown-item>
+                <span @click="faq.category='Licenses'; select='Licencias'">Licencias</span>
+                </vs-dropdown-item>
+                <vs-dropdown-item>
+                <span @click="faq.category='Company usage'; select='Uso de la empresa'">Uso de la empresa</span>
+                </vs-dropdown-item>
+                <vs-dropdown-item>
+                <span @click="faq.category='Trademark use'; select='Uso de marca registrada'">Uso de marca registrada</span>
+                </vs-dropdown-item>
+            </vs-dropdown-menu>
+            </vs-dropdown><br>
+        </div>
+        
+        <div v-if="this.lang == 'de'" vs-justify="center">
+            <vs-input
+                name="question"
+                icon-no-border
+                icon="icon icon-user"
+                icon-pack="feather"
+                label-placeholder="Frage"
+                v-model="faq.question"
+                class="w-full"/>
+            <br />
+            <vs-textarea
+                rows="7" 
+                name="answer"
+                height="200px" 
+                icon-no-border
+                icon="icon icon-user"
+                icon-pack="feather"
+                label="Antworten"
+                v-model="faq.answer"/>
+            <br />
+            <label>Wählen Sie eine Kategorie aus</label>
+            <br /><br />
+            <vs-button class="btnx" type="filled">{{select}}</vs-button>
+            <vs-dropdown>
+            <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
+            <!-- <a href="#">Hola mundo</a> -->
+            <vs-dropdown-menu>
+                <vs-dropdown-item>
+                <span @click="faq.category='General'; select='Allgemeines'">Allgemeines</span>
+                </vs-dropdown-item>
+                <vs-dropdown-item>
+                <span @click="faq.category='Licenses'; select='Lizenzen'">Lizenzen</span>
+                </vs-dropdown-item>
+                <vs-dropdown-item>
+                <span @click="faq.category='Company usage'; select='Firmennutzung'">Firmennutzung</span>
+                </vs-dropdown-item>
+                <vs-dropdown-item>
+                <span @click="faq.category='Trademark use'; select='Markennutzung'">Markennutzung</span>
+                </vs-dropdown-item>
+            </vs-dropdown-menu>
+            </vs-dropdown><br>
+        </div>
+
+        <div v-if="this.lang != 'de' && this.lang != 'sp'" vs-justify="center">
             <vs-input
                 name="question"
                 icon-no-border
@@ -54,7 +146,19 @@
             </vs-dropdown-menu>
             </vs-dropdown><br>
         </div>
-        <div slot="footer">
+        <div v-if="this.lang == 'sp'" slot="footer">
+            <vs-row vs-justify="center">
+            <vs-button type="gradient" color="success" icon="touch_app" @click="submit">Enviar</vs-button>
+            <vs-button color="danger" icon="reply" @click="goBack">Regresa</vs-button>
+            </vs-row>
+        </div>
+        <div v-if="this.lang == 'de'" slot="footer">
+            <vs-row vs-justify="center">
+            <vs-button type="gradient" color="success" icon="touch_app" @click="submit">einreichen</vs-button>
+            <vs-button color="danger" icon="reply" @click="goBack">Geh zurück</vs-button>
+            </vs-row>
+        </div>
+        <div v-if="this.lang != 'de' && this.lang != 'sp'" slot="footer">
             <vs-row vs-justify="center">
             <vs-button type="gradient" color="success" icon="touch_app" @click="submit">Submit</vs-button>
             <vs-button color="danger" icon="reply" @click="goBack">Go Back</vs-button>
@@ -116,6 +220,12 @@
             },
             goBack(){
                 this.$router.push('/pages/faq')
+            }
+        },
+        computed: {
+            lang() {
+            this.graphComponent += 1
+            return this.$i18n.locale
             }
         },
         created() {

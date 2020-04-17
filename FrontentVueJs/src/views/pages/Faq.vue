@@ -12,14 +12,54 @@
     <div id="faq-page">
         <!-- JUMBOTRON -->
         <div class="faq-jumbotron">
-            <div class="faq-jumbotron-content lg:p-32 md:p-24 sm:p-16 p-8 rounded-lg mb-base">
+            <div v-if="this.lang == 'de'"  class="faq-jumbotron-content lg:p-32 md:p-24 sm:p-16 p-8 rounded-lg mb-base">
+                <h1 class="mb-1 text-white">Haben Sie Fragen?</h1>
+                <vs-input placeholder="Suche" v-model="faqSearchQuery" icon-pack="feather" icon="icon-search" size="large" class="w-full mt-6" icon-no-border />
+            </div>
+            <div v-if="this.lang == 'sp'"  class="faq-jumbotron-content lg:p-32 md:p-24 sm:p-16 p-8 rounded-lg mb-base">
+                <h1 class="mb-1 text-white">¿Tiene alguna pregunta?</h1>
+                <vs-input placeholder="buscar" v-model="faqSearchQuery" icon-pack="feather" icon="icon-search" size="large" class="w-full mt-6" icon-no-border />
+            </div>
+            <div v-if="this.lang != 'de' && this.lang != 'sp'"  class="faq-jumbotron-content lg:p-32 md:p-24 sm:p-16 p-8 rounded-lg mb-base">
                 <h1 class="mb-1 text-white">Have Any Questions?</h1>
                 <vs-input placeholder="Search" v-model="faqSearchQuery" icon-pack="feather" icon="icon-search" size="large" class="w-full mt-6" icon-no-border />
             </div>
         </div>
         <div class="vx-row">
             <div class="vx-col w-full md:w-2/5 lg:w-1/4 rounded-lg">
-                <vx-card>
+                <vx-card v-if="this.lang == 'sp'" >
+                    <vs-button 
+                      v-show="activeUserInfo.usertype == 'admin'"
+                      color="primary" 
+                      type="filled" 
+                      @click="goToAddFaqPage"
+                      >Agregue sus preguntas frecuentes</vs-button>
+                    <br><br><h4>Tabla de contenidos</h4>
+                    <ul class="faq-topics mt-4">
+                        <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.id">
+                            <div class="h-3 w-3 rounded-full mr-2" :class="'bg-' + category.color"></div><span class="cursor-pointer">{{ category.name }}</span>
+                        </li>
+                    </ul>
+
+                    <br><br>
+                </vx-card>
+                <vx-card v-if="this.lang == 'de'" >
+                    <vs-button 
+                      v-show="activeUserInfo.usertype == 'admin'"
+                      color="primary" 
+                      type="filled" 
+                      @click="goToAddFaqPage"
+                      >Fügen Sie Ihre FAQ hinzu</vs-button>
+                    <br><br><h4>Inhaltsverzeichnis</h4>
+                    <ul class="faq-topics mt-4">
+                        <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.id">
+                            <div class="h-3 w-3 rounded-full mr-2" :class="'bg-' + category.color"></div><span class="cursor-pointer">{{ category.name }}</span>
+                        </li>
+                    </ul>
+
+                    <br><br>
+                </vx-card>
+                <vx-card v-if="this.lang != 'de' && this.lang != 'sp'" >
                     <vs-button 
                       v-show="activeUserInfo.usertype == 'admin'"
                       color="primary" 
@@ -91,7 +131,18 @@
         },
         faqSearchQuery: '',
         faqFilter: 1,
-        categories: [
+        categories: [],
+        faqs:[],        
+      }
+    },
+    computed: {
+      lang() {
+        this.graphComponent += 1
+        return this.$i18n.locale
+      },
+      catogorylang(){
+        if(this.lang != 'de' && this.lang != 'sp'){
+          this.categories=[
           {
             id: 1,
             name: 'All',
@@ -117,11 +168,67 @@
             name: 'Trademark use',
             color: 'danger'
           }
-        ],
-        faqs:[],        
+          ]
+        }
+        else if(this.lang == 'sp'){
+          this.categories=[
+          {
+            id: 1,
+            name: 'todos',
+            color: 'grey'
+          },
+          {
+            id: 2,
+            name: 'General',
+            color: 'primary'
+          },
+          {
+            id: 3,
+            name: 'Licencias',
+            color: 'success'
+          },
+          {
+            id: 4,
+            name: 'Uso de la empresa',
+            color: 'warning'
+          },
+          {
+            id: 5,
+            name: 'Uso de marca registrada',
+            color: 'danger'
+          }
+          ]
+        }
+        else if(this.lang == 'de'){
+          this.categories=[
+          {
+            id: 1,
+            name: 'Alle',
+            color: 'grey'
+          },
+          {
+            id: 2,
+            name: 'Allgemeines',
+            color: 'primary'
+          },
+          {
+            id: 3,
+            name: 'Lizenzen',
+            color: 'success'
+          },
+          {
+            id: 4,
+            name: 'Firmennutzung',
+            color: 'warning'
+          },
+          {
+            id: 5,
+            name: 'Markennutzung',
+            color: 'danger'
+          }
+          ]
+        }
       }
-    },
-    computed: {
       filteredFaq () {
         return this.faqs.filter((faq) => {
           if (this.faqFilter === 1) return faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase())
