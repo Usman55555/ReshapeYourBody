@@ -6,6 +6,31 @@
     <br /> -->
     <span class="text-danger text-sm">{{ errors.first('email') }}</span>
     <vs-input 
+      v-if="this.lang == 'de'" 
+      data-vv-validate-on="blur"
+        v-validate="'required|email'" 
+      name="email"
+      icon-no-border
+      icon="icon-mail"
+      icon-pack="feather"
+      placeholder="Neue e-mail"
+      class="w-full mb-base" 
+      label-placeholder="Neue e-mail" 
+      v-model="email" />
+    <vs-input 
+      v-if="this.lang == 'sp'" 
+      data-vv-validate-on="blur"
+        v-validate="'required|email'" 
+      name="email"
+      icon-no-border
+      icon="icon-mail"
+      icon-pack="feather"
+      placeholder="Nuevo Email"
+      class="w-full mb-base" 
+      label-placeholder="Nuevo Email" 
+      v-model="email" />
+    <vs-input 
+      v-if="this.lang != 'de' && this.lang != 'sp'" 
       data-vv-validate-on="blur"
         v-validate="'required|email'" 
       name="email"
@@ -20,6 +45,21 @@
     <!-- Save & Reset Button -->
     <div class="flex flex-wrap items-center justify-end">
       <vs-button 
+        v-if="this.lang == 'de'" 
+        class="ml-4 mt-2" 
+        type="border" 
+        color="warning"
+        @click="reset"
+        :disabled="!isDisabled">Ändern Sie die E-Mail</vs-button>
+      <vs-button 
+        v-if="this.lang == 'sp'" 
+        class="ml-4 mt-2" 
+        type="border" 
+        color="warning"
+        @click="reset"
+        :disabled="!isDisabled">Cambiar e-mail</vs-button>
+      <vs-button 
+        v-if="this.lang != 'de' && this.lang != 'sp'" 
         class="ml-4 mt-2" 
         type="border" 
         color="warning"
@@ -37,6 +77,10 @@ export default {
     }
   },
   computed: {
+    lang() {
+      this.graphComponent += 1
+      return this.$i18n.locale
+    },
     isDisabled () {
       return !this.errors.any() && this.email !== ''
     },

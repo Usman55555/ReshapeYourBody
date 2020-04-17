@@ -5,7 +5,8 @@
     <!-- Img Row -->
     <div class="flex flex-wrap items-center mb-base">
       <vs-avatar :src="photo" size="70px" class="mr-4 mb-4" />
-      <div>
+      <div
+        v-if="this.lang == 'de'" >
         <vs-button
           :disabled="isDisabled()"
           v-if="!loading"
@@ -13,7 +14,57 @@
           variant="primary"
           @click="selectImage()"
           class="cursor">
-          {{ uploadButtonTitle }}
+          Bild auswählen
+        </vs-button>
+        <input
+          id="upload"
+          ref="uploadInput"
+          type="file"
+          name="file"
+          class="image-input"
+          @change="updateUploadButton($event); insertImage()">
+        &nbsp;
+        <vs-button 
+          type="border" 
+          color="danger"
+          @click="deleteImage()">Entfernen</vs-button>
+        <p class="text-sm mt-2">Zulässig sind JPG, JPEG oder PNG. Maximale Größe von 5 MB</p>
+      </div>
+      <div
+        v-if="this.lang == 'sp'" >
+        <vs-button
+          :disabled="isDisabled()"
+          v-if="!loading"
+          size="md"
+          variant="primary"
+          @click="selectImage()"
+          class="cursor">
+          Seleccionar imagen
+        </vs-button>
+        <input
+          id="upload"
+          ref="uploadInput"
+          type="file"
+          name="file"
+          class="image-input"
+          @change="updateUploadButton($event); insertImage()">
+        &nbsp;
+        <vs-button 
+          type="border" 
+          color="danger"
+          @click="deleteImage()">Eliminar</vs-button>
+        <p class="text-sm mt-2">Se permiten JPG, JPEG o PNG. Tamaño máximo de 5 MB</p>
+      </div>
+      <div
+        v-if="this.lang != 'de' && this.lang != 'sp'" >
+        <vs-button
+          :disabled="isDisabled()"
+          v-if="!loading"
+          size="md"
+          variant="primary"
+          @click="selectImage()"
+          class="cursor">
+          Select image
         </vs-button>
         <input
           id="upload"
@@ -32,6 +83,65 @@
     </div>
 
     <div
+      v-if="this.lang == 'de'" 
+      class="add-button">
+      <p
+        v-if="loading"
+        class="text-center w-75"
+        style="word-wrap:break-word;">
+        <strong>Hochladen</strong>
+        {{ loadingText }}
+        {{ progress }}
+      </p>
+      <p
+        v-if="err"
+        class="text-center w-75"
+        style="word-wrap:break-word;">
+        <strong>Fehlermeldung: </strong>
+        {{ err }}
+      </p>
+      
+      <!-- Avatar Col -->
+      <div v-else class="vx-col" id="avatar-col">
+      <br />
+        <div class="img-container mb-4">
+          <img :src="photo" class="rounded w-full" />
+        </div>
+      </div>
+      
+    </div>
+
+    <div
+      v-if="this.lang == 'sp'" 
+      class="add-button">
+      <p
+        v-if="loading"
+        class="text-center w-75"
+        style="word-wrap:break-word;">
+        <strong>Cargando</strong>
+        {{ loadingText }}
+        {{ progress }}
+      </p>
+      <p
+        v-if="err"
+        class="text-center w-75"
+        style="word-wrap:break-word;">
+        <strong>Mensaje de error: </strong>
+        {{ err }}
+      </p>
+      
+      <!-- Avatar Col -->
+      <div v-else class="vx-col" id="avatar-col">
+      <br />
+        <div class="img-container mb-4">
+          <img :src="photo" class="rounded w-full" />
+        </div>
+      </div>
+      
+    </div>
+
+    <div
+      v-if="this.lang != 'de' && this.lang != 'sp'" 
       class="add-button">
       <p
         v-if="loading"
@@ -59,6 +169,7 @@
       
     </div>
 
+
     <br />
   </vx-card>
 </template>
@@ -66,15 +177,12 @@
 <script>
 import axios from 'axios';
 
-const uploadButtonTitle = 'Select image'
-
 export default {
   components: {
   },
   data () {
     return {
         images: [],
-        uploadButtonTitle: uploadButtonTitle,
         file: '',
         loadingText: '',
         progressBar: 0,
@@ -95,6 +203,10 @@ export default {
     this.changePhoto()
   },
   computed: {
+    lang() {
+      this.graphComponent += 1
+      return this.$i18n.locale
+    },
     activeUserInfo () {
       return this.$store.state.AppActiveUser
     }

@@ -1,7 +1,19 @@
 <template>
   <vx-card no-shadow>
 
-    <vs-alert color="danger" title="Be Carefull" active="true" class="mt-3">
+    <vs-alert
+      v-if="this.lang == 'de'" 
+      color="danger" title="Achtung" active="true" class="mt-3">
+        Bitte seien Sie vorsichtig, Sie können alle Ihre Unterlagen verlieren, indem Sie dieses Formular abschicken.
+    </vs-alert>
+    <vs-alert
+      v-if="this.lang == 'sp'" 
+      color="danger" title="Ten cuidado" active="true" class="mt-3">
+        Tenga cuidado, puede perder todos sus registros al enviar este formulario.
+    </vs-alert>
+    <vs-alert
+      v-if="this.lang != 'de' && this.lang != 'sp'" 
+      color="danger" title="Be Carefull" active="true" class="mt-3">
         Please, be carefull, you can loose all of your record by submitting this form.
     </vs-alert>
 
@@ -9,6 +21,33 @@
     <br />
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
     <vs-input 
+      v-if="this.lang == 'de'" 
+      type="password"
+      data-vv-validate-on="blur"
+      v-validate="'required|min:6'"
+      name="password"
+      icon-no-border
+      icon="icon-lock"
+      icon-pack="feather"
+      placeholder="Passwort"
+      class="w-full mb-base" 
+      label-placeholder="Passwort" 
+      v-model="password" />
+    <vs-input 
+      v-if="this.lang == 'sp'" 
+      type="password"
+      data-vv-validate-on="blur"
+      v-validate="'required|min:6'"
+      name="password"
+      icon-no-border
+      icon="icon-lock"
+      icon-pack="feather"
+      placeholder="Contraseña"
+      class="w-full mb-base" 
+      label-placeholder="Contraseña" 
+      v-model="password" />
+    <vs-input 
+      v-if="this.lang != 'de' && this.lang != 'sp'" 
       type="password"
       data-vv-validate-on="blur"
       v-validate="'required|min:6'"
@@ -23,6 +62,21 @@
     
     <div class="flex flex-wrap items-center justify-end">
       <vs-button 
+        v-if="this.lang != 'de'" 
+        class="ml-4 mt-2" 
+        type="border" 
+        color="danger"
+        @click="deleteAccount"
+        :disabled="!isDisabled">Konto löschen</vs-button>
+      <vs-button 
+        v-if="this.lang != 'sp'" 
+        class="ml-4 mt-2" 
+        type="border" 
+        color="danger"
+        @click="deleteAccount"
+        :disabled="!isDisabled">Borrar cuenta</vs-button>
+      <vs-button 
+        v-if="this.lang != 'de' && this.lang != 'sp'" 
         class="ml-4 mt-2" 
         type="border" 
         color="danger"
@@ -40,6 +94,10 @@ export default {
     }
   },
   computed: {
+    lang() {
+      this.graphComponent += 1
+      return this.$i18n.locale
+    },
     isDisabled () {
       return !this.errors.any() && this.password !== ''
     },

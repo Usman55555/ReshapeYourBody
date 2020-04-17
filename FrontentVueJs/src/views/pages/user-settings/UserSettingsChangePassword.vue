@@ -1,11 +1,49 @@
 <template>
   <vx-card no-shadow>
 
-    <span class="text-danger text-sm" v-show="!isDisabled">The old and new passwords fields must not be empty and new and confirm passwords must match and old and new password fields must not match.</span>
+    <div
+      v-if="this.lang == 'de'">
+      <span class="text-danger text-sm" v-show="!isDisabled">Die alten und neuen Kennwortfelder dürfen nicht leer und neu sein und bestätigen, dass Kennwörter übereinstimmen müssen und alte und neue Kennwortfelder nicht übereinstimmen dürfen.</span>
+    </div>
+    <div
+      v-if="this.lang == 'sp'">
+      <span class="text-danger text-sm" v-show="!isDisabled">Los campos de contraseñas antiguas y nuevas no deben estar vacías y nuevas, y las contraseñas de confirmación deben coincidir, y los campos de contraseña antiguos y nuevos no deben coincidir.</span>
+    </div>
+    <div
+      v-if="this.lang != 'de' && this.lang != 'sp'">
+      <span class="text-danger text-sm" v-show="!isDisabled">The old and new passwords fields must not be empty and new and confirm passwords must match and old and new password fields must not match.</span>
+    </div>
     <br />
     <br />
     <span class="text-danger text-sm">{{ errors.first('oldpassword') }}</span>
     <vs-input 
+      v-if="this.lang == 'de'"
+      type="password"
+      data-vv-validate-on="blur"
+      v-validate="'required|min:6'"
+      name="oldpassword"
+      icon-no-border
+      icon="icon-lock"
+      icon-pack="feather"
+      placeholder="Altes Passwort"
+      class="w-full mb-base" 
+      label-placeholder="Altes Passwort" 
+      v-model="old_password" />
+    <vs-input 
+      v-if="this.lang == 'sp'"
+      type="password"
+      data-vv-validate-on="blur"
+      v-validate="'required|min:6'"
+      name="oldpassword"
+      icon-no-border
+      icon="icon-lock"
+      icon-pack="feather"
+      placeholder="Contraseña anterior"
+      class="w-full mb-base" 
+      label-placeholder="Contraseña anterior" 
+      v-model="old_password" />
+    <vs-input 
+      v-if="this.lang != 'de' && this.lang != 'sp'"
       type="password"
       data-vv-validate-on="blur"
       v-validate="'required|min:6'"
@@ -17,8 +55,36 @@
       class="w-full mb-base" 
       label-placeholder="Old Password" 
       v-model="old_password" />
+
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
     <vs-input 
+      v-if="this.lang == 'de'"
+      type="password"
+      data-vv-validate-on="blur"
+      v-validate="'required|min:6'"
+      name="password"
+      icon-no-border
+      icon="icon-lock"
+      icon-pack="feather"
+      placeholder="Neues Kennwort"
+      class="w-full mb-base" 
+      label-placeholder="Neues Kennwort" 
+      v-model="new_password" />
+    <vs-input 
+      v-if="this.lang == 'sp'"
+      type="password"
+      data-vv-validate-on="blur"
+      v-validate="'required|min:6'"
+      name="password"
+      icon-no-border
+      icon="icon-lock"
+      icon-pack="feather"
+      placeholder="Nueva contraseña"
+      class="w-full mb-base" 
+      label-placeholder="Nueva contraseña" 
+      v-model="new_password" />
+    <vs-input 
+      v-if="this.lang != 'de' && this.lang != 'sp'"
       type="password"
       data-vv-validate-on="blur"
       v-validate="'required|min:6'"
@@ -30,9 +96,39 @@
       class="w-full mb-base" 
       label-placeholder="New Password" 
       v-model="new_password" />
+
     <span class="text-danger text-sm">{{ errors.first('confirm_password') }}</span>
     <span class="text-danger text-sm" v-show="!isPasswordValid">The passwords must match.</span>
     <vs-input
+      v-if="this.lang == 'de'"
+      type="password"
+      v-validate="'min:6'"
+      data-vv-validate-on="blur"
+      data-vv-as="password"
+      name="confirm_password"
+      icon-no-border
+      icon="icon-lock"
+      icon-pack="feather"
+      label-placeholder="Kennwort bestätigen"
+      placeholder="Kennwort bestätigen"
+      v-model="confirm_password"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang == 'sp'"
+      type="password"
+      v-validate="'min:6'"
+      data-vv-validate-on="blur"
+      data-vv-as="password"
+      name="confirm_password"
+      icon-no-border
+      icon="icon-lock"
+      icon-pack="feather"
+      label-placeholder="Confirmar contraseña"
+      placeholder="Confirmar contraseña"
+      v-model="confirm_password"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang != 'de' && this.lang != 'sp'"
       type="password"
       v-validate="'min:6'"
       data-vv-validate-on="blur"
@@ -49,6 +145,21 @@
     <!-- Save & Reset Button -->
     <div class="flex flex-wrap items-center justify-end">
       <vs-button 
+        v-if="this.lang == 'de'"
+        class="ml-4 mt-2" 
+        type="border" 
+        color="warning"
+        @click="reset"
+        :disabled="!isDisabled">Zurücksetzen</vs-button>
+      <vs-button 
+        v-if="this.lang == 'sp'"
+        class="ml-4 mt-2" 
+        type="border" 
+        color="warning"
+        @click="reset"
+        :disabled="!isDisabled">Reiniciar</vs-button>
+      <vs-button 
+        v-if="this.lang != 'de' && this.lang != 'sp'"
         class="ml-4 mt-2" 
         type="border" 
         color="warning"
@@ -68,6 +179,10 @@ export default {
     }
   },
   computed: {
+    lang() {
+      this.graphComponent += 1
+      return this.$i18n.locale
+    },
     isDisabled () {
       return (this.old_password !== '' && this.new_password !== '' &&  this.old_password !== this.new_password &&  this.old_password !== this.confirm_password &&  this.new_password === this.confirm_password)
     },
