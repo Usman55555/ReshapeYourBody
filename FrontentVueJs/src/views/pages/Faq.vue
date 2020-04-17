@@ -90,7 +90,7 @@
                           <vx-tooltip v-if="activeUserInfo.id===que.askedBy._id" :style="{display:inline,float:'right'}" color="primary" text="Edit this faq">
                             <vs-button :style="{display:inline}" color="primary" type="line" icon="edit" size="large" @click="goToEdit(que._id)"></vs-button>
                           </vx-tooltip><br>
-                          <p :style="pSet" class="dark"><user-plus-icon size="1.6x" class="custom-class"></user-plus-icon>&nbsp;POSTED BY:&nbsp;(&nbsp;</p>
+                          <p :style="pSet" class="dark"><user-plus-icon size="1.6x" class="custom-class"></user-plus-icon>&nbsp;:&nbsp;(&nbsp;</p>
                           <span :style="spanSet" class="success">{{que.askedBy.firstname}}</span>&nbsp;
                           <span :style="spanSet" class="success">{{que.askedBy.lastname}}</span>
                           <p :style="pSet" class="dark">&nbsp;)&nbsp;</p>
@@ -140,6 +140,46 @@
         this.graphComponent += 1
         return this.$i18n.locale
       },
+      
+      filteredFaq () {
+        return this.faqs.filter((faq) => {
+          if (this.faqFilter === 1) return faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase())
+          else if (this.faqFilter === 2) return faq.categoryId === 2 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
+          else if (this.faqFilter === 3) return faq.categoryId === 3 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
+          else if (this.faqFilter === 4) return faq.categoryId === 4 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
+          else if (this.faqFilter === 5) return faq.categoryId === 5 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
+        })
+      },
+      activeUserInfo () {
+      if (this.$store.state.tempUserObj.token !== undefined) {
+        var obj = {
+          id: this.$store.state.tempUserObj.id,
+          firstname: this.$store.state.tempUserObj.firstname,
+          lastname: this.$store.state.tempUserObj.lastname,
+          about: this.$store.state.tempUserObj.about,
+          photoURL: this.$store.state.tempUserObj.photoURL === undefined ? require('@/assets/images/user/user.png') : this.$store.state.AppActiveUser.photoURL,
+          usertype: this.$store.state.tempUserObj.usertype,
+          email: this.$store.state.tempUserObj.email
+        }
+        console.log(obj)
+        return obj
+      }
+      else {
+        var obj = {
+          id: this.$store.state.AppActiveUser.id,
+          firstname: this.$store.state.AppActiveUser.firstname,
+          lastname: this.$store.state.AppActiveUser.lastname,
+          about: this.$store.state.AppActiveUser.about,
+          photoURL: this.$store.state.AppActiveUser.photoURL === "undefined" ? require('@/assets/images/user/user.png') : this.$store.state.AppActiveUser.photoURL,
+          usertype: this.$store.state.AppActiveUser.usertype,
+          email: this.$store.state.AppActiveUser.email
+        }
+        console.log(obj)
+        return obj
+      }
+    }
+    },
+    methods: {
       catogorylang(){
         if(this.lang != 'de' && this.lang != 'sp'){
           this.categories=[
@@ -229,45 +269,6 @@
           ]
         }
       },
-      filteredFaq () {
-        return this.faqs.filter((faq) => {
-          if (this.faqFilter === 1) return faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase())
-          else if (this.faqFilter === 2) return faq.categoryId === 2 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
-          else if (this.faqFilter === 3) return faq.categoryId === 3 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
-          else if (this.faqFilter === 4) return faq.categoryId === 4 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
-          else if (this.faqFilter === 5) return faq.categoryId === 5 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
-        })
-      },
-      activeUserInfo () {
-      if (this.$store.state.tempUserObj.token !== undefined) {
-        var obj = {
-          id: this.$store.state.tempUserObj.id,
-          firstname: this.$store.state.tempUserObj.firstname,
-          lastname: this.$store.state.tempUserObj.lastname,
-          about: this.$store.state.tempUserObj.about,
-          photoURL: this.$store.state.tempUserObj.photoURL === undefined ? require('@/assets/images/user/user.png') : this.$store.state.AppActiveUser.photoURL,
-          usertype: this.$store.state.tempUserObj.usertype,
-          email: this.$store.state.tempUserObj.email
-        }
-        console.log(obj)
-        return obj
-      }
-      else {
-        var obj = {
-          id: this.$store.state.AppActiveUser.id,
-          firstname: this.$store.state.AppActiveUser.firstname,
-          lastname: this.$store.state.AppActiveUser.lastname,
-          about: this.$store.state.AppActiveUser.about,
-          photoURL: this.$store.state.AppActiveUser.photoURL === "undefined" ? require('@/assets/images/user/user.png') : this.$store.state.AppActiveUser.photoURL,
-          usertype: this.$store.state.AppActiveUser.usertype,
-          email: this.$store.state.AppActiveUser.email
-        }
-        console.log(obj)
-        return obj
-      }
-    }
-    },
-    methods: {
       goToAddFaqPage (){
         this.$router.push('/pages/addfaq')
       },
@@ -316,6 +317,7 @@
       }
     },
     created() {
+      this.catogorylang();
       return new Promise((resolve, reject) => {
         axios.get('/faq/getFaqs').then(resp => {
         this.faqs=resp.data;
