@@ -228,7 +228,7 @@
           }
           ]
         }
-      }
+      },
       filteredFaq () {
         return this.faqs.filter((faq) => {
           if (this.faqFilter === 1) return faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase())
