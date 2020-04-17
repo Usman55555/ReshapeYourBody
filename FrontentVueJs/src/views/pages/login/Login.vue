@@ -121,6 +121,19 @@ export default {
     this.getCode()
   },
   methods: {
+    rellood(){
+      if( window.localStorage )
+      {
+        if( !localStorage.getItem( 'firstLoad' ) )
+        {
+          localStorage[ 'firstLoad' ] = true;
+          window.location.reload();
+        }  
+
+        else
+          localStorage.removeItem( 'firstLoad' );
+      }
+    },
     watchForStorage() {
       return new Promise((resolve, reject) => {
         var timer = setInterval(function() {
@@ -140,6 +153,8 @@ export default {
       window.open("http://localhost:3000/api/user/auth/facebook", "_blank");
       this.watchForStorage()
       .then(() => {
+        // this.rellood()
+        window.location.reload();
         this.$router.push({name:'pages-home'})
       })
     },
@@ -147,6 +162,8 @@ export default {
       window.open("http://localhost:3000/api/user/auth/google", "_blank"); 
       this.watchForStorage()
       .then(() => {
+        // this.rellood()
+        window.location.reload();
         this.$router.push({name:'pages-home'})
       })
     },
@@ -171,6 +188,8 @@ export default {
           position: 'top-center',
           icon:'icon-check'
         })
+        // this.rellood()
+        window.location.reload();
         this.$router.push('/')
       })
       .catch(e => {

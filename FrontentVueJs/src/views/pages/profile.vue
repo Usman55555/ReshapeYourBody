@@ -1,16 +1,148 @@
 <template>
     <div id="page-user-view">
 
-    <vs-alert color="danger" title="User Not Found" :active.sync="user_not_found">
+    <vs-alert 
+      v-if="this.lang == 'de'" 
+      color="danger" title="Benutzer nicht gefunden" :active.sync="user_not_found">
+      <span>Benutzerdatensatz mit ID: {{ $route.params.userId }} nicht gefunden. </span>
+    </vs-alert>
+    <vs-alert 
+      v-if="this.lang == 'sp'" 
+      color="danger" title="Usuario no encontrado" :active.sync="user_not_found">
+      <span>Registro de usuario con id: {{ $route.params.userId }} extraviado. </span>
+    </vs-alert>
+    <vs-alert 
+      v-if="this.lang != 'de' && this.lang != 'sp'" 
+      color="danger" title="User Not Found" :active.sync="user_not_found">
       <span>User record with id: {{ $route.params.userId }} not found. </span>
-      <span>
-        <span>Check </span><router-link :to="{name:'page-user-list'}" class="text-inherit underline">All Users</router-link>
-      </span>
     </vs-alert>
 
     <div id="user-data" v-if="user_data">
 
-      <vx-card title="Account" class="mb-base">
+      <vx-card 
+        v-if="this.lang == 'de'" 
+        title="Konto" class="mb-base">
+
+        <!-- Avatar -->
+        <div class="vx-row">
+
+          <!-- Avatar Col -->
+          <div class="vx-col" id="avatar-col">
+            <div class="img-container mb-4">
+              <img :src="user_data.avatar" class="rounded w-full" />
+            </div>
+          </div>
+
+          <!-- Information - Col 1 -->
+          <div class="vx-col flex-1" id="account-info-col-1">
+            <div class="vx-row">
+              <div class="vx-col flex-1" id="account-info-col-1">
+                <table>
+                  <tr>
+                    <td class="font-semibold">Name</td>
+                    <td>{{ user_data.name }}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Rolle</td>
+                    <td>{{ user_data.role }}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="vx-col flex-1" id="account-info-col-1">
+                <vs-button 
+                  icon-pack="feather" 
+                  icon="icon-edit" 
+                  class="mr-4 editBtn" 
+                  :to="{name: 'page-user-settings'}"
+                  >Bearbeiten</vs-button>
+              </div>
+            </div>
+            <div class="vx-row">
+              <div class="vx-col flex-1" id="account-info-col-1">
+                <table>
+                  <tr>
+                    <td class="font-semibold">Email</td>
+                    <td>{{ user_data.email }}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Handy, Mobiltelefon</td>
+                    <td>{{ user_data.mobile }}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Geburtstag</td>
+                    <td>{{ user_data.dob }}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </vx-card>
+      <vx-card 
+        v-if="this.lang == 'sp'" 
+        title="Cuenta" class="mb-base">
+
+        <!-- Avatar -->
+        <div class="vx-row">
+
+          <!-- Avatar Col -->
+          <div class="vx-col" id="avatar-col">
+            <div class="img-container mb-4">
+              <img :src="user_data.avatar" class="rounded w-full" />
+            </div>
+          </div>
+
+          <!-- Information - Col 1 -->
+          <div class="vx-col flex-1" id="account-info-col-1">
+            <div class="vx-row">
+              <div class="vx-col flex-1" id="account-info-col-1">
+                <table>
+                  <tr>
+                    <td class="font-semibold">Nombre</td>
+                    <td>{{ user_data.name }}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Papel</td>
+                    <td>{{ user_data.role }}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="vx-col flex-1" id="account-info-col-1">
+                <vs-button 
+                  icon-pack="feather" 
+                  icon="icon-edit" 
+                  class="mr-4 editBtn" 
+                  :to="{name: 'page-user-settings'}"
+                  >Editar</vs-button>
+              </div>
+            </div>
+            <div class="vx-row">
+              <div class="vx-col flex-1" id="account-info-col-1">
+                <table>
+                  <tr>
+                    <td class="font-semibold">Email</td>
+                    <td>{{ user_data.email }}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Móvil</td>
+                    <td>{{ user_data.mobile }}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-semibold">Fecha de nacimiento</td>
+                    <td>{{ user_data.dob }}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </vx-card>
+
+      <vx-card 
+        v-if="this.lang != 'de' && this.lang != 'sp'" 
+        title="Account" class="mb-base">
 
         <!-- Avatar -->
         <div class="vx-row">
@@ -64,7 +196,7 @@
                 </table>
               </div>
             </div>
-          </div>
+          </div>'
           <!-- /Information - Col 1 -->
 
           <!-- /Information - Col 2 -->
@@ -72,10 +204,11 @@
             <vs-button icon-pack="feather" icon="icon-edit" class="mr-4" :to="{name: 'app-user-edit', params: { userId: $route.params.userId }}">Edit</vs-button>
             <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="confirmDeleteRecord">Delete</vs-button>
           </div> -->
-
+'
         </div>
 
       </vx-card>
+
 
       <!-- <vx-card title="Account" class="mb-base">
 
@@ -152,7 +285,61 @@
 
       <div class="vx-row">
         <div class="vx-col lg:w-1/2 w-full">
-          <vx-card title="Information" class="mb-base">
+          <vx-card 
+            v-if="this.lang == 'de'" 
+            title="Information" class="mb-base">
+            <table>
+              <tr>
+                <td class="font-semibold">Adresse 1</td>
+                <td>{{ user_data.address1 }}</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Adresse 2</td>
+                <td>{{ user_data.address2 }}</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Stadt</td>
+                <td>{{ user_data.city }}</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Land</td>
+                <td>{{ user_data.country }}</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Post</td>
+                <td>{{ user_data.postal }}</td>
+              </tr>
+            </table>
+          </vx-card>
+          <vx-card 
+            v-if="this.lang == 'sp'" 
+            title="Información" class="mb-base">
+            <table>
+              <tr>
+                <td class="font-semibold">Habla a 1</td>
+                <td>{{ user_data.address1 }}</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Habla a 2</td>
+                <td>{{ user_data.address2 }}</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Ciudad</td>
+                <td>{{ user_data.city }}</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">País</td>
+                <td>{{ user_data.country }}</td>
+              </tr>
+              <tr>
+                <td class="font-semibold">Postal</td>
+                <td>{{ user_data.postal }}</td>
+              </tr>
+            </table>
+          </vx-card>
+          <vx-card 
+            v-if="this.lang != 'de' && this.lang != 'sp'" 
+            title="Information" class="mb-base">
             <table>
               <tr>
                 <td class="font-semibold">Address 1</td>
@@ -178,7 +365,31 @@
           </vx-card>
         </div>
         <div class="vx-col lg:w-1/2 w-full">
-          <vx-card title="Languages" class="mb-base">
+          <vx-card 
+            v-if="this.lang == 'de'" 
+            title="Sprachen" class="mb-base">
+            <vs-list>
+              <vs-list-item 
+              v-for="(item, index) in user_data.languages_known" 
+              :key="index"
+               icon="check"> {{item}}
+              </vs-list-item>
+            </vs-list>
+          </vx-card>
+          <vx-card 
+            v-if="this.lang == 'sp'" 
+            title="Idiomas" class="mb-base">
+            <vs-list>
+              <vs-list-item 
+              v-for="(item, index) in user_data.languages_known" 
+              :key="index"
+               icon="check"> {{item}}
+              </vs-list-item>
+            </vs-list>
+          </vx-card>
+          <vx-card 
+            v-if="this.lang != 'de' && this.lang != 'sp'" 
+            title="Languages" class="mb-base">
             <vs-list>
               <vs-list-item 
               v-for="(item, index) in user_data.languages_known" 
@@ -227,6 +438,10 @@ export default {
     }
   },
   computed: {
+    lang() {
+      this.graphComponent += 1
+      return this.$i18n.locale
+    },
     userAddress () {
       let str = ''
       for (const field in this.user_data.location) {

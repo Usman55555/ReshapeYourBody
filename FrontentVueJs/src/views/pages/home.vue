@@ -663,7 +663,7 @@ export default {
     // setTimeout(() => {
       // this.$store.dispatch('vNavReload')
     // }, 2000)
-    this.rellood()
+    // this.rellood()
     setTimeout(() => {
       this.activeUser = this.$store.state.AppActiveUser
       console.log(this.activeUser.usertype)

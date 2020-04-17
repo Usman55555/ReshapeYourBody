@@ -2,6 +2,25 @@
   <vx-card no-shadow>
 
     <vs-input
+      v-if="this.lang == 'de'" 
+      data-vv-validate-on="blur"
+      name="address1"
+      type="address1"
+      label-placeholder="Adresse 1"
+      placeholder="Adresse 1"
+      v-model="address1"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang == 'sp'" 
+      data-vv-validate-on="blur"
+      name="address1"
+      type="address1"
+      label-placeholder="Habla a 1"
+      placeholder="Habla a 1"
+      v-model="address1"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang != 'de' && this.lang != 'sp'" 
       data-vv-validate-on="blur"
       name="address1"
       type="address1"
@@ -11,6 +30,25 @@
       class="w-full mt-6" />
 
     <vs-input
+      v-if="this.lang == 'de'" 
+      data-vv-validate-on="blur"
+      name="address2"
+      type="address2"
+      label-placeholder="Adresse 2"
+      placeholder="Adresse 2"
+      v-model="address2"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang == 'sp'" 
+      data-vv-validate-on="blur"
+      name="address2"
+      type="address2"
+      label-placeholder="Habla a 2"
+      placeholder="Habla a 2"
+      v-model="address2"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang != 'de' && this.lang != 'sp'" 
       data-vv-validate-on="blur"
       name="address2"
       type="address2"
@@ -20,6 +58,25 @@
       class="w-full mt-6" />
 
     <vs-input
+      v-if="this.lang == 'de'" 
+      data-vv-validate-on="blur"
+      name="postal"
+      type="postal"
+      label-placeholder="Post"
+      placeholder="Post"
+      v-model="postal"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang == 'sp'" 
+      data-vv-validate-on="blur"
+      name="postal"
+      type="postal"
+      label-placeholder="Postal"
+      placeholder="Postal"
+      v-model="postal"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang != 'de' && this.lang != 'sp'" 
       data-vv-validate-on="blur"
       name="postal"
       type="postal"
@@ -28,16 +85,31 @@
       v-model="postal"
       class="w-full mt-6" />
 
-
     <!-- Country -->
     <div class="mt-8">
-      <label class="text-sm">Country</label>
+      <label 
+        v-if="this.lang == 'de'" 
+        class="text-sm">Land</label>
+      <label 
+        v-if="this.lang == 'sp'" 
+        class="text-sm">País</label>
+      <label 
+        v-if="this.lang != 'de' && this.lang != 'sp'" 
+        class="text-sm">Country</label>
       <v-select v-model="country1" :options="countryOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
     </div>
 
     <!-- City -->
     <div class="mt-8">
-      <label class="text-sm">City</label>
+      <label 
+        v-if="this.lang == 'de'"
+        class="text-sm">Stadt</label>
+      <label 
+        v-if="this.lang == 'sp'"
+        class="text-sm">Ciudad</label>
+      <label 
+        v-if="this.lang != 'de' && this.lang != 'sp'"
+        class="text-sm">City</label>
       <v-select v-model="city" :options="cityOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
     </div>
 
@@ -48,6 +120,17 @@
     <!-- Save & Reset Button -->
     <div class="flex flex-wrap items-center justify-end">
       <vs-button 
+        v-if="this.lang == 'de'"
+        @click="update" 
+        :disabled="!isDisabled"
+        class="ml-auto mt-2">Änderungen speichern</vs-button>
+      <vs-button 
+        v-if="this.lang == 'sp'"
+        @click="update" 
+        :disabled="!isDisabled"
+        class="ml-auto mt-2">Guardar cambios</vs-button>
+      <vs-button 
+        v-if="this.lang != 'de' && this.lang != 'sp'"
         @click="update" 
         :disabled="!isDisabled"
         class="ml-auto mt-2">Save Changes</vs-button>
@@ -94,6 +177,10 @@ export default {
   //   countryOptions = jsonData
   // },
   computed: {
+    lang() {
+      this.graphComponent += 1
+      return this.$i18n.locale
+    },
     isDisabled () {
       return this.country !== '' ||  this.address1 !== '' ||  this.address2 !== '' ||  this.city !== '' ||  this.postal !== ''
     },

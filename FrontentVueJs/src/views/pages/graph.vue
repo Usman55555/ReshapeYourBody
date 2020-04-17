@@ -17,18 +17,6 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
     },
     computed: {    
         lang() {
-            this.graphComponent += 1
-            console.log(this.columnChart.chartOptions.yaxis.title)
-            // if (this.$i18n.locale == 'de'){
-            //     this.columnChart.yaxis.title.text = 'Anzahl der Personen'
-            // }
-            // else if (this.$i18n.locale == 'sp'){
-            //     this.columnChart.yaxis.title.text = 'Número de personas'
-
-            // }
-            // else{
-            //     this.columnChart.yaxis.title.text = 'Number of people'
-            // }
             return this.$i18n.locale
         }
     },
@@ -45,7 +33,16 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
         //     this.mCustomers = +res.data.customerArray[res.data.customerArray.length - 1]
         // if (res.data.partnerArray.length > 1)
         //     this.mPartners = +res.data.partnerArray[res.data.partnerArray.length - 1]
-        
+        if (this.$i18n.locale == 'de'){
+            this.columnChart.chartOptions.yaxis.title.text = 'Anzahl der Personen'
+        }
+        else if (this.$i18n.locale == 'sp'){
+            this.columnChart.chartOptions.yaxis.title.text = 'Número de personas'
+        }
+        else{
+            this.columnChart.chartOptions.yaxis.title.text = 'Number of people'
+        }
+
         if (this.lang == 'de'){
           this.columnChart.series.push(
               {
