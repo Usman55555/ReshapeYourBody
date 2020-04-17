@@ -90,6 +90,9 @@ export default {
     Maintenance: 'Maintenance',
     Profile: 'Profile',
     User: 'User',
+    Register: 'Register',
+    List: 'List',
+    Requests: 'Requests',
     View: 'View',
     Edit: 'Edit',
     UserSettings: 'User Settings',
@@ -134,7 +137,24 @@ export default {
     demoTitle: 'Card Title',
     demoText: 'Cake sesame snaps cupcake gingerbread danish I love gingerbread. Apple pie pie jujubes chupa chups muffin halvah lollipop. Chocolate cake oat cake tiramisu marzipan sugar plum. Donut sweet pie oat cake dragée fruitcake cotton candy lemon drops.'
   },
+  sp: {
+    Settings: 'Configuraciones',
+    Downlods: 'Descargar',
+    Menu: 'Menú',
+    Home: 'Hogar',
+    Keys: 'Llaves',
+    Dashboard: 'Tablero',
+    Requests: 'Peticiones',
+    User: 'Usuario/Usuaria',
+    Register: 'Registrarse',
+    List: 'Lista',
+    UserSettings: 'Ajustes de usuario',
+    FAQ: 'FAQ',
+  },
   de: {
+    Register: 'Registrieren',
+    List: 'Aufführen',
+    Requests: 'Anfragen',
     Settings: 'die Einstellungen',
     Downlods: 'Herunterladen',
     Menu: 'Speisekarte',
@@ -269,7 +289,10 @@ export default {
     demoText: 'Kuchen Sesam Schnaps Cupcake Lebkuchen Dänisch Ich liebe Lebkuchen. Apfelkuchen-Torte-Jujuben chupa chups muffin halvah Lutscher. Schokoladenkuchenhaferkuchen Tiramisu-Marzipanzuckerpflaume. Donut süße Kuchen Hafer Kuchen Dragée Obstkuchen Zuckerwatte Zitrone Tropfen.'
   },
   fr: {
-    Settings: 'Paramètres',
+    Register: "S'inscrire",
+    List: 'liste',
+    Requests: 'Demandes',
+    Settings: 'Réglages',
     Downlods: 'Télécharger',
     Menu: 'Menu',
     Home: 'Accueil',
@@ -403,6 +426,9 @@ export default {
     demoText: 'Le gâteau au sésame s\'enclenche au petit pain au pain d\'épices danois J\'adore le pain d\'épices. Tarte aux pommes et jujubes chupa chups muffin halvah sucette. Tiramisu gâteau au chocolat gâteau d\'avoine tiramisu prune sucre. Donut tarte sucrée gâteau à l\'avoine dragée gouttes de fruits gâteau au citron en barbe à papa.'
   },
   pt: {
+    Register: 'Registro',
+    List: 'Lista',
+    Requests: 'solicitações de',
     Settings: 'Definições',
     Downlods: 'Baixar',
     Menu: 'Cardápio',
