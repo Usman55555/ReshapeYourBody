@@ -213,13 +213,13 @@ router.post("/register", upload.single("photo"), async (req, res) => {
     // if (body.languages.length > 0){
 
     // }
-    console.log(req.file);
+    // console.log(req.file);
     if (req.file != null) {
       body.photo = req.file.path.slice(8);
     }
 
     const doc1 = await User.findByEmail(body.email);
-    console.log(doc1);
+    // console.log(doc1);
     if (doc1 != null && doc1.verification != "") {
       // this means that he forgot that he already registered some time ago but didn't confirmed email
       // resend him the confirmation email again...
@@ -236,56 +236,158 @@ router.post("/register", upload.single("photo"), async (req, res) => {
         body,
         { new: true }
       );
-      console.log(doc2);
+      console.log('languages---------- ',doc2.languages[0]);
 
-      var mailBody = `
-            <div style="
-                background-color:#fafafa;
-                padding-left: 20px;"><br />
-                <h1>Hi, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
-                <h3>You are one step away from joining our community.</h3>
-                <h5>Please confirm your email by clicking the button below</h5>
-                <a 
-                    href="${address}user/${randomstring}/email/${doc1.email}"
-                    style="color: white;
-                    text-decoration: none;">
-                    <button style="
-                    background-color:#4CAF50;
-                    border: none;
-                    color: white;
-                    padding: 16px 32px;
-                    text-align: center;
-                    text-decoration: none;
-                    display: inline-block;
-                    font-size: 16px;
-                    margin: 4px 2px;
-                    transition-duration: 0.4s;
-                    cursor: pointer;
-                    border-radius: 10px;"
-                >Welcome...
-                </button></a><br />
-                <h5>Or request a new email by clicking the button below.</h5>
-                <a 
-                    href="${address}user/email/${doc1.email}"
-                    style="color: white;
-                    text-decoration: none;">
-                    <button style="
-                    padding: 16px 32px;
-                    text-align: center;
-                    text-decoration: none;
-                    display: inline-block;
-                    font-size: 16px;
-                    margin: 4px 2px;
-                    transition-duration: 0.4s;
-                    cursor: pointer;
-                    background-color: white;
-                    color: black;
-                    border: 2px solid #e7e7e7;
-                    border-radius: 10px;"
-                >Request a new code
-                </button></a><br /><br />
-            </div>
-            `;
+      if (doc1.languages[0] == "German"){
+        var mailBody = `
+        <div style="
+            background-color:#fafafa;
+            padding-left: 20px;"><br />
+            <h1>Hallo, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+            <h3>Sie sind einen Schritt davon entfernt, unserer Community beizutreten.</h3>
+            <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+            <a 
+                href="${address}user/${randomstring}/email/${doc1.email}"
+                style="color: white;
+                text-decoration: none;">
+                <button style="
+                background-color:#4CAF50;
+                border: none;
+                color: white;
+                padding: 16px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+                border-radius: 10px;"
+            >Herzlich willkommen...
+            </button></a><br />
+            <h5>Oder fordern Sie eine neue E-Mail an, indem Sie auf die Schaltfläche unten klicken.</h5>
+            <a 
+                href="${address}user/email/${doc1.email}"
+                style="color: white;
+                text-decoration: none;">
+                <button style="
+                padding: 16px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+                background-color: white;
+                color: black;
+                border: 2px solid #e7e7e7;
+                border-radius: 10px;"
+            >Fordern Sie einen neuen Code
+            </button></a><br /><br />
+        </div>
+        `;
+      }
+      else if (doc1.languages[0] == "Spanish"){
+        var mailBody = `
+        <div style="
+            background-color:#fafafa;
+            padding-left: 20px;"><br />
+            <h1>Hola, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+            <h3>Estás a un paso de unirte a nuestra comunidad.</h3>
+            <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+            <a 
+                href="${address}user/${randomstring}/email/${doc1.email}"
+                style="color: white;
+                text-decoration: none;">
+                <button style="
+                background-color:#4CAF50;
+                border: none;
+                color: white;
+                padding: 16px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+                border-radius: 10px;"
+            >Bienvenidos...
+            </button></a><br />
+            <h5>O solicite un nuevo correo electrónico haciendo clic en el botón a continuación.</h5>
+            <a 
+                href="${address}user/email/${doc1.email}"
+                style="color: white;
+                text-decoration: none;">
+                <button style="
+                padding: 16px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+                background-color: white;
+                color: black;
+                border: 2px solid #e7e7e7;
+                border-radius: 10px;"
+            >Solicitar un nuevo código
+            </button></a><br /><br />
+        </div>
+        `;
+      }
+      else{
+        var mailBody = `
+        <div style="
+            background-color:#fafafa;
+            padding-left: 20px;"><br />
+            <h1>Hi, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+            <h3>You are one step away from joining our community.</h3>
+            <h5>Please confirm your email by clicking the button below</h5>
+            <a 
+                href="${address}user/${randomstring}/email/${doc1.email}"
+                style="color: white;
+                text-decoration: none;">
+                <button style="
+                background-color:#4CAF50;
+                border: none;
+                color: white;
+                padding: 16px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+                border-radius: 10px;"
+            >Welcome...
+            </button></a><br />
+            <h5>Or request a new email by clicking the button below.</h5>
+            <a 
+                href="${address}user/email/${doc1.email}"
+                style="color: white;
+                text-decoration: none;">
+                <button style="
+                padding: 16px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+                background-color: white;
+                color: black;
+                border: 2px solid #e7e7e7;
+                border-radius: 10px;"
+            >Request a new code
+            </button></a><br /><br />
+        </div>
+        `;
+      }
 
       const mailOptions = {
         from: `"${project}" <${email}>`, // sender address
@@ -312,56 +414,159 @@ router.post("/register", upload.single("photo"), async (req, res) => {
       var randomstring = cryptoRandomString({ length: 1000, type: "url-safe" });
       body.verification = randomstring;
       var user = new User(body);
-      console.log(user);
-
-      var mailBody = `
-            <div style="
-                background-color:#fafafa;
-                padding-left: 20px;"><br />
-                <h1>Hi, ${user.firstname}&nbsp;${user.lastname}</h1>
-                <h3>You are one step away from joining our community.</h3>
-                <h5>Please confirm your email by clicking the button below</h5>
-                <a 
-                    href="${address}user/${randomstring}/email/${user.email}"
-                    style="color: white;
-                    text-decoration: none;">
-                    <button style="
-                    background-color:#4CAF50;
-                    border: none;
-                    color: white;
-                    padding: 16px 32px;
-                    text-align: center;
-                    text-decoration: none;
-                    display: inline-block;
-                    font-size: 16px;
-                    margin: 4px 2px;
-                    transition-duration: 0.4s;
-                    cursor: pointer;
-                    border-radius: 10px;"
-                >Welcome...
-                </button></a><br />
-                <h5>Or request a new email by clicking the button below.</h5>
-                <a 
-                    href="${address}user/email/${user.email}"
-                    style="color: white;
-                    text-decoration: none;">
-                    <button style="
-                    padding: 16px 32px;
-                    text-align: center;
-                    text-decoration: none;
-                    display: inline-block;
-                    font-size: 16px;
-                    margin: 4px 2px;
-                    transition-duration: 0.4s;
-                    cursor: pointer;
-                    background-color: white;
-                    color: black;
-                    border: 2px solid #e7e7e7;
-                    border-radius: 10px;"
-                >Request a new code
-                </button></a><br /><br />
-            </div>
-            `;
+      // console.log(user);
+      console.log('languages---------- ',user.languages[0]);
+      var mailBody = ''
+      if (user.languages[0] == "German"){
+        mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hallo, ${user.firstname}&nbsp;${user.lastname}</h1>
+                  <h3>Sie sind einen Schritt davon entfernt, unserer Community beizutreten.</h3>
+                  <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+                  <a 
+                      href="${address}user/${randomstring}/email/${user.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      background-color:#4CAF50;
+                      border: none;
+                      color: white;
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      border-radius: 10px;"
+                  >Herzlich willkommen...
+                  </button></a><br />
+                  <h5>Oder fordern Sie eine neue E-Mail an, indem Sie auf die Schaltfläche unten klicken.</h5>
+                  <a 
+                      href="${address}user/email/${user.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      background-color: white;
+                      color: black;
+                      border: 2px solid #e7e7e7;
+                      border-radius: 10px;"
+                  >Fordern Sie einen neuen Code
+                  </button></a><br /><br />
+              </div>
+              `;  
+      }
+      else if (user.languages[0] == "Spanish"){
+        mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hola, ${user.firstname}&nbsp;${user.lastname}</h1>
+                  <h3>Estás a un paso de unirte a nuestra comunidad.</h3>
+                  <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+                  <a 
+                      href="${address}user/${randomstring}/email/${user.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      background-color:#4CAF50;
+                      border: none;
+                      color: white;
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      border-radius: 10px;"
+                  >Bienvenidos...
+                  </button></a><br />
+                  <h5>O solicite un nuevo correo electrónico haciendo clic en el botón a continuación.</h5>
+                  <a 
+                      href="${address}user/email/${user.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      background-color: white;
+                      color: black;
+                      border: 2px solid #e7e7e7;
+                      border-radius: 10px;"
+                  >Solicitar un nuevo código
+                  </button></a><br /><br />
+              </div>
+              `;  
+      }
+      else{
+        mailBody = `
+        <div style="
+            background-color:#fafafa;
+            padding-left: 20px;"><br />
+            <h1>Hi, ${user.firstname}&nbsp;${user.lastname}</h1>
+            <h3>You are one step away from joining our community.</h3>
+            <h5>Please confirm your email by clicking the button below</h5>
+            <a 
+                href="${address}user/${randomstring}/email/${user.email}"
+                style="color: white;
+                text-decoration: none;">
+                <button style="
+                background-color:#4CAF50;
+                border: none;
+                color: white;
+                padding: 16px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+                border-radius: 10px;"
+            >Welcome...
+            </button></a><br />
+            <h5>Or request a new email by clicking the button below.</h5>
+            <a 
+                href="${address}user/email/${user.email}"
+                style="color: white;
+                text-decoration: none;">
+                <button style="
+                padding: 16px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+                background-color: white;
+                color: black;
+                border: 2px solid #e7e7e7;
+                border-radius: 10px;"
+            >Request a new code
+            </button></a><br /><br />
+        </div>
+        `;
+      }
 
       var doc2 = await user.save();
       console.log(doc2);
@@ -556,17 +761,45 @@ router.post("/forget", async (req, res) => {
     console.log(doc);
 
     if (doc != null) {
-      var mailBody = `
-            <div style="
-                background-color:#fafafa;
-                padding-left: 20px;"><br />
-                <h1>Hi, ${doc.firstname}&nbsp;${doc.lastname}</h1>
-                <h3>Please, don't share this code with anyone.</h3>
-                <h5>Below is the code you'll need for the password reset.</h5>
-                <h3>${code}</h3>
-                <h5>This code will expire in 10 minutes.</h5><br />
-            </div>
-            `;
+      if (doc.languages[0] == "German"){
+        var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hallo, ${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>Bitte teilen Sie diesen Code niemandem mit.</h3>
+                  <h5>Unten finden Sie den Code, den Sie zum Zurücksetzen des Passworts benötigen.</h5>
+                  <h3>${code}</h3>
+                  <h5>Dieser Code läuft in 10 Minuten ab.</h5><br />
+              </div>
+              `;
+      }
+      else if (doc.languages[0] == "Spanish"){
+        var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hola, ${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>Por favor, no comparta este código con nadie.</h3>
+                  <h5>A continuación se muestra el código que necesitará para restablecer la contraseña.</h5>
+                  <h3>${code}</h3>
+                  <h5>Este código caducará en 10 minutos.</h5><br />
+              </div>
+              `;
+      }
+      else{
+        var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hi, ${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>Please, don't share this code with anyone.</h3>
+                  <h5>Below is the code you'll need for the password reset.</h5>
+                  <h3>${code}</h3>
+                  <h5>This code will expire in 10 minutes.</h5><br />
+              </div>
+              `;
+      }
 
       const mailOptions = {
         from: `"${project}" <${email}>`, // sender address
@@ -667,34 +900,96 @@ router.post(
             );
             // console.log(doc2);
 
-            var mailBody = `
-                <div style="
-                    background-color:#fafafa;
-                    padding-left: 20px;"><br />
-                    <h1>Hi, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
-                    <h3>Your new password is: ${password}</h3>
-                    <h5>Please confirm your email by clicking the button below</h5>
-                    <a 
-                        href="${address}user/${randomstring}/email/${doc1.email}"
-                        style="color: white;
-                        text-decoration: none;">
-                        <button style="
-                        background-color:#4CAF50;
-                        border: none;
-                        color: white;
-                        padding: 16px 32px;
-                        text-align: center;
-                        text-decoration: none;
-                        display: inline-block;
-                        font-size: 16px;
-                        margin: 4px 2px;
-                        transition-duration: 0.4s;
-                        cursor: pointer;
-                        border-radius: 10px;"
-                    >Welcome...
-                    </button></a><br />
-                </div>
-                `;
+            if (doc1.languages[0] == "German"){
+              var mailBody = `
+                  <div style="
+                      background-color:#fafafa;
+                      padding-left: 20px;"><br />
+                      <h1>Hallo, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+                      <h3>Dein neues Passwort ist: ${password}</h3>
+                      <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+                      <a 
+                          href="${address}user/${randomstring}/email/${doc1.email}"
+                          style="color: white;
+                          text-decoration: none;">
+                          <button style="
+                          background-color:#4CAF50;
+                          border: none;
+                          color: white;
+                          padding: 16px 32px;
+                          text-align: center;
+                          text-decoration: none;
+                          display: inline-block;
+                          font-size: 16px;
+                          margin: 4px 2px;
+                          transition-duration: 0.4s;
+                          cursor: pointer;
+                          border-radius: 10px;"
+                      >Herzlich willkommen...
+                      </button></a><br />
+                  </div>
+                  `;  
+            }
+            else if (doc1.languages[0] == "Spanish"){
+              var mailBody = `
+                  <div style="
+                      background-color:#fafafa;
+                      padding-left: 20px;"><br />
+                      <h1>Hola, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+                      <h3>Tu nueva contraseña es: ${password}</h3>
+                      <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+                      <a 
+                          href="${address}user/${randomstring}/email/${doc1.email}"
+                          style="color: white;
+                          text-decoration: none;">
+                          <button style="
+                          background-color:#4CAF50;
+                          border: none;
+                          color: white;
+                          padding: 16px 32px;
+                          text-align: center;
+                          text-decoration: none;
+                          display: inline-block;
+                          font-size: 16px;
+                          margin: 4px 2px;
+                          transition-duration: 0.4s;
+                          cursor: pointer;
+                          border-radius: 10px;"
+                      >Bienvenidos...
+                      </button></a><br />
+                  </div>
+                  `;  
+            }
+            else {
+              var mailBody = `
+                  <div style="
+                      background-color:#fafafa;
+                      padding-left: 20px;"><br />
+                      <h1>Hi, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+                      <h3>Your new password is: ${password}</h3>
+                      <h5>Please confirm your email by clicking the button below</h5>
+                      <a 
+                          href="${address}user/${randomstring}/email/${doc1.email}"
+                          style="color: white;
+                          text-decoration: none;">
+                          <button style="
+                          background-color:#4CAF50;
+                          border: none;
+                          color: white;
+                          padding: 16px 32px;
+                          text-align: center;
+                          text-decoration: none;
+                          display: inline-block;
+                          font-size: 16px;
+                          margin: 4px 2px;
+                          transition-duration: 0.4s;
+                          cursor: pointer;
+                          border-radius: 10px;"
+                      >Welcome...
+                      </button></a><br />
+                  </div>
+                  `;  
+            }
 
             const mailOptions = {
               from: `"CodeCrafterz 👻" <${email}>`, // sender address
@@ -740,39 +1035,101 @@ router.post(
         body.password = password;
 
         var noway = new User(body);
-        console.log(noway);
+        // console.log(noway);
 
         var doc2 = await noway.save();
-        console.log(doc2);
+        // console.log(doc2);
 
-        var mailBody = `
-            <div style="
-                background-color:#fafafa;
-                padding-left: 20px;"><br />
-                <h1>Hi, ${body.firstname}&nbsp;${body.lastname}</h1>
-                <h3>Your new password is: ${password}</h3>
-                <h5>Please confirm your email by clicking the button below</h5>
-                <a 
-                    href="${address}user/${randomstring}/email/${body.email}"
-                    style="color: white;
-                    text-decoration: none;">
-                    <button style="
-                    background-color:#4CAF50;
-                    border: none;
-                    color: white;
-                    padding: 16px 32px;
-                    text-align: center;
-                    text-decoration: none;
-                    display: inline-block;
-                    font-size: 16px;
-                    margin: 4px 2px;
-                    transition-duration: 0.4s;
-                    cursor: pointer;
-                    border-radius: 10px;"
-                >Welcome...
-                </button></a><br />
-            </div>
-            `;
+        if (body.languages[0] == "German"){
+          var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hallo, ${body.firstname}&nbsp;${body.lastname}</h1>
+                  <h3>Dein neues Passwort ist: ${password}</h3>
+                  <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+                  <a 
+                      href="${address}user/${randomstring}/email/${body.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      background-color:#4CAF50;
+                      border: none;
+                      color: white;
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      border-radius: 10px;"
+                  >Herzlich willkommen...
+                  </button></a><br />
+              </div>
+              `;  
+        }
+        else if (body.languages[0] == "Spanish"){
+          var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hola, ${body.firstname}&nbsp;${body.lastname}</h1>
+                  <h3>Tu nueva contraseña es: ${password}</h3>
+                  <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+                  <a 
+                      href="${address}user/${randomstring}/email/${body.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      background-color:#4CAF50;
+                      border: none;
+                      color: white;
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      border-radius: 10px;"
+                  >Bienvenidos...
+                  </button></a><br />
+              </div>
+              `;  
+        }
+        else{
+          var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hi, ${body.firstname}&nbsp;${body.lastname}</h1>
+                  <h3>Your new password is: ${password}</h3>
+                  <h5>Please confirm your email by clicking the button below</h5>
+                  <a 
+                      href="${address}user/${randomstring}/email/${body.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      background-color:#4CAF50;
+                      border: none;
+                      color: white;
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      border-radius: 10px;"
+                  >Welcome...
+                  </button></a><br />
+              </div>
+              `;  
+        }
 
         const mailOptions = {
           from: `"${project}" <${email}>`, // sender address
@@ -1060,36 +1417,102 @@ router.patch("/editEmail", authenticate, async (req, res) => {
       `${address}user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}`
     );
     if (doc != null) {
-      var mailBody = `
-            <div style="
-                background-color:#fafafa;
-                padding-left: 20px;"><br />
-                <h1>Hi, ${req.person.firstname}&nbsp;${req.person.lastname}</h1>
-                <h3>You are one step away from updatting your email address.</h3>
-                <h5>Please confirm your email by clicking the button below</h5>
-                <a 
-                    href="${address}user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}"
-                    style="color: white;
-                    text-decoration: none;">
-                    <button style="
-                    background-color:#4CAF50;
-                    border: none;
-                    color: white;
-                    padding: 16px 32px;
-                    text-align: center;
-                    text-decoration: none;
-                    display: inline-block;
-                    font-size: 16px;
-                    margin: 4px 2px;
-                    transition-duration: 0.4s;
-                    cursor: pointer;
-                    border-radius: 10px;"
-                >Welcome...
-                </button></a><br />
-                <h3>This button is valid for next 10 minutes.</h3>
-                <h3>If you don't know about this, then you can ignore it.</h3><br />
-            </div>
-            `;
+      if (req.person.languages[0] == "German"){
+        var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hallo, ${req.person.firstname}&nbsp;${req.person.lastname}</h1>
+                  <h3>Sie sind nur einen Schritt von der Aktualisierung Ihrer E-Mail-Adresse entfernt.</h3>
+                  <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+                  <a 
+                      href="${address}user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      background-color:#4CAF50;
+                      border: none;
+                      color: white;
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      border-radius: 10px;"
+                  >Herzlich willkommen...
+                  </button></a><br />
+                  <h3>Diese Schaltfläche ist für die nächsten 10 Minuten gültig.</h3>
+                  <h3>Wenn Sie nichts davon wissen, können Sie es ignorieren.</h3><br />
+              </div>
+              `;  
+      }
+      else if (req.person.languages[0] == "Spanish"){
+        var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hola, ${req.person.firstname}&nbsp;${req.person.lastname}</h1>
+                  <h3>Estás a un paso de actualizar tu dirección de correo electrónico.</h3>
+                  <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+                  <a 
+                      href="${address}user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      background-color:#4CAF50;
+                      border: none;
+                      color: white;
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      border-radius: 10px;"
+                  >Bienvenidos...
+                  </button></a><br />
+                  <h3>Este botón es válido por los próximos 10 minutos.</h3>
+                  <h3>Si no sabe sobre esto, puede ignorarlo.</h3><br />
+              </div>
+              `;  
+      }
+      else{
+        var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hi, ${req.person.firstname}&nbsp;${req.person.lastname}</h1>
+                  <h3>You are one step away from updatting your email address.</h3>
+                  <h5>Please confirm your email by clicking the button below</h5>
+                  <a 
+                      href="${address}user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      background-color:#4CAF50;
+                      border: none;
+                      color: white;
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      border-radius: 10px;"
+                  >Welcome...
+                  </button></a><br />
+                  <h3>This button is valid for next 10 minutes.</h3>
+                  <h3>If you don't know about this, then you can ignore it.</h3><br />
+              </div>
+              `;  
+      }
 
       const mailOptions = {
         from: `"${project}" <${email}>`, // sender address
@@ -1416,57 +1839,159 @@ router.get("/email/:em", async (req, res) => {
         body,
         { new: true }
       );
-      console.log(doc1);
+      // console.log(doc1);
 
-      var mailBody = `
-            <div style="
-                background-color:#fafafa;
-                padding-left: 20px;"><br />
-                <h1>Hi, ${doc.firstname}&nbsp;${doc.lastname}</h1>
-                <h3>You are one step away from joining our community.</h3>
-                <h5>Please confirm your email by clicking the button below</h5>
-                <a 
-                    href="${address}user/${randomstring}/email/${doc.email}"
-                    style="color: white;
-                    text-decoration: none;">
-                    <button style="
-                    background-color:#4CAF50;
-                    border: none;
-                    color: white;
-                    padding: 16px 32px;
-                    text-align: center;
-                    text-decoration: none;
-                    display: inline-block;
-                    font-size: 16px;
-                    margin: 4px 2px;
-                    transition-duration: 0.4s;
-                    cursor: pointer;
-                    border-radius: 10px;"
-                >Welcome...
-                </button></a><br />
-                <h5>Or request a new email by clicking the button below.</h5>
-                <a 
-                    href="${address}user/email/${doc.email}"
-                    style="color: white;
-                    text-decoration: none;">
-                    <button style="
-                    padding: 16px 32px;
-                    text-align: center;
-                    text-decoration: none;
-                    display: inline-block;
-                    font-size: 16px;
-                    margin: 4px 2px;
-                    transition-duration: 0.4s;
-                    cursor: pointer;
-                    background-color: white;
-                    color: black;
-                    border: 2px solid #e7e7e7;
-                    border-radius: 10px;"
-                >Request a new code
-                </button></a><br /><br />
-            </div>
-            `;
-
+      if (doc.languages[0] == "German"){
+        var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hallo, ${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>Sie sind einen Schritt davon entfernt, unserer Community beizutreten.</h3>
+                  <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+                  <a 
+                      href="${address}user/${randomstring}/email/${doc.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      background-color:#4CAF50;
+                      border: none;
+                      color: white;
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      border-radius: 10px;"
+                  >Herzlich willkommen...
+                  </button></a><br />
+                  <h5>Oder fordern Sie eine neue E-Mail an, indem Sie auf die Schaltfläche unten klicken.</h5>
+                  <a 
+                      href="${address}user/email/${doc.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      background-color: white;
+                      color: black;
+                      border: 2px solid #e7e7e7;
+                      border-radius: 10px;"
+                  >Fordern Sie einen neuen Code
+                  </button></a><br /><br />
+              </div>
+              `;  
+      }
+      else if (doc.languages[0] == "Spanish"){
+        var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hola, ${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>Estás a un paso de unirte a nuestra comunidad.</h3>
+                  <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+                  <a 
+                      href="${address}user/${randomstring}/email/${doc.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      background-color:#4CAF50;
+                      border: none;
+                      color: white;
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      border-radius: 10px;"
+                  >Bienvenidos...
+                  </button></a><br />
+                  <h5>O solicite un nuevo correo electrónico haciendo clic en el botón a continuación.</h5>
+                  <a 
+                      href="${address}user/email/${doc.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      background-color: white;
+                      color: black;
+                      border: 2px solid #e7e7e7;
+                      border-radius: 10px;"
+                  >Solicitar un nuevo código
+                  </button></a><br /><br />
+              </div>
+              `;
+      }
+      else{
+        var mailBody = `
+              <div style="
+                  background-color:#fafafa;
+                  padding-left: 20px;"><br />
+                  <h1>Hi, ${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>You are one step away from joining our community.</h3>
+                  <h5>Please confirm your email by clicking the button below</h5>
+                  <a 
+                      href="${address}user/${randomstring}/email/${doc.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      background-color:#4CAF50;
+                      border: none;
+                      color: white;
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      border-radius: 10px;"
+                  >Welcome...
+                  </button></a><br />
+                  <h5>Or request a new email by clicking the button below.</h5>
+                  <a 
+                      href="${address}user/email/${doc.email}"
+                      style="color: white;
+                      text-decoration: none;">
+                      <button style="
+                      padding: 16px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      transition-duration: 0.4s;
+                      cursor: pointer;
+                      background-color: white;
+                      color: black;
+                      border: 2px solid #e7e7e7;
+                      border-radius: 10px;"
+                  >Request a new code
+                  </button></a><br /><br />
+              </div>
+              `;  
+      }
+      
       const mailOptions = {
         from: `"${project}" <${email}>`, // sender address
         to: doc.email, // list of receivers
