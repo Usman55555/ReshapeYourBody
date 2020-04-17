@@ -36,10 +36,10 @@
     <!-- dob -->
     <div class="mt-8">
       <label 
-        v-if="this.lang != 'de'" 
+        v-if="this.lang == 'de'" 
         class="text-sm">Geburtstag</label>
       <label 
-        v-if="this.lang != 'sp'" 
+        v-if="this.lang == 'sp'" 
         class="text-sm">Fecha de nacimiento Date</label>
       <label 
         v-if="this.lang != 'de' && this.lang != 'sp'" 
@@ -52,13 +52,13 @@
     <div class="mt-8">
       <label 
         v-if="this.lang == 'de'" 
-        class="text-sm">Sprachen</label>
+        class="text-sm">Sprachen (E-Mails werden an die erste gesendet)</label>
       <label 
         v-if="this.lang == 'sp'" 
-        class="text-sm">Idiomas</label>
+        class="text-sm">Idiomas (Los correos electrónicos serán enviados al primero)</label>
       <label 
         v-if="this.lang != 'de' && this.lang != 'sp'" 
-        class="text-sm">Languages</label>
+        class="text-sm">Languages (Emails will be sent to the first one)</label>
       <v-select v-model="langs" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
     </div>
 
