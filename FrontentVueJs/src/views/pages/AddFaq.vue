@@ -179,6 +179,12 @@
                 }
             }
         },
+        computed: {
+            lang() {
+            this.graphComponent += 1
+            return this.$i18n.locale
+            }
+        },
         methods: {
             submit(){
                 return new Promise((resolve, reject) => {
