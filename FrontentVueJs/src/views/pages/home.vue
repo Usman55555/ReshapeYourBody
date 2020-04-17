@@ -6,6 +6,23 @@
                     <div class="vx-row">
                         <div class="vx-col w-full">
                             <vx-card
+                                v-if="this.lang == 'de'"
+                                title="Die ganze Zusammenfassung"
+                                title-color="#fff"
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                                <p class="mb-3">Insgesamt Partner, Benutzer und Kunden, die sich derzeit in Ihrer Datenbank befinden.</p>
+                            </vx-card>
+                            <vx-card
+                                v-if="this.lang == 'sp'"
+                                title="Todo el resumen"
+                                title-color="#fff"
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                                <p class="mb-3">Total de Socios, Usuarios y Clientes actualmente en su base de datos.</p>
+                            </vx-card>
+                            <vx-card
+                                v-if="this.lang != 'de' && this.lang != 'sp'" 
                                 title="The whole summery"
                                 title-color="#fff"
                                 content-color="#fff"
@@ -15,7 +32,65 @@
                             <br />
                         </div>
                     </div>
-                    <div class="vx-row">
+                    <div 
+                        v-if="this.lang == 'de'" 
+                        class="vx-row">
+                        <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
+                            <statistics-card-line
+                            hideChart
+                            class="mb-base"
+                            icon="HeartIcon"
+                            :statistic="+userData.countPartners"
+                            statisticTitle="Partner"/>
+                        </div>
+                        <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
+                            <statistics-card-line
+                            hideChart
+                            class="mb-base"
+                            icon="SmileIcon"
+                            :statistic="+userData.countCustomers"
+                            statisticTitle="Kunden"/>
+                        </div>
+                        <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
+                            <statistics-card-line
+                            hideChart
+                            class="mb-base"
+                            icon="EyeIcon"
+                            :statistic="+userData.countUsers"
+                            statisticTitle="Benutzer" />
+                        </div>
+                    </div>
+                    <div 
+                        v-if="this.lang == 'sp'"
+                        class="vx-row">
+                        <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
+                            <statistics-card-line
+                            hideChart
+                            class="mb-base"
+                            icon="HeartIcon"
+                            :statistic="+userData.countPartners"
+                            statisticTitle="Socios/Socias"/>
+                        </div>
+                        <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
+                            <statistics-card-line
+                            hideChart
+                            class="mb-base"
+                            icon="SmileIcon"
+                            :statistic="+userData.countCustomers"
+                            statisticTitle="Clientes"/>
+                        </div>
+                        <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
+                            <statistics-card-line
+                            hideChart
+                            class="mb-base"
+                            icon="EyeIcon"
+                            :statistic="+userData.countUsers"
+                            statisticTitle="Los usuarios" />
+                        </div>
+                    </div>
+                    <div 
+                        v-if="this.lang != 'de' && this.lang != 'sp'" 
+                        class="vx-row">
                         <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
                             <statistics-card-line
                             hideChart
@@ -46,6 +121,25 @@
                     <div class="vx-row">
                         <div class="vx-col w-full">
                             <vx-card
+                                v-if="this.lang == 'de'" 
+                                title="Eine Monatsübersicht"
+                                title-color="#fff"
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                                <!-- <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p> -->
+                                <p class="mb-3">Partner, Benutzer und Kunden, die in den letzten 30 Tagen registriert wurden.</p>
+                            </vx-card>
+                            <vx-card
+                                v-if="this.lang == 'sp'" 
+                                title="Un resumen del mes"
+                                title-color="#fff"
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                                <!-- <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p> -->
+                                <p class="mb-3">Socios, usuarios y clientes registrados en los últimos 30 días.</p>
+                            </vx-card>
+                            <vx-card
+                                v-if="this.lang != 'de' && this.lang != 'sp'" 
                                 title="A month summery"
                                 title-color="#fff"
                                 content-color="#fff"
@@ -59,6 +153,21 @@
                     <div class="vx-row">
                         <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
                             <statistics-card-line
+                            v-if="this.lang == 'de'" 
+                            hideChart
+                            class="mb-base"
+                            icon="HeartIcon"
+                            :statistic="+mPartners"
+                            statisticTitle="Partner"/>
+                            <statistics-card-line
+                            v-if="this.lang == 'sp'" 
+                            hideChart
+                            class="mb-base"
+                            icon="HeartIcon"
+                            :statistic="+mPartners"
+                            statisticTitle="Socios/Socias"/>
+                            <statistics-card-line
+                            v-if="this.lang != 'de' && this.lang != 'sp'" 
                             hideChart
                             class="mb-base"
                             icon="HeartIcon"
@@ -67,6 +176,21 @@
                         </div>
                         <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
                             <statistics-card-line
+                            v-if="this.lang == 'de'" 
+                            hideChart
+                            class="mb-base"
+                            icon="SmileIcon"
+                            :statistic="+mCustomers"
+                            statisticTitle="Kunden"/>
+                            <statistics-card-line
+                            v-if="this.lang == 'sp'" 
+                            hideChart
+                            class="mb-base"
+                            icon="SmileIcon"
+                            :statistic="+mCustomers"
+                            statisticTitle="Clientes"/>
+                            <statistics-card-line
+                            v-if="this.lang != 'de' && this.lang != 'sp'" 
                             hideChart
                             class="mb-base"
                             icon="SmileIcon"
@@ -75,6 +199,21 @@
                         </div>
                         <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3">
                             <statistics-card-line
+                            v-if="this.lang == 'de'" 
+                            hideChart
+                            class="mb-base"
+                            icon="EyeIcon"
+                            :statistic="+mUsers"
+                            statisticTitle="Benutzer" />
+                            <statistics-card-line
+                            v-if="this.lang == 'sp'" 
+                            hideChart
+                            class="mb-base"
+                            icon="EyeIcon"
+                            :statistic="+mUsers"
+                            statisticTitle="Los usuarios" />
+                            <statistics-card-line
+                            v-if="this.lang != 'de' && this.lang != 'sp'" 
                             hideChart
                             class="mb-base"
                             icon="EyeIcon"
@@ -86,12 +225,13 @@
             </div>
             <div class="vx-row">
                 <div class="vx-col w-full md:w-full xl:w-full">
-                    <vue-apex-charts 
-                        type="bar" 
-                        height="350" 
-                        :options="columnChart.chartOptions" 
-                        :series="columnChart.series">
-                    </vue-apex-charts>
+                  <graph :key="graphComponent"></graph>
+                  <!-- <vue-apex-charts 
+                      type="bar" 
+                      height="350" 
+                      :options="columnChart.chartOptions" 
+                      :series="columnChart.series">
+                  </vue-apex-charts> -->
                 </div>
             </div>
         </div>
@@ -106,13 +246,40 @@
                                         <img src="@/assets/images/elements/decore-left.png" class="decore-left" alt="Decore Left" width="200" >
                                         <img src="@/assets/images/elements/decore-right.png" class="decore-right" alt="Decore Right" width="175">
                                 <!-- <feather-icon icon="AwardIcon" class="p-6 mb-8 bg-primary inline-flex rounded-full text-white shadow" svgClasses="h-8 w-8"></feather-icon> -->
-                                <h1 class="mb-6 text-white">Welcome, {{ this.$store.state.AppActiveUser.firstname }}</h1>
+                                <h1 
+                                  v-if="this.lang == 'de'" 
+                                  class="mb-6 text-white">Herzlich willkommen, {{ this.$store.state.AppActiveUser.firstname }}</h1>
+                                <h1 
+                                  v-if="this.lang == 'sp'" 
+                                  class="mb-6 text-white">Bienvenidos, {{ this.$store.state.AppActiveUser.firstname }}</h1>
+                                <h1 
+                                  v-if="this.lang != 'de' && this.lang != 'sp'" 
+                                  class="mb-6 text-white">Welcome, {{ this.$store.state.AppActiveUser.firstname }}</h1>
                             </vx-card>
                         </div>
                     </div>
                     <div class="vx-row">
                         <div class="vx-col w-full mb-base">
                             <vx-card
+                                v-if="this.lang == 'de'" 
+                                title="Hintergrundfarbe mit Farbverlauf"
+                                title-color="#fff"
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                                <p class="mb-3">Sie können verwenden <strong>Kartenhintergrund</strong> Requisite zum Ändern der Hintergrundfarbe der Karte. Diese Requisite unterstützt Hex-, RGBA-, RGB- und Themenfarben.</p>
+                                <p class="mb-3">Haferkuchenpulver Sesam schnappt. Schokoriegel Dessert Bonbon Schokoriegel Pudding Apfelkuchen Muffin Schokoladeneis. Ich liebe Bärenklaue, die ich liebe.</p>
+                            </vx-card>
+                            <vx-card
+                                v-if="this.lang == 'sp'" 
+                                title="Color de fondo degradado"
+                                title-color="#fff"
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                                <p class="mb-3">Puedes usar <strong>tarjeta de fondo</strong> prop para cambiar el color de fondo de la tarjeta. Este accesorio admite colores hexadecimales, rgba, rgb y temáticos.</p>
+                                <p class="mb-3">Torta de avena con polvo de sésamo. Barra de chocolate postre bombón barra de chocolate pudín tarta de manzana magdalena helado de chocolate. Amo la garra de oso que amo.</p>
+                            </vx-card>
+                            <vx-card
+                                v-if="this.lang != 'de' && this.lang != 'sp'" 
                                 title="Gradient Background Color"
                                 title-color="#fff"
                                 content-color="#fff"
@@ -153,6 +320,25 @@
                     <div class="vx-row">
                         <div class="vx-col w-full mb-base">
                             <vx-card
+                                v-if="this.lang == 'de'" 
+                                title="Hintergrundfarbe mit Farbverlauf"
+                                title-color="#fff"
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                                <p class="mb-3">Sie können verwenden <strong>Kartenhintergrund</strong> Requisite zum Ändern der Hintergrundfarbe der Karte. Diese Requisite unterstützt Hex-, RGBA-, RGB- und Themenfarben.</p>
+                                <p class="mb-3">Haferkuchenpulver Sesam schnappt. Schokoriegel Dessert Bonbon Schokoriegel Pudding Apfelkuchen Muffin Schokoladeneis. Ich liebe Bärenklaue, die ich liebe.</p>
+                            </vx-card>
+                            <vx-card
+                                v-if="this.lang == 'sp'" 
+                                title="Color de fondo degradado"
+                                title-color="#fff"
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                                <p class="mb-3">Puedes usar <strong>tarjeta de fondo</strong> prop para cambiar el color de fondo de la tarjeta. Este accesorio admite colores hexadecimales, rgba, rgb y temáticos.</p>
+                                <p class="mb-3">Torta de avena con polvo de sésamo. Barra de chocolate postre bombón barra de chocolate pudín tarta de manzana magdalena helado de chocolate. Amo la garra de oso que amo.</p>
+                            </vx-card>
+                            <vx-card
+                                v-if="this.lang != 'de' && this.lang != 'sp'" 
                                 title="Gradient Background Color"
                                 title-color="#fff"
                                 content-color="#fff"
@@ -162,6 +348,19 @@
                             </vx-card>
                             <br />
                             <vs-button 
+                                v-if="this.lang == 'de'" 
+                                @click="() => {this.$router.push({name:'file-download'})}"
+                                vs-justify="center"  
+                                type="gradient">
+                                Gehen Sie zum Download-Bereich</vs-button>
+                            <vs-button 
+                                v-if="this.lang == 'sp'" 
+                                @click="() => {this.$router.push({name:'file-download'})}"
+                                vs-justify="center"  
+                                type="gradient">
+                                Ve a la sección de descargas</vs-button>
+                            <vs-button 
+                                v-if="this.lang != 'de' && this.lang != 'sp'" 
                                 @click="() => {this.$router.push({name:'file-download'})}"
                                 vs-justify="center"  
                                 type="gradient">
@@ -176,27 +375,115 @@
         <div v-show="user()">
             <div class="vx-row">
                 <div class="vx-col sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-base">
-                    <vx-card
-                        title="Gradient Background Color"
-                        title-color="#fff"
-                        content-color="#fff"
-                        card-background="linear-gradient(to right, #649a4c, #8fb67e)">
-                        <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p>
-                        <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
-                    </vx-card>
+                  <vx-card
+                      v-if="this.lang == 'de'" 
+                      title="Hintergrundfarbe mit Farbverlauf"
+                      title-color="#fff"
+                      content-color="#fff"
+                      card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                      <p class="mb-3">Sie können verwenden <strong>Kartenhintergrund</strong> Requisite zum Ändern der Hintergrundfarbe der Karte. Diese Requisite unterstützt Hex-, RGBA-, RGB- und Themenfarben.</p>
+                      <p class="mb-3">Haferkuchenpulver Sesam schnappt. Schokoriegel Dessert Bonbon Schokoriegel Pudding Apfelkuchen Muffin Schokoladeneis. Ich liebe Bärenklaue, die ich liebe.</p>
+                  </vx-card>
+                  <vx-card
+                      v-if="this.lang == 'sp'" 
+                      title="Color de fondo degradado"
+                      title-color="#fff"
+                      content-color="#fff"
+                      card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                      <p class="mb-3">Puedes usar <strong>tarjeta de fondo</strong> prop para cambiar el color de fondo de la tarjeta. Este accesorio admite colores hexadecimales, rgba, rgb y temáticos.</p>
+                      <p class="mb-3">Torta de avena con polvo de sésamo. Barra de chocolate postre bombón barra de chocolate pudín tarta de manzana magdalena helado de chocolate. Amo la garra de oso que amo.</p>
+                  </vx-card>
+                  <vx-card
+                      v-if="this.lang != 'de' && this.lang != 'sp'" 
+                      title="Gradient Background Color"
+                      title-color="#fff"
+                      content-color="#fff"
+                      card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                      <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p>
+                      <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
+                  </vx-card>
                 </div>
                 <div class="vx-col sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-base">
-                    <vx-card
-                        title="Gradient Background Color"
-                        title-color="#fff"
-                        content-color="#fff"
-                        card-background="linear-gradient(to right, #649a4c, #8fb67e)">
-                        <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p>
-                        <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
-                    </vx-card>
+                  <vx-card
+                      v-if="this.lang == 'de'" 
+                      title="Hintergrundfarbe mit Farbverlauf"
+                      title-color="#fff"
+                      content-color="#fff"
+                      card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                      <p class="mb-3">Sie können verwenden <strong>Kartenhintergrund</strong> Requisite zum Ändern der Hintergrundfarbe der Karte. Diese Requisite unterstützt Hex-, RGBA-, RGB- und Themenfarben.</p>
+                      <p class="mb-3">Haferkuchenpulver Sesam schnappt. Schokoriegel Dessert Bonbon Schokoriegel Pudding Apfelkuchen Muffin Schokoladeneis. Ich liebe Bärenklaue, die ich liebe.</p>
+                  </vx-card>
+                  <vx-card
+                      v-if="this.lang == 'sp'" 
+                      title="Color de fondo degradado"
+                      title-color="#fff"
+                      content-color="#fff"
+                      card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                      <p class="mb-3">Puedes usar <strong>tarjeta de fondo</strong> prop para cambiar el color de fondo de la tarjeta. Este accesorio admite colores hexadecimales, rgba, rgb y temáticos.</p>
+                      <p class="mb-3">Torta de avena con polvo de sésamo. Barra de chocolate postre bombón barra de chocolate pudín tarta de manzana magdalena helado de chocolate. Amo la garra de oso que amo.</p>
+                  </vx-card>
+                  <vx-card
+                      v-if="this.lang != 'de' && this.lang != 'sp'" 
+                      title="Gradient Background Color"
+                      title-color="#fff"
+                      content-color="#fff"
+                      card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                      <p class="mb-3">You can use <strong>card-background</strong> prop to change background color of card. This prop supports hex, rgba, rgb and theme colors.</p>
+                      <p class="mb-3">Oat cake powder sesame snaps. Chocolate bar dessert bonbon chocolate bar pudding apple pie muffin chocolate ice cream. I love bear claw I love.</p>
+                  </vx-card>
                 </div>
             </div> 
-            <div class="vx-row">
+            <div 
+              v-if="this.lang == 'de'" 
+              class="vx-row">
+                <div class="vx-col lg:w-1/4 xl:w-1/4 mb-base">
+                </div>
+                <div class="vx-col w-full lg:w-1/2 mb-base">
+                  <span class="text-danger text-sm" v-show="isKeyValid">Der Schlüssel ist ungültig.</span>
+                  <vs-input
+                    name="key"
+                    type="key"
+                    label-placeholder="Schlüssel"
+                    placeholder="Schlüssel"
+                    v-model="key"
+                    class="w-full mt-6 mb-2" 
+                    />
+                  <vs-button @click="() => {this.key = ''}" color="danger" type="filled">klar</vs-button>
+                  &nbsp;
+                  <vs-button 
+                    :disabled="isDisabled"
+                    @click="submit" 
+                    color="#649a4c" 
+                    type="filled">einreichen</vs-button>
+                </div>
+            </div>
+            <div 
+              v-if="this.lang == 'sp'" 
+              class="vx-row">
+                <div class="vx-col lg:w-1/4 xl:w-1/4 mb-base">
+                </div>
+                <div class="vx-col w-full lg:w-1/2 mb-base">
+                  <span class="text-danger text-sm" v-show="isKeyValid">La clave no es válida.</span>
+                  <vs-input
+                    name="key"
+                    type="key"
+                    label-placeholder="Llave"
+                    placeholder="Llave"
+                    v-model="key"
+                    class="w-full mt-6 mb-2" 
+                    />
+                  <vs-button @click="() => {this.key = ''}" color="danger" type="filled">Claro</vs-button>
+                  &nbsp;
+                  <vs-button 
+                    :disabled="isDisabled"
+                    @click="submit" 
+                    color="#649a4c" 
+                    type="filled">Enviar</vs-button>
+                </div>
+            </div> 
+            <div 
+              v-if="this.lang != 'de' && this.lang != 'sp'" 
+              class="vx-row">
                 <div class="vx-col lg:w-1/4 xl:w-1/4 mb-base">
                 </div>
                 <div class="vx-col w-full lg:w-1/2 mb-base">
@@ -217,19 +504,22 @@
                     color="#649a4c" 
                     type="filled">Sumbit</vs-button>
                 </div>
-            </div>           
+            </div> 
         </div>
   </div>
 </template>
 
 <script>
 // require('../../layouts/components/vertical-nav-menu/navMenuItems')
-import VueApexCharts from 'vue-apexcharts'
+// import VueApexCharts from 'vue-apexcharts'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
+import graph from './graph'
+
 
 export default {
   data() {
     return {
+      graphComponent: 0,
       show: false,
       key: '',
       mUsers: null,
@@ -237,52 +527,56 @@ export default {
       mPartners: null,
       activeUser: {},
       userData: {},
-      themeColors: ['#7367F0', '#28C76F', '#EA5455', '#FF9F43', '#1E1E1E'],
-      columnChart: {
-        series: [],
-        chartOptions: {
-          colors: this.themeColors,
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              endingShape: 'rounded',
-              columnWidth: '55%',
-            },
-          },
-          dataLabels: {
-            enabled: false
-          },
-          stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-          },
+      // themeColors: ['#7367F0', '#28C76F', '#EA5455', '#FF9F43', '#1E1E1E'],
+      // columnChart: {
+      //   series: [],
+      //   chartOptions: {
+      //     colors: this.themeColors,
+      //     plotOptions: {
+      //       bar: {
+      //         horizontal: false,
+      //         endingShape: 'rounded',
+      //         columnWidth: '55%',
+      //       },
+      //     },
+      //     dataLabels: {
+      //       enabled: false
+      //     },
+      //     stroke: {
+      //       show: true,
+      //       width: 2,
+      //       colors: ['transparent']
+      //     },
 
-          xaxis: {
-            categories: [],
-          },
-          yaxis: {
-            title: {
-              text: "no. of people"
-            }
-          },
-          fill: {
-            opacity: 1
+      //     xaxis: {
+      //       categories: [],
+      //     },
+      //     yaxis: {
+      //       title: {
+      //         text: "no. of people"
+      //       }
+      //     },
+      //     fill: {
+      //       opacity: 1
 
-          },
-          tooltip: {
-            y: {
-              formatter: function(val) {
-                // return "$ " + val + " thousands"
-                return val + " no. of people"
-              }
-            }
-          }
-        }
-      }
+      //     },
+      //     tooltip: {
+      //       y: {
+      //         formatter: function(val) {
+      //           // return "$ " + val + " thousands"
+      //           return val + " no. of people"
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
     }
   },
   computed: {
+    lang() {
+      this.graphComponent += 1
+      return this.$i18n.locale
+    },
     isDisabled() {
       if (this.key.length != 23){
         return true
@@ -363,8 +657,11 @@ export default {
     }
   },
   created () {
+    // setInterval(() => {
+    //   console.log(this.lang)
+    // }, 2000)
     // setTimeout(() => {
-    //   this.$store.dispatch('vNavReload')
+      // this.$store.dispatch('vNavReload')
     // }, 2000)
     this.rellood()
     setTimeout(() => {
@@ -385,32 +682,66 @@ export default {
         if (res.data.partnerArray.length > 1)
             this.mPartners = +res.data.partnerArray[res.data.partnerArray.length - 1]
         
-        this.columnChart.series.push(
-            {
-                name: 'Partners',
-                data: res.data.partnerArray
-            },
-            {
-                name: 'Customers',
-                data: res.data.customerArray
-            },
-            {
-                name: 'Users',
-                data: res.data.userArray
-            }
-        )
+        // if (this.lang == 'de'){
+        //   this.columnChart.series.push(
+        //       {
+        //           name: 'Partner',
+        //           data: res.data.partnerArray
+        //       },
+        //       {
+        //           name: 'Kunden',
+        //           data: res.data.customerArray
+        //       },
+        //       {
+        //           name: 'Benutzer',
+        //           data: res.data.userArray
+        //       }
+        //   )
+        // }
+        // else if (this.lang == 'sp'){
+        //   this.columnChart.series.push(
+        //       {
+        //           name: 'Socios/Socias',
+        //           data: res.data.partnerArray
+        //       },
+        //       {
+        //           name: 'Clientes',
+        //           data: res.data.customerArray
+        //       },
+        //       {
+        //           name: 'Los usuarios',
+        //           data: res.data.userArray
+        //       }
+        //   )
+        // }
+        // else {
+        //   this.columnChart.series.push(
+        //       {
+        //           name: 'Partners',
+        //           data: res.data.partnerArray
+        //       },
+        //       {
+        //           name: 'Customers',
+        //           data: res.data.customerArray
+        //       },
+        //       {
+        //           name: 'Users',
+        //           data: res.data.userArray
+        //       }
+        //   )
+        // }
 
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        var d = new Date();
-        var month = d.getMonth() + 1;
-        // for (let i = 0; i < 13; i++){
-        for (let i = 0; i < 12; i++){
-            if (month > 11){
-                month = month - 12
-            }
-            this.columnChart.chartOptions.xaxis.categories.push(months[month])
-            month++
-        }
+        // var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        // var d = new Date();
+        // var month = d.getMonth() + 1;
+        // // for (let i = 0; i < 13; i++){
+        // for (let i = 0; i < 12; i++){
+        //     if (month > 11){
+        //         month = month - 12
+        //     }
+        //     this.columnChart.chartOptions.xaxis.categories.push(months[month])
+        //     month++
+        // }
       })
       .catch(err => {
         console.log(err)
@@ -423,7 +754,8 @@ export default {
   },
   components: {
     StatisticsCardLine,
-    VueApexCharts
+    // VueApexCharts,
+    graph
   }
 }
 </script>

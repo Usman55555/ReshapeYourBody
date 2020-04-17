@@ -24,13 +24,29 @@
 
         <vs-row v-if='admin()'>
             <div class="flex  w-full bg-white chat-input-container mr-3">
-                <vs-input v-model="broadcast_message" class="mr-3 w-full" placeholder="Type Your Message" ></vs-input>
+                <vs-input
+                  v-if="this.lang == 'de'" 
+                  v-model="broadcast_message" class="mr-3 w-full" placeholder="Geben Sie Ihre Nachricht ein" ></vs-input>
+                <vs-input
+                  v-if="this.lang == 'sp'" 
+                  v-model="broadcast_message" class="mr-3 w-full" placeholder="Escribe tu mensaje" ></vs-input>
+                <vs-input
+                  v-if="this.lang != 'de' && this.lang != 'sp'" 
+                  v-model="broadcast_message" class="mr-3 w-full" placeholder="Type Your Message" ></vs-input>
                 <vs-button v-on:click="broadcast" icon-pack="feather" icon="icon-send" ></vs-button>
             </div>
         </vs-row >
 
-        <vs-row v-else> 
-            <vs-input class="inputx mr-3 w-full" :disabled="disabled"  placeholder="Broadcats from Admin will appear here..." v-model="broadcast_message"  />
+        <vs-row v-else>
+            <vs-input 
+              v-if="this.lang == 'de'" 
+              class="inputx mr-3 w-full" :disabled="disabled"  placeholder="Die Sendung von Admin wird hier angezeigt..." v-model="broadcast_message"  />
+            <vs-input 
+              v-if="this.lang == 'sp'" 
+              class="inputx mr-3 w-full" :disabled="disabled"  placeholder="La transmisión del administrador aparecerá aquí..." v-model="broadcast_message"  />
+            <vs-input 
+              v-if="this.lang != 'de' && this.lang != 'sp'" 
+              class="inputx mr-3 w-full" :disabled="disabled"  placeholder="Broadcats from Admin will appear here..." v-model="broadcast_message"  />
         </vs-row>
         
         <i18n />
@@ -85,6 +101,10 @@ export default {
     ProfileDropDown
   },
   computed: {
+    lang() {
+      this.graphComponent += 1
+      return this.$i18n.locale
+    },
     watchIt () {
       console.log(this.$store.state.componentKey)
       return this.$store.state.componentKey
