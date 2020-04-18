@@ -1,4 +1,4 @@
-
+             
 <template>
   <div v-if='usertype=="admin"'   id="data-list-list-view" class="data-list-container">
 
@@ -43,7 +43,29 @@
         
       </div>
 
-      <template slot="thead">
+      <template slot="thead" v-if="this.lang == 'de'">
+        <!-- <vs-th sort-key="name">Name</vs-th>  -->
+          <vs-th sort-key="category">Vorname</vs-th>
+        <vs-th sort-key="popularity">Familienname, Nachname</vs-th>
+        <vs-th sort-key="popularity">Benutzer Email</vs-th> 
+        <vs-th sort-key="order_status">Anforderungsstatus</vs-th>
+        <vs-th sort-key="category">Hergestellt in</vs-th>
+        <!-- <vs-th sort-key="price">Price</vs-th> -->
+        <vs-th>Aktion</vs-th>
+        
+      </template>
+      <template slot="thead" v-else-if="this.lang == 'sp'">
+        <!-- <vs-th sort-key="name">Name</vs-th>  -->
+          <vs-th sort-key="category">Primer nombre</vs-th>
+        <vs-th sort-key="popularity">Apellido</vs-th>
+        <vs-th sort-key="popularity">Email del usuario</vs-th> 
+        <vs-th sort-key="order_status">Estado de la solicitud</vs-th>
+        <vs-th sort-key="category">Creado en</vs-th>
+        <!-- <vs-th sort-key="price">Price</vs-th> -->
+        <vs-th>Acción</vs-th>
+        
+      </template>
+      <template slot="thead" v-else>
         <!-- <vs-th sort-key="name">Name</vs-th>  -->
           <vs-th sort-key="category">First Name</vs-th>
         <vs-th sort-key="popularity">Second Name</vs-th>
@@ -102,21 +124,55 @@
                  <p class="product-category">{{ tr.createdAt }}</p>
               </vs-td>
 
-              <vs-td class="whitespace-no-wrap">
+              <vs-td v-if="lang == 'de'"  class="whitespace-no-wrap">
                   
-              
-          <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="popupActive=true" />
-          <!-- <vs-button @click="popupActive=true" color="primary" type="border">Open Default popup</vs-button> -->
+      
+        
+        <feather-icon  icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="popupActive=true" />
+
+              <vs-popup  class="holamundo" title="Update Status" :active.sync="popupActive">
+              <vs-button  @click="update(tr,'pending',indextr)" color="primary" type="border">Steht aus</vs-button>&nbsp;
+              <vs-button @click="update(tr,'accepted',indextr)" color="primary" type="border">Akzeptiert</vs-button>&nbsp;
+              <vs-button @click="update(tr,'reviewed',indextr)" color="primary" type="border">Bewertet</vs-button>&nbsp;
+              <vs-button @click="update(tr,'rejected',indextr)" color="primary" type="border">Rejected</vs-button>&nbsp;
+              </vs-popup>
+             
        
-              <vs-popup class="holamundo" title="Update Status" :active.sync="popupActive">
+                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteUserData(tr._id)" />
+           </vs-td>
+           <vs-td v-else-if="lang == 'sp'"  class="whitespace-no-wrap">
+                  
+      
+        
+        <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="popupActive=true" />
+
+              <vs-popup  class="holamundo" title="Estado de actualización" :active.sync="popupActive">
+              <vs-button  @click="update(tr,'pending',indextr)" color="primary" type="border">Pendiente</vs-button>&nbsp;
+              <vs-button @click="update(tr,'accepted',indextr)" color="primary" type="border">Aceptada</vs-button>&nbsp;
+              <vs-button @click="update(tr,'reviewed',indextr)" color="primary" type="border">Revisadas</vs-button>&nbsp;
+              <vs-button @click="update(tr,'rejected',indextr)" color="primary" type="border">Abgelehnt</vs-button>&nbsp;
+              </vs-popup>
+
+             
+       
+                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteUserData(tr._id)" />
+           </vs-td>
+           <vs-td v-else class="whitespace-no-wrap">
+                  
+      
+        
+        <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="popupActive=true" />
+
+              <vs-popup  class="holamundo" title="Update Status" :active.sync="popupActive">
               <vs-button @click="update(tr,'pending',indextr)" color="primary" type="border">Pending</vs-button>&nbsp;
               <vs-button @click="update(tr,'accepted',indextr)" color="primary" type="border">Accepted</vs-button>&nbsp;
               <vs-button @click="update(tr,'reviewed',indextr)" color="primary" type="border">Reviewed</vs-button>&nbsp;
               <vs-button @click="update(tr,'rejected',indextr)" color="primary" type="border">Rejected</vs-button>&nbsp;
-          </vs-popup>
+              </vs-popup>
+             
        
                 <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteUserData(tr._id)" />
-              </vs-td>
+           </vs-td>
               
                 
             </vs-tr>
@@ -139,7 +195,7 @@
           <!-- ADD NEW -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler">
           <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-            <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ my_request.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : my_request.length }} of {{ queriedItems }}</span>
+            <span   class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ my_request.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : my_request.length }} of {{ queriedItems }}</span>
             <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
           </div>
           <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
@@ -164,16 +220,40 @@
         <!-- ITEMS PER PAGE -->
           <div  class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-success border border-solid border-success" @click="addNewData">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-              <span class="ml-2 text-base text-danger">Request for Partner</span>
+              <span v-if="this.lang == 'sp'" class="ml-2 text-base text-danger">Solicitud de socio</span>
+              <span v-else-if="this.lang == 'de'" class="ml-2 text-base text-danger">Anfrage für Partner</span>
+              <span v-else class="ml-2 text-base text-danger">Request for Partner</span>
           </div>
         
       </div>
 
-      <template slot="thead">
-        <!-- <vs-th sort-key="name">Name</vs-th> -->
-       <vs-th sort-key="category">First Name</vs-th>
+      <template slot="thead" v-if="this.lang == 'de'">
+        <!-- <vs-th sort-key="name">Name</vs-th>  -->
+          <vs-th sort-key="category">Vorname</vs-th>
+        <vs-th sort-key="popularity">Familienname, Nachname</vs-th>
+        <vs-th sort-key="popularity">Benutzer Email</vs-th> 
+        <vs-th sort-key="order_status">Anforderungsstatus</vs-th>
+        <vs-th sort-key="category">Hergestellt in</vs-th>
+        <!-- <vs-th sort-key="price">Price</vs-th> -->
+        <vs-th>Aktion</vs-th>
+        
+      </template>
+      <template slot="thead" v-else-if="this.lang == 'sp'">
+        <!-- <vs-th sort-key="name">Name</vs-th>  -->
+          <vs-th sort-key="category">Primer nombre</vs-th>
+        <vs-th sort-key="popularity">Apellido</vs-th>
+        <vs-th sort-key="popularity">Email del usuario</vs-th> 
+        <vs-th sort-key="order_status">Estado de la solicitud</vs-th>
+        <vs-th sort-key="category">Creado en</vs-th>
+        <!-- <vs-th sort-key="price">Price</vs-th> -->
+        <vs-th>Acción</vs-th>
+        
+      </template>
+      <template slot="thead" v-else>
+        <!-- <vs-th sort-key="name">Name</vs-th>  -->
+          <vs-th sort-key="category">First Name</vs-th>
         <vs-th sort-key="popularity">Second Name</vs-th>
-        <vs-th sort-key="popularity">User Email</vs-th>
+        <vs-th sort-key="popularity">User Email</vs-th> 
         <vs-th sort-key="order_status">Request Status</vs-th>
         <vs-th sort-key="category">Created At</vs-th>
         <!-- <vs-th sort-key="price">Price</vs-th> -->
@@ -283,7 +363,12 @@ export default {
     }
   },
   computed: {
-    currentPage () {
+   
+    lang() {
+        this.graphComponent += 1
+        return this.$i18n.locale
+      },
+       currentPage () {
       if (this.isMounted) {
         return this.$refs.table.currentx
       }
@@ -327,18 +412,57 @@ export default {
             // }
         // this.keys.unshift(resp.data)
         if (resp.data.errmsg){
-        this.$vs.dialog({
+           if(this.lang=="de")
+          {
+                this.$vs.dialog({
+                color: 'danger',
+                title:  "Sie haben bereits angefordert. Bitte akzeptieren Sie diese Warnung.",
+                accept: this.acceptAlert,
+                })
+          }
+          else if(this.lang=="sp")
+          {
+                this.$vs.dialog({
+                color: 'danger',
+                title:  "Ya lo has solicitado. Por favor acepte esta alerta.",
+                accept: this.acceptAlert,
+                })
+          }
+        else 
+        {
+          this.$vs.dialog({
                 color: 'danger',
                 title:  resp.data.errmsg,
                 accept: this.acceptAlert,
                 })
         }
+        }
         else{
-             this.$vs.dialog({
+          if(this.lang=="sp")
+          {
+                this.$vs.dialog({
                 color: 'success',
-                title:  "Your status is : "+resp.data.status,
+                title:  "El estado de su solicitud es :"+resp.data.status,
                 accept: this.acceptAlert,
                 })
+          }
+          else if (this.lang=="de")
+          {
+                this.$vs.dialog({
+                color: 'success',
+                title:  "Der Status Ihrer Anfrage lautet : "+resp.data.status,
+                accept: this.acceptAlert,
+                })
+
+          }
+          else{
+             this.$vs.dialog({
+                color: 'success',
+                title:  "Your request's status is: "+resp.data.status,
+                accept: this.acceptAlert,
+                })
+          }
+           
         }
       
         resolve(resp)
