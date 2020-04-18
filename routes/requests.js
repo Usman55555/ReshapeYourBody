@@ -30,7 +30,8 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
   };
   var newrequest = new Requests(body);
   console.log(newrequest);
-
+  var lang = await User.findOne({ _id: body.madeBy });
+  console.log("lang------------------------------",lang)
   check_duplicate = await (await Requests.find({ madeBy: body.madeBy })).length;
   if (check_duplicate >= 1) {
     res.status(200).send({
@@ -42,6 +43,7 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
       doc1= await doc1.populate('madeBy', [ 'email', 'firstname', 'lastname' ]);
     //  console.log(doc1,+"asddddddddddddddddddddd")
       var findadmin = await User.find({ usertype: "admin" });
+      
       to = "";
       for (let i = 0; i < findadmin.length; i++) {
         to += "," + findadmin[i].email;
@@ -49,23 +51,64 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
       }
 
       to = to.slice(1);
+      if (lang.languages[0] == "German")
+    {
+      var mailBody = `
+      <div style="
+          background-color:#fafafa;
+          padding-left: 20px;">
+          <h1>Hallo Admin</h1>
+          <h3>Sie haben eine neue Anfrage erhalten.</h3>
+          <h3 >${doc1.madeBy.firstname} haben darum gebeten, Partner zu werden.</h3><br>
+           <p>Bitte überprüfen Sie die Anfrage und Aktualisierung des Benutzers ${doc1.madeBy.firstname}'s status.
+           Auf diese Weise erfahren Benutzer, wie viele Rechte Benutzer an Ihren Diensten haben </h5><br>
+
+           <h3> Nutzerinformation</h3>
+           <p>Name: ${doc1.madeBy.firstname} ${doc1.madeBy.lastname}</p>
+           <p>Email: ${doc1.madeBy.email}</p>
+          <h3>Dankeschön </h3>
+      </div>
+      `;
+    }
+    else if (lang.languages[0] == "Spanish")
+    {
       var mailBody = `
                 <div style="
                     background-color:#fafafa;
                     padding-left: 20px;">
-                    <h1>Hi Admin </h1>
-                    <h3>You got a new request.</h3>
-                    <h3 >${doc1.madeBy.firstname} have requested to become a
-                     pertner.</h3><br>
-                     <p>Please review user's request and update ${doc1.madeBy.firstname}'s status.
-                     This will let user to know how much rights user have to your services </h5><br>
+                    <h1>Hola admin</h1>
+                    <h3>Tienes una nueva solicitud..</h3>
+                    <h3 >${doc1.madeBy.firstname} ha solicitado ser socio.</h3><br>
+                     <p>Por favor revise la solicitud del usuario y actualice ${doc1.madeBy.firstname}'s status.
+                     Esto le permitirá al usuario saber cuántos derechos tiene el usuario sobre sus servicios </h5><br>
 
-                     <h3> User Information</h3>
-                     <p>Name: ${doc1.madeBy.firstname} ${doc1.madeBy.lastname}</p>
-                     <p>Email: ${doc1.madeBy.email}</p>
+                     <h3> informacion del usuarion</h3>
+                     <p>Nombre: ${doc1.madeBy.firstname} ${doc1.madeBy.lastname}</p>
+                     <p>Correo electrónico: ${doc1.madeBy.email}</p>
                     <h3> Thank You </h3>
                 </div>
                 `;
+    }
+    else{
+      var mailBody = `
+      <div style="
+          background-color:#fafafa;
+          padding-left: 20px;">
+          <h1>Hi Admin </h1>
+          <h3>You got a new request.</h3>
+          <h3 >${doc1.madeBy.firstname} have requested to become a
+           pertner.</h3><br>
+           <p>Please review user's request and update ${doc1.madeBy.firstname}'s status.
+           This will let user to know how much rights user have to your services </h5><br>
+
+           <h3> User Information</h3>
+           <p>Name: ${doc1.madeBy.firstname} ${doc1.madeBy.lastname}</p>
+           <p>Email: ${doc1.madeBy.email}</p>
+          <h3> Thank You </h3>
+      </div>
+      `;
+    }
+      
       const mailOptions = {
         from: `"${project}" <${email}>`, // sender address
         to: to, // list of receivers
@@ -125,19 +168,52 @@ router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
       }
     ).populate('madeBy', [ 'email', 'firstname', 'lastname' ]);
     var user = await User.findOne({ _id: update_status.madeBy });
-
+    console.log('languages---------- ',user.languages[0]);
+    console.log("user uuuuuuuuuuuuuu",user)
+      // console.log(user.laguages[0],"language.......................")
     console.log(update_status);
-    var mailBody = `
-                <div style="
-                    background-color:#fafafa;
-                    padding-left: 20px;"><br />
-                    <h1>Hi, ${user.firstname} </h1>
-                    <h3>Your request's status is ${req.body.status}.</h3>
-                    <h5>You can now view your status </h5>
-                    <br />
-                   
-                </div>
-                `;
+    if (user.languages[0] == "German")
+    {
+      var mailBody = `
+      <div style="
+          background-color:#fafafa;
+          padding-left: 20px;"><br />
+          <h1>Hi, ${user.firstname} </h1>
+          <h3>Your request's status is ${req.body.status}.</h3>
+          <h5>You can now view your status </h5>
+          <br />
+         
+      </div>
+      `;
+    }
+    else if (user.languages[0] == "Spanish")
+    {
+      var mailBody = `
+      <div style="
+          background-color:#fafafa;
+          padding-left: 20px;"><br />
+          <h1>Hi, ${user.firstname} </h1>
+          <h3>Your request's status is ${req.body.status}.</h3>
+          <h5>You can now view your status </h5>
+          <br />
+         
+      </div>
+      `;
+    }
+    else{
+      var mailBody = `
+      <div style="
+          background-color:#fafafa;
+          padding-left: 20px;"><br />
+          <h1>Hi, ${user.firstname} </h1>
+          <h3>Your request's status is ${req.body.status}.</h3>
+          <h5>You can now view your status </h5>
+          <br />
+         
+      </div>
+      `;
+    }
+   
 
     const mailOptions = {
       from: `"${project}" <${email}>`, // sender address
