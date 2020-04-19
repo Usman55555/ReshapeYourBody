@@ -3,7 +3,21 @@
     <!-- tab 1 content -->
     <div class="vx-row tab1">
       <div class="vx-col md:w-1/2 w-full mt-5">
-        <vs-input
+        <vs-input v-if="this.lang=='de'"
+          label="Name eingeben"
+          v-model="file.name"
+          class="w-full"
+          v-validate="'required'"
+          name="name"
+        />
+         <vs-input v-else-if="this.lang=='sp'"
+          label="Ingrese su nombre"
+          v-model="file.name"
+          class="w-full"
+          v-validate="'required'"
+          name="name"
+        />
+         <vs-input v-else
           label="Enter Name"
           v-model="file.name"
           class="w-full"
@@ -17,7 +31,37 @@
         </span>
       </div>
       <div class="vx-col md:w-1/2 w-full mt-5">
-        <vs-select
+        <vs-select v-if="this.lang=='de'"
+          v-model="file.category"
+          class="w-full select-large"
+          label="Bitte wählen Sie Kategorie"
+          v-validate="'required'"
+          name="category"
+        >
+          <vs-select-item
+            :key="index"
+            :value="item.value"
+            :text="item.text"
+            v-for="(item, index) in Category_German"
+            class="w-full"
+          />
+        </vs-select>
+            <vs-select v-else-if="this.lang=='sp'"
+          v-model="file.category"
+          class="w-full select-large"
+          label="Por favor elija categoría"
+          v-validate="'required'"
+          name="category"
+        >
+          <vs-select-item
+            :key="index"
+            :value="item.value"
+            :text="item.text"
+            v-for="(item, index) in Category_Spanish"
+            class="w-full"
+          />
+        </vs-select>
+            <vs-select v-else
           v-model="file.category"
           class="w-full select-large"
           label="Please Choose Category"
@@ -39,9 +83,45 @@
         </span>
       </div>
       <div class="vx-col md:w-full w-full mt-4">
-        <h3>Please Select Permission:</h3>
+        <h3 v-if="this.lang=='de'">Bitte wählen Sie Berechtigung:</h3>
+        <h3 v-else-if="this.lang=='sp'">Por favor seleccione permiso::</h3>
+        <h3 v-else>Please Select Permission:</h3>
         <ul class="centerx">
-          <div class="vx-row">
+          <div class="vx-row" v-if="this.lang=='de'">
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="user">Nutzer</vs-checkbox>
+              </li>
+            </div>
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="customer">Kunde</vs-checkbox>
+              </li>
+            </div>
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="partner">Partner</vs-checkbox>
+              </li>
+            </div>
+          </div>
+          <div class="vx-row" v-else-if="this.lang=='sp'">
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="user">Nutzer</vs-checkbox>
+              </li>
+            </div>
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="customer">cliente</vs-checkbox>
+              </li>
+            </div>
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="partner">compañero</vs-checkbox>
+              </li>
+            </div>
+          </div>
+          <div class="vx-row" v-else>
             <div class="vx-col md:w-1/3 w-full mt-5">
               <li>
                 <vs-checkbox v-model="file.userAllowed" vs-value="user">user</vs-checkbox>
@@ -61,7 +141,25 @@
         </ul>
       </div>
       <div class="vx-col md:w-full w-full mt-5">
-        <vs-textarea
+        <vs-textarea v-if="this.lang=='de'"
+          counter="500"
+          label="Beschreibung"
+          :counter-danger.sync="counterDanger"
+          v-model="file.description"
+          height="120px"
+          v-validate="'required'"
+          name="description"
+        />
+        <vs-textarea v-else-if="this.lang=='sp'"
+          counter="500"
+          label="Descripción"
+          :counter-danger.sync="counterDanger"
+          v-model="file.description"
+          height="120px"
+          v-validate="'required'"
+          name="description"
+        />
+        <vs-textarea v-else
           counter="500"
           label="Description"
           :counter-danger.sync="counterDanger"
@@ -79,7 +177,9 @@
 
       <vs-row vs-align="center" vs-type="flex" vs-justify="flex-end" vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4    ">
-          <vs-button color="primary" type="gradient" @click="post()">Next</vs-button>
+          <vs-button v-if="this.lang=='de'" color="primary" type="gradient" @click="post()">Nächster</vs-button>
+          <vs-button v-else-if="this.lang=='sp'" color="primary" type="gradient" @click="post()">Próximo</vs-button>
+          <vs-button v-else  color="primary" type="gradient" @click="post()">Next</vs-button>
         </vs-col>
       </vs-row>
     </div>
@@ -87,11 +187,15 @@
     <div class="vx-row tab2" style="display: none;">
       <vs-row vs-align="center" vs-type="flex" vs-justify="flex-end" vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4    ">
-          <vs-button color="primary" type="gradient" @click="redirect">Redirect</vs-button>
+          <vs-button v-if="this.lang=='de'" color="primary" type="gradient" @click="redirect">Umleiten</vs-button>
+          <vs-button v-else-if="this.lang=='sp'" color="primary" type="gradient" @click="redirect">Redirigir</vs-button>
+          <vs-button v-else color="primary" type="gradient" @click="redirect">Redirect</vs-button>
         </vs-col>
       </vs-row>
       <div class="vx-col md:w-full w-full mt-5">
-        <vs-input label="Enter Language" v-model="fileo.language" class="w-full" />
+        <vs-input v-if="this.lang=='de'" label="Sprache eingeben" v-model="fileo.language" class="w-full" />
+        <vs-input v-else-if="this.lang=='sp'" label="Ingrese idioma" v-model="fileo.language" class="w-full" />
+        <vs-input v-else label="Enter Language" v-model="fileo.language" class="w-full" />
       </div>
       <div class="vx-col md:w-full w-full mt-5">
         <input
@@ -111,12 +215,16 @@
               d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"
             />
           </svg>
-          <span>Choose a file&hellip;</span>
+          <span v-if="this.lang=='de'">Wähle eine Datei&hellip;</span>
+          <span v-else-if="this.lang=='sp'">Escoge un archivo&hellip;</span>
+          <span v-else>Choose a file&hellip;</span>
         </label>
       </div>
       <vs-row vs-align="center" vs-type="flex" vs-justify="flex-end" vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4    ">
-          <vs-button color="success" type="gradient" @click="put()">Submit</vs-button>
+          <vs-button v-if="this.lang=='de'" color="success" type="gradient" @click="put()">Einreichen</vs-button>
+          <vs-button v-else-if="this.lang=='sp'" color="success" type="gradient" @click="put()">Enviar</vs-button>
+          <vs-button v-else color="success" type="gradient" @click="put()">Submit</vs-button>
         </vs-col>
       </vs-row>
     </div>
@@ -206,6 +314,18 @@ export default {
         language: "",
         doc: ""
       },
+      Category_Spanish: [
+        { text: "El concepto", value: "The Concept" },
+        { text: "PM Internacional", value: "PM International" },
+        { text: "Cartas de muestra", value: "Sample Letters" },
+        { text: "Documentos empresariales", value: "Business Documents" }
+      ],
+        Category_German: [
+        { text: "Das Konzept ", value: "The Concept" },
+        { text: "PM International", value: "PM International" },
+        { text: "Musterbriefe", value: "Sample Letters" },
+        { text: "Geschäftsdokumente", value: "Business Documents" }
+      ],
       Category: [
         { text: "The Concept ", value: "The Concept" },
         { text: "PM International", value: "PM International" },
@@ -213,6 +333,12 @@ export default {
         { text: "Business Documents", value: "Business Documents" }
       ]
     };
+  },
+  computed: {
+     lang() {
+        this.graphComponent += 1
+        return this.$i18n.locale
+      }
   },
   methods: {
     redirect() {
@@ -272,14 +398,39 @@ export default {
             axios
               .post("/uploads/", this.file)
               .then(resp => {
-                this.$vs.notify({
+                if (this.lang=='sp')
+                {
+                  this.$vs.notify({
                   title: 'Success',
-                  text: 'Please Proceed to Next Step',
+                  text: 'Por favor proceda al siguiente paso',
                   color: 'primary',
                   iconPack: 'feather',
                   position: 'top-center',
                   icon:'icon-check'
                 })
+                }
+                else if(this.lang=='de')
+                {
+                  this.$vs.notify({
+                  title: 'Success',
+                  text: 'Bitte fahren Sie mit dem nächsten Schritt fort',
+                  color: 'primary',
+                  iconPack: 'feather',
+                  position: 'top-center',
+                  icon:'icon-check'
+                })
+                }
+                else{
+                  this.$vs.notify({
+                  title: 'Success',
+                  text: 'Please proceed to next step !',
+                  color: 'primary',
+                  iconPack: 'feather',
+                  position: 'top-center',
+                  icon:'icon-check'
+                })
+                }
+                
                 resolve(resp);
                 this.objid = resp.data._id;
 
@@ -340,6 +491,7 @@ export default {
       });
     }
   }
+  
 };
 window.onbeforeunload = function() {
   return "Data will be lost if you leave the page, are you sure?";
