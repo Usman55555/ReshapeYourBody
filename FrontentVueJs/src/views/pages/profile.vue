@@ -473,7 +473,7 @@ export default {
     },
     showDeleteSuccess () {
       this.$vs.notify({
-        color: 'success',
+        color: 'primary',
         title: 'User Deleted',
         text: 'The selected user was successfully deleted'
       })

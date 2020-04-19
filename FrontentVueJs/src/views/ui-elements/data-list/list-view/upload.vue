@@ -222,9 +222,9 @@
       </div>
       <vs-row vs-align="center" vs-type="flex" vs-justify="flex-end" vs-w="12">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4    ">
-          <vs-button v-if="this.lang=='de'" color="success" type="gradient" @click="put()">Einreichen</vs-button>
-          <vs-button v-else-if="this.lang=='sp'" color="success" type="gradient" @click="put()">Enviar</vs-button>
-          <vs-button v-else color="success" type="gradient" @click="put()">Submit</vs-button>
+          <vs-button v-if="this.lang=='de'" color="primary" type="gradient" @click="put()">Einreichen</vs-button>
+          <vs-button v-else-if="this.lang=='sp'" color="primary" type="gradient" @click="put()">Enviar</vs-button>
+          <vs-button v-else color="primary" type="gradient" @click="put()">Submit</vs-button>
         </vs-col>
       </vs-row>
     </div>
@@ -401,7 +401,7 @@ export default {
                 if (this.lang=='sp')
                 {
                   this.$vs.notify({
-                  title: 'Success',
+                  title: 'primary',
                   text: 'Por favor proceda al siguiente paso',
                   color: 'primary',
                   iconPack: 'feather',
@@ -412,7 +412,7 @@ export default {
                 else if(this.lang=='de')
                 {
                   this.$vs.notify({
-                  title: 'Success',
+                  title: 'primary',
                   text: 'Bitte fahren Sie mit dem nächsten Schritt fort',
                   color: 'primary',
                   iconPack: 'feather',
@@ -441,12 +441,27 @@ export default {
               })
               .catch(err => {
                 this.colorAlert = "danger";
-                this.alertMessage = "An Error occured";
-                this.$vs.dialog({
-                  color: this.colorAlert,
-                  title: this.alertMessage,
-                  accept: this.acceptAlert
-                });
+                if (this.lang == 'de'){
+                  this.$vs.dialog({
+                    color: this.colorAlert,
+                    title: "Ein Fehler ist aufgetreten",
+                    accept: this.acceptAlert
+                  });
+                }
+                else if (this.lang == 'sp'){
+                  this.$vs.dialog({
+                    color: this.colorAlert,
+                    title: "Ocurrió un error",
+                    accept: this.acceptAlert
+                  });
+                }
+                else{
+                  this.$vs.dialog({
+                    color: this.colorAlert,
+                    title: "An Error occured",
+                    accept: this.acceptAlert
+                  });
+                }
                 reject(err);
               });
           });
@@ -458,6 +473,38 @@ export default {
     },
 
     put() {
+      if (this.lang=='sp')
+      {
+        this.$vs.notify({
+        title: 'Espere',
+        text: 'Por favor espera un poco ...',
+        color: 'primary',
+        iconPack: 'feather',
+        position: 'top-center',
+        icon:'icon-clock'
+      })
+      }
+      else if(this.lang=='de')
+      {
+        this.$vs.notify({
+        title: 'Warten',
+        text: 'Bitte warten Sie eine Weile ...',
+        color: 'primary',
+        iconPack: 'feather',
+        position: 'top-center',
+        icon:'icon-clock'
+      })
+      }
+      else{
+        this.$vs.notify({
+        title: 'Wait',
+        text: 'Please wait a little while...!',
+        color: 'primary',
+        iconPack: 'feather',
+        position: 'top-center',
+        icon:'icon-clock'
+        })
+      }
       let formData = new FormData();
       formData.append("file", this.fileo.doc);
       formData.append("language", this.fileo.language);
@@ -469,23 +516,55 @@ export default {
           .put(urll, formData)
           .then(resp => {
             this.colorAlert = "primary";
-            this.alertMessage =
-              "File uploaded. If you want to add further files please add or click button to redirect towards download page";
-            this.$vs.dialog({
-              color: this.colorAlert,
-              title: this.alertMessage,
-              accept: this.acceptAlert
-            });
+            if (this.lang == 'de'){
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "Archivo subido",
+                text: "Wenn Sie weitere Dateien hinzufügen möchten, fügen Sie diese hinzu oder klicken Sie auf die Schaltfläche, um zur Download-Seite umzuleiten",
+                accept: this.acceptAlert
+              });
+            }
+            else if (this.lang == 'sp'){
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "Datei hochgeladen",
+                text: "Si desea agregar más archivos, agregue o haga clic en el botón para redirigir a la página de descarga",
+                accept: this.acceptAlert
+              });
+            }
+            else{
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "File uploaded",
+                text: "If you want to add further files please add or click button to redirect towards download page",
+                accept: this.acceptAlert
+              });
+            }
             resolve(resp);
           })
           .catch(err => {
             this.colorAlert = "danger";
-            this.alertMessage = "An Error occured";
-            this.$vs.dialog({
-              color: this.colorAlert,
-              title: this.alertMessage,
-              accept: this.acceptAlert
-            });
+            if (this.lang == 'de'){
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "Ein Fehler ist aufgetreten",
+                accept: this.acceptAlert
+              });
+            }
+            else if (this.lang == 'sp'){
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "Ocurrió un error",
+                accept: this.acceptAlert
+              });
+            }
+            else{
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "An Error occured",
+                accept: this.acceptAlert
+              });
+            }
             reject(err);
           });
       });

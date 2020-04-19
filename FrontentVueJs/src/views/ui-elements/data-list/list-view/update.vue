@@ -517,7 +517,6 @@ export default {
       textarea: "",
       eventName: "",
       name: "",
-      alertMessages: "Success",
       objid: "",
       file: { type: Object, default: () => ({}) },
       //   {
@@ -595,25 +594,57 @@ export default {
         axios
           .put(urll, formData)
           .then(resp => {
-            this.colorAlert = "success";
-            this.alertMessage = "Successfully Submitted!";
-            this.$vs.dialog({
-              color: this.colorAlert,
-              title: this.alertMessages,
-              text: "Your form is successfully submitted!",
-              accept: this.acceptAlert
-            });
+            this.colorAlert = "primary";
+            if (this.lang == 'de'){
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "Erfolgreich eingereicht!",
+                text: "Ihr Formular wurde erfolgreich gesendet!",
+                accept: this.acceptAlert
+              });
+            }
+            else if (this.lang == 'sp'){
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "Enviado con éxito!",
+                text: "Su formulario se ha enviado correctamente.!",
+                accept: this.acceptAlert
+              });
+            }
+            else{
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "Successfully Submitted!",
+                text: "Your form is successfully submitted!",
+                accept: this.acceptAlert
+              });
+            }
 
             resolve(resp);
           })
           .catch(err => {
             this.colorAlert = "danger";
-            this.alertMessage = "An Error occured";
-            this.$vs.dialog({
-              color: this.colorAlert,
-              title: this.alertMessage,
-              accept: this.acceptAlert
-            });
+            if (this.lang == 'de'){
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "Ein Fehler ist aufgetreten",
+                accept: this.acceptAlert
+              });
+            }
+            else if (this.lang == 'sp'){
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "Ocurrió un error",
+                accept: this.acceptAlert
+              });
+            }
+            else{
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: "An Error occured",
+                accept: this.acceptAlert
+              });
+            }
             reject(err);
           });
       });

@@ -90,14 +90,36 @@ export default {
   },
   methods: {
     reset () {
-      this.$vs.notify({
-        title: 'Warning',
-        text: 'Please wait a little while',
-        color: 'warning',
-        iconPack: 'feather',
-        position: 'top-center',
-        icon:'icon-clock'
-      })
+      if (this.lang == 'de'){
+        this.$vs.notify({
+          title: 'Warnung',
+          text: 'Bitte warten Sie eine Weile',
+          color: 'primary',
+          iconPack: 'feather',
+          position: 'top-center',
+          icon:'icon-clock'
+        })
+      }
+      else if (this.lang == 'sp'){
+        this.$vs.notify({
+          title: 'Advertencia',
+          text: 'Por favor espera un poco',
+          color: 'primary',
+          iconPack: 'feather',
+          position: 'top-center',
+          icon:'icon-clock'
+        })
+      }
+      else{
+        this.$vs.notify({
+          title: 'Warning',
+          text: 'Please wait a little while',
+          color: 'primary',
+          iconPack: 'feather',
+          position: 'top-center',
+          icon:'icon-clock'
+        })
+      }
     // this.$vs.notify({
     //     title:'Warning',
     //     text:'Please wait a little while',
@@ -107,12 +129,28 @@ export default {
         this.$store.dispatch('editMail', { 
           email
           }).then(() => {
-          this.colorAlert = 'success'
-          this.$vs.dialog({
-            color: this.colorAlert,
-            title: `You need to confirm your email...`,
-            accept: this.acceptAlert
-          })
+          this.colorAlert = 'primary'
+          if (this.lang == 'de'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Sie müssen Ihre E-Mail bestätigen...`,
+              accept: this.acceptAlert
+            })
+          }
+          else if (this.lang == 'sp'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Necesitas confirmar tu correo electrónico...`,
+              accept: this.acceptAlert
+            })
+          }
+          else{
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `You need to confirm your email...`,
+              accept: this.acceptAlert
+            })
+          }
         })
         .catch(e => {
           this.colorAlert = 'danger'

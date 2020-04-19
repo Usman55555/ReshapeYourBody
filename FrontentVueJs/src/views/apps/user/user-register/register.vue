@@ -54,9 +54,9 @@
         <div class="mt-8">
           <!-- <label class="text-sm">Languages</label> -->
           <v-select 
-            label-placeholder="Idiomas"
-            placeholder="Idiomas"
-          v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            label-placeholder="Idiomas (El usuario recibirá correos electrónicos en el primer idioma que seleccione)"
+            placeholder="Idiomas (El usuario recibirá correos electrónicos en el primer idioma que seleccione)"
+            v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
 
         <div class="mt-8">
@@ -173,9 +173,9 @@
         <div class="mt-8">
           <!-- <label class="text-sm">Languages</label> -->
           <v-select 
-            label-placeholder="Sprachen"
-            placeholder="Sprachen"
-          v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            label-placeholder="Sprachen (Der Benutzer erhält E-Mails in der von Ihnen ausgewählten ersten Sprache.)"
+            placeholder="Sprachen (Der Benutzer erhält E-Mails in der von Ihnen ausgewählten ersten Sprache.)"
+            v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
 
         <div class="mt-8">
@@ -293,9 +293,9 @@
         <div class="mt-8">
           <!-- <label class="text-sm">Languages</label> -->
           <v-select 
-            label-placeholder="Languages"
-            placeholder="Languages"
-          v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            label-placeholder="Languages (User will recieve emails in the first language you select)"
+            placeholder="Languages (User will recieve emails in the first language you select)"
+            v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
 
         <div class="mt-8">
@@ -467,7 +467,6 @@ export default {
   },
   computed: {
     lang() {
-      this.graphComponent += 1
       return this.$i18n.locale
     },
     isLang () {
@@ -544,14 +543,36 @@ export default {
         if (this.dob !== '' || this.dob !== null || this.dob !== undefined){
           birthdate = new Date(this.dob).toISOString()
         }
-        this.$vs.notify({
-          title: 'Please wait...',
-          text: 'Please wait while we send the email.',
-          color: 'success',
-          iconPack: 'feather',
-          position: 'top-center',
-          icon:'icon-check'
-        })
+        if (this.lang == 'de'){
+          this.$vs.notify({
+            title: 'Warten Sie mal',
+            text: 'Bitte warten Sie, während wir die E-Mail senden.',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
+        else if (this.lang == 'sp'){
+          this.$vs.notify({
+            title: 'por favor espera',
+            text: 'Por favor espere mientras enviamos el correo electrónico.',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
+        else{
+          this.$vs.notify({
+            title: 'Please wait...',
+            text: 'Please wait while we send the email.',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
         if (this.validphone !== ''){          
             axios.post('/user/adminRegister',
                 {
@@ -569,23 +590,59 @@ export default {
                     birthdate: birthdate
                 }
                 ).then(() => {
-                this.colorAlert = 'success'
-                this.$vs.dialog({
-                    color: this.colorAlert,
-                    title: `You have registered registered`,
-                    text: `The confirmation email has been sent.`,
-                    accept: this.acceptAlert
-                })
+                  this.colorAlert = 'primary'
+                  if (this.lang == 'de'){
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `Sie haben den Benutzer registriert.`,
+                        text: `Die Bestätigungs-E-Mail wurde gesendet.`,
+                        accept: this.acceptAlert
+                    })
+                  }
+                  else if (this.lang == 'sp'){
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `Has registrado al usuario.`,
+                        text: `El correo electrónico de confirmación ha sido enviado.`,
+                        accept: this.acceptAlert
+                    })
+                  }
+                  else{
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `You have registered the user.`,
+                        text: `The confirmation email has been sent.`,
+                        accept: this.acceptAlert
+                    })
+                  }
                 })
                 .catch(e => {
-                console.log(e)
-                this.colorAlert = 'danger'
-                this.$vs.dialog({
-                    color: this.colorAlert,
-                    title: `Unable to register`,
-                    text: `Maybe the user is already in the database...`,
-                    accept: this.acceptAlert
-                })
+                  console.log(e)
+                  this.colorAlert = 'danger'
+                  if (this.lang == 'de'){
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Registrierung nicht möglich`,
+                      text: `Möglicherweise befindet sich der Benutzer bereits in der Datenbank...`,
+                      accept: this.acceptAlert
+                    })
+                  }
+                  else if (this.lang == 'sp'){
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Incapaz de registrarse`,
+                      text: `Quizás el usuario ya está en la base de datos...`,
+                      accept: this.acceptAlert
+                    })
+                  }
+                  else{
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Unable to register`,
+                      text: `Maybe the user is already in the database...`,
+                      accept: this.acceptAlert
+                    })
+                  }
             })
         }
         else{          
@@ -604,23 +661,59 @@ export default {
                     birthdate: birthdate
                 }
                 ).then(() => {
-                this.colorAlert = 'success'
-                this.$vs.dialog({
-                    color: this.colorAlert,
-                    title: `You have registered registered`,
-                    text: `The confirmation email has been sent.`,
-                    accept: this.acceptAlert
-                })
+                  this.colorAlert = 'primary'
+                  if (this.lang == 'de'){
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `Sie haben den Benutzer registriert.`,
+                        text: `Die Bestätigungs-E-Mail wurde gesendet.`,
+                        accept: this.acceptAlert
+                    })
+                  }
+                  else if (this.lang == 'sp'){
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `Has registrado al usuario.`,
+                        text: `El correo electrónico de confirmación ha sido enviado.`,
+                        accept: this.acceptAlert
+                    })
+                  }
+                  else{
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `You have registered the user.`,
+                        text: `The confirmation email has been sent.`,
+                        accept: this.acceptAlert
+                    })
+                  }
                 })
                 .catch(e => {
-                console.log(e)
-                this.colorAlert = 'danger'
-                this.$vs.dialog({
-                    color: this.colorAlert,
-                    title: `Unable to register`,
-                    text: `Maybe the user is already in the database...`,
-                    accept: this.acceptAlert
-                })
+                  console.log(e)
+                  this.colorAlert = 'danger'
+                  if (this.lang == 'de'){
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Registrierung nicht möglich`,
+                      text: `Möglicherweise befindet sich der Benutzer bereits in der Datenbank...`,
+                      accept: this.acceptAlert
+                    })
+                  }
+                  else if (this.lang == 'sp'){
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Incapaz de registrarse`,
+                      text: `Quizás el usuario ya está en la base de datos...`,
+                      accept: this.acceptAlert
+                    })
+                  }
+                  else{
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Unable to register`,
+                      text: `Maybe the user is already in the database...`,
+                      accept: this.acceptAlert
+                    })
+                  }
             })
         }
     },
