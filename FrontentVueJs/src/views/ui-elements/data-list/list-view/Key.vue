@@ -159,12 +159,30 @@ export default {
       return new Promise((resolve, reject) => {
         axios.post('/key/generateKey').then(resp => {
         this.keys.unshift(resp.data)
-        this.$vs.dialog({
-          color: 'primary',
-          title: 'Key added successfully',
-          text: resp.data.key,
-          accept: this.acceptAlert
-        })
+        if (this.lang == 'de'){
+          this.$vs.dialog({
+            color: 'primary',
+            title: 'Schlüssel erfolgreich hinzugefügt',
+            text: resp.data.key,
+            accept: this.acceptAlert
+          })
+        }
+        else if (this.lang == 'sp'){
+          this.$vs.dialog({
+            color: 'primary',
+            title: 'Clave agregada exitosamente',
+            text: resp.data.key,
+            accept: this.acceptAlert
+          })
+        }
+        else{
+          this.$vs.dialog({
+            color: 'primary',
+            title: 'Key added successfully',
+            text: resp.data.key,
+            accept: this.acceptAlert
+          })
+        }
         resolve(resp)
         }).catch(err => {
             console.log(err);
@@ -173,7 +191,28 @@ export default {
       });
     },
     onCopy: function (e) {
-      this.$vs.notify({
+      if (this.lang == 'de'){
+        this.$vs.notify({
+          title: 'Schlüssel kopiert',
+          text: e.text,
+          color: 'primary',
+          iconPack: 'feather',
+          position: 'top-center',
+          icon:'icon-check'
+        })
+      }
+      else if (this.lang == 'sp'){
+        this.$vs.notify({
+          title: 'Clave copiada',
+          text: e.text,
+          color: 'primary',
+          iconPack: 'feather',
+          position: 'top-center',
+          icon:'icon-check'
+        })
+      }
+      else{
+        this.$vs.notify({
           title: 'Key copied',
           text: e.text,
           color: 'primary',
@@ -181,6 +220,7 @@ export default {
           position: 'top-center',
           icon:'icon-check'
         })
+      }
       // this.$vs.dialog({
       //   color: 'warning',
       //   title: 'Key copied',
@@ -189,11 +229,28 @@ export default {
       // })
     },
     onError: function (e) {
-      this.$vs.dialog({
-        color: 'danger',
-        title: 'An error occured',
-        accept: this.acceptAlert
-      })
+      this.colorAlert='danger';
+      if (this.lang == 'de'){
+        this.$vs.dialog({
+          color: this.colorAlert,
+          title: "Ein Fehler ist aufgetreten",
+          accept: this.acceptAlert
+        });
+      }
+      else if (this.lang == 'sp'){
+        this.$vs.dialog({
+          color: this.colorAlert,
+          title: "Ocurrió un error",
+          accept: this.acceptAlert
+        });
+      }
+      else{
+        this.$vs.dialog({
+          color: this.colorAlert,
+          title: "An Error occured",
+          accept: this.acceptAlert
+        });
+      }
     },
     deleteData (id) {
       return new Promise((resolve, reject) => {
@@ -219,7 +276,7 @@ export default {
 
     },
     getOrderStatusColor (status) {
-      if (status) return 'success'
+      if (status) return 'primary'
       if (!status)  return 'danger'
     },
 

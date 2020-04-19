@@ -142,19 +142,19 @@
         </div>
         <div v-if="this.lang == 'sp'" slot="footer">
             <vs-row vs-justify="center">
-            <vs-button type="gradient" color="success" icon="touch_app" @click="submit">Enviar</vs-button>
+            <vs-button type="gradient" color="primary" icon="touch_app" @click="submit">Enviar</vs-button>
             <vs-button color="danger" icon="reply" @click="goBack">Regresa</vs-button>
             </vs-row>
         </div>
         <div v-if="this.lang == 'de'" slot="footer">
             <vs-row vs-justify="center">
-            <vs-button type="gradient" color="success" icon="touch_app" @click="submit">einreichen</vs-button>
+            <vs-button type="gradient" color="primary" icon="touch_app" @click="submit">einreichen</vs-button>
             <vs-button color="danger" icon="reply" @click="goBack">Geh zurück</vs-button>
             </vs-row>
         </div>
         <div v-if="this.lang != 'de' && this.lang != 'sp'" slot="footer">
             <vs-row vs-justify="center">
-            <vs-button type="gradient" color="success" icon="touch_app" @click="submit">Submit</vs-button>
+            <vs-button type="gradient" color="primary" icon="touch_app" @click="submit">Submit</vs-button>
             <vs-button color="danger" icon="reply" @click="goBack">Go Back</vs-button>
             </vs-row>
         </div>
@@ -168,7 +168,7 @@
     export default{
         data(){
             return {
-                colorAlert:'success',
+                colorAlert:'primary',
                 alertMessage:'',
                 activeA:false,
                 select:'Select Category',
@@ -189,30 +189,60 @@
             submit(){
                 return new Promise((resolve, reject) => {
                     axios.post('/faq/addQuestion', this.faq).then(resp => {
-                    // this.colorAlert='success';
-                    this.alertMessage='FAQ added succesfully';
-                    // this.$vs.dialog({
-                    //     color: this.colorAlert,
-                    //     title: this.alertMessage,
-                    //     accept: this.acceptAlert
-                    // })
-                    this.$vs.notify({
-                        title: 'Success',
-                        text: this.alertMessage,
-                        color: 'success',
-                        iconPack: 'feather',
-                        position: 'top-center',
-                        icon:'icon-check'
-                    })
+                    if (this.lang == 'de'){
+                        this.$vs.notify({
+                            title: 'Erfolg',
+                            text: 'FAQ erfolgreich hinzugefügt',
+                            color: 'primary',
+                            iconPack: 'feather',
+                            position: 'top-center',
+                            icon:'icon-check'
+                        })
+                    }
+                    else if (this.lang == 'sp'){
+                        this.$vs.notify({
+                            title: 'Éxito',
+                            text: 'FAQ agregado exitosamente',
+                            color: 'primary',
+                            iconPack: 'feather',
+                            position: 'top-center',
+                            icon:'icon-check'
+                        })
+                    }
+                    else{
+                        this.$vs.notify({
+                            title: 'Success',
+                            text: 'FAQ added succesfully',
+                            color: 'primary',
+                            iconPack: 'feather',
+                            position: 'top-center',
+                            icon:'icon-check'
+                        })
+                    }
                     resolve(resp)
                     }).catch(err => {
                         this.colorAlert='danger';
-                        this.alertMessage='An Error occured';
-                        this.$vs.dialog({
-                        color: this.colorAlert,
-                        title: this.alertMessage,
-                        accept: this.acceptAlert
-                    })
+                        if (this.lang == 'de'){
+                            this.$vs.dialog({
+                                color: this.colorAlert,
+                                title: "Ein Fehler ist aufgetreten",
+                                accept: this.acceptAlert
+                            });
+                        }
+                        else if (this.lang == 'sp'){
+                            this.$vs.dialog({
+                                color: this.colorAlert,
+                                title: "Ocurrió un error",
+                                accept: this.acceptAlert
+                            });
+                        }
+                        else{
+                            this.$vs.dialog({
+                                color: this.colorAlert,
+                                title: "An Error occured",
+                                accept: this.acceptAlert
+                            });
+                        }
                         reject(err)
                     })
                 });

@@ -202,21 +202,55 @@ export default {
           password: new_password,
           id: id
           }).then(() => {
-          this.colorAlert = 'success'
-          this.$vs.dialog({
-            color: this.colorAlert,
-            title: `Password changed successfully`,
-            accept: this.acceptAlert
-          })
+          this.colorAlert = 'primary'
+          if (this.lang == 'de'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `das Passwort wurde erfolgreich geändert`,
+              accept: this.acceptAlert
+            })
+          }
+          else if (this.lang == 'sp'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Contraseña cambiada con éxito`,
+              accept: this.acceptAlert
+            })
+          }
+          else{
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Password changed successfully`,
+              accept: this.acceptAlert
+            })
+          }
         })
         .catch(e => {
           this.colorAlert = 'danger'
-          this.$vs.dialog({
-            color: this.colorAlert,
-            title: `Unable to login`,
-            text: `You must be providing the wrong credentials...`,
-            accept: this.acceptAlert
-          })
+          if (this.lang == 'de'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Passwort kann nicht geändert werden`,
+              text: `Sie müssen die falschen Anmeldeinformationen angeben...`,
+              accept: this.acceptAlert
+            })
+          }
+          else if (this.lang == 'sp'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `No se puede cambiar la contraseña`,
+              text: `Debe proporcionar las credenciales incorrectas...`,
+              accept: this.acceptAlert
+            })
+          }
+          else{
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Unable to change password`,
+              text: `You must be providing the wrong credentials...`,
+              accept: this.acceptAlert
+            })
+          }
         })
       })
     }

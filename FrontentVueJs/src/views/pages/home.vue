@@ -635,24 +635,64 @@ export default {
     submit() {
       this.$store.dispatch('key', this.key)
       .then(res => {
-        this.$vs.notify({
-          title: 'Congratulations',
-          text: 'You are now promoted to Customer',
-          color: 'primary',
-          iconPack: 'feather',
-          position: 'top-center',
-          icon:'icon-check'
-        })
+        if (this.lang == 'de'){
+          this.$vs.notify({
+            title: 'Herzliche Glückwünsche',
+            text: 'Sie werden jetzt zum Kunden befördert',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
+        else if (this.lang == 'sp'){
+          this.$vs.notify({
+            title: 'Felicidades',
+            text: 'Ahora eres ascendido a Cliente',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
+        else{
+          this.$vs.notify({
+            title: 'Congratulations',
+            text: 'You are now promoted to Customer',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
         window.location.reload();
       })
       .catch(err => {
         this.colorAlert = 'danger'
-        this.$vs.dialog({
-          color: this.colorAlert,
-          title: `Sooo sorry`,
-          text: `You must have provided the wrong key...`,
-          accept: this.acceptAlert
-        })
+        if (this.lang == 'de'){
+          this.$vs.dialog({
+            color: this.colorAlert,
+            title: `Es tut uns leid`,
+            text: `Sie müssen den falschen Schlüssel angegeben haben...`,
+            accept: this.acceptAlert
+          })
+        }
+        else if (this.lang == 'sp'){
+          this.$vs.dialog({
+            color: this.colorAlert,
+            title: `Lo siento`,
+            text: `Debes haber proporcionado la clave incorrecta...`,
+            accept: this.acceptAlert
+          })
+        }
+        else{
+          this.$vs.dialog({
+            color: this.colorAlert,
+            title: `Sooo sorry`,
+            text: `You must have provided the wrong key...`,
+            accept: this.acceptAlert
+          })
+        }
       })
     }
   },

@@ -62,14 +62,14 @@
     
     <div class="flex flex-wrap items-center justify-end">
       <vs-button 
-        v-if="this.lang != 'de'" 
+        v-if="this.lang == 'de'" 
         class="ml-4 mt-2" 
         type="border" 
         color="danger"
         @click="deleteAccount"
         :disabled="!isDisabled">Konto löschen</vs-button>
       <vs-button 
-        v-if="this.lang != 'sp'" 
+        v-if="this.lang == 'sp'" 
         class="ml-4 mt-2" 
         type="border" 
         color="danger"
@@ -107,36 +107,92 @@ export default {
   },
   methods: {
     deleteAccount () {
-      this.$vs.notify({
-        title: 'Warning',
-        text: 'Please wait a little while',
-        color: 'warning',
-        iconPack: 'feather',
-        position: 'top-center',
-        icon:'icon-clock'
-      })
+      if (this.lang == 'de'){
+        this.$vs.notify({
+          title: 'Warnung',
+          text: 'Bitte warten Sie eine Weile',
+          color: 'warning',
+          iconPack: 'feather',
+          position: 'top-center',
+          icon:'icon-clock'
+        })
+      }
+      else if (this.lang == 'sp'){
+        this.$vs.notify({
+          title: 'Advertencia',
+          text: 'Por favor espera un poco',
+          color: 'warning',
+          iconPack: 'feather',
+          position: 'top-center',
+          icon:'icon-clock'
+        })
+      }
+      else{
+        this.$vs.notify({
+          title: 'Warning',
+          text: 'Please wait a little while',
+          color: 'warning',
+          iconPack: 'feather',
+          position: 'top-center',
+          icon:'icon-clock'
+        })
+      }
       const { password } = this
       this.$store.getters.getId.then(id => {      
         this.$store.dispatch('deleteAccount', { 
           password
           }).then(() => {
-          this.colorAlert = 'success'
-          this.$vs.dialog({
-            color: this.colorAlert,
-            title: `Your account is deleted...`,
-            accept: this.acceptAlert
-          })
+          this.colorAlert = 'primary'
+          if (this.lang == 'de'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Ihr Konto wird gelöscht...`,
+              accept: this.acceptAlert
+            })
+          }
+          else if (this.lang == 'sp'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Tu cuenta ha sido eliminada...`,
+              accept: this.acceptAlert
+            })
+          }
+          else{
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Your account is deleted...`,
+              accept: this.acceptAlert
+            })
+          }
           this.$router.push('/pages/login')
           this.$store.dispatch('logout')
         })
         .catch(e => {
           this.colorAlert = 'danger'
-          this.$vs.dialog({
-            color: this.colorAlert,
-            title: `Something went wrong...`,
-            text: `You must be unauthenticated...`,
-            accept: this.acceptAlert
-          })
+          if (this.lang == 'de'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Etwas ist schief gelaufen`,
+              text: `Sie müssen nicht authentifiziert sein...`,
+              accept: this.acceptAlert
+            })
+          }
+          else if (this.lang == 'sp'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Algo salió mal`,
+              text: `Debes estar no autenticado...`,
+              accept: this.acceptAlert
+            })
+          }
+          else{
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Something went wrong`,
+              text: `You must be unauthenticated...`,
+              accept: this.acceptAlert
+            })
+          }
         })
       })
     }

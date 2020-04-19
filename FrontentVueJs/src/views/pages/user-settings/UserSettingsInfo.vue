@@ -210,23 +210,63 @@ export default {
       this.$store.getters.getId.then(id => {  
         obj.id = id    
         this.$store.dispatch('edit', obj).then(() => {
-          this.$vs.notify({
-            title: 'Success',
-            text: 'Your profile updated successfully',
-            color: 'success',
-            iconPack: 'feather',
-            position: 'top-center',
-            icon:'icon-check'
-          })
+          if (this.lang == 'de'){
+            this.$vs.notify({
+              title: 'Erfolg',
+              text: 'Ihr Profil wurde erfolgreich aktualisiert',
+              color: 'primary',
+              iconPack: 'feather',
+              position: 'top-center',
+              icon:'icon-check'
+            })
+          }
+          else if (this.lang == 'sp'){
+            this.$vs.notify({
+              title: 'Éxito',
+              text: 'Tu perfil se actualizó correctamente',
+              color: 'primary',
+              iconPack: 'feather',
+              position: 'top-center',
+              icon:'icon-check'
+            })
+          }
+          else{
+            this.$vs.notify({
+              title: 'Success',
+              text: 'Your profile updated successfully',
+              color: 'primary',
+              iconPack: 'feather',
+              position: 'top-center',
+              icon:'icon-check'
+            })
+          }
         })
         .catch(e => {
           this.colorAlert = 'danger'
-          this.$vs.dialog({
-            color: this.colorAlert,
-            title: `Some thing went wrong`,
-            text: `Couldn't update your profile...`,
-            accept: this.acceptAlert
-          })
+          if (this.lang == 'de'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Etwas ist schief gelaufen`,
+              text: `Ihr Profil konnte nicht aktualisiert werden...`,
+              accept: this.acceptAlert
+            })
+          }
+          else if (this.lang == 'sp'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Algo salió mal`,
+              text: `No se pudo actualizar tu perfil...`,
+              accept: this.acceptAlert
+            })
+          }
+          else{
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Some thing went wrong`,
+              text: `Couldn't update your profile...`,
+              accept: this.acceptAlert
+            })
+          }
         })
       })
     }
