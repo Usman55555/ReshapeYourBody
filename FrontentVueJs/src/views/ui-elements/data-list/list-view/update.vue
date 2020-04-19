@@ -1,5 +1,301 @@
 <template>
-  <form-wizard
+  
+   <form-wizard v-if="this.lang=='de'"
+    color="rgba(var(--vs-primary), 1)"
+    :title="null"
+    :subtitle="null"
+    finishButtonText="Einreichen"
+    @on-complete="formSubmitted"
+  >
+    <tab-content title="Schritt 1" class="mb-5" :before-change="validateStep1">
+      <!-- tab 1 content -->
+      <div class="vx-row">
+        <div class="vx-col md:w-1/2 w-full mt-5">
+          <vs-input 
+            label="Name eingeben"
+            v-model="file.name"
+            class="w-full"
+            v-validate="'required'"
+            name="name"
+          />
+          
+         
+          <span class="text-danger text-sm" v-show="errors.has('name')">
+            {{
+            errors.first("name")
+            }}
+          </span>
+        </div>
+        <div class="vx-col md:w-1/2 w-full mt-5">
+         <vs-select v-if="this.lang=='de'"
+          v-model="file.category"
+          class="w-full select-large"
+          label="Bitte wählen Sie Kategorie"
+          v-validate="'required'"
+          name="category"
+        >
+          <vs-select-item
+            :key="index"
+            :value="item.value"
+            :text="item.text"
+            v-for="(item, index) in Category_German"
+            class="w-full"
+          />
+        </vs-select>
+           
+    
+          <span class="text-danger text-sm" v-show="errors.has('category')">
+            {{
+            errors.first("category")
+            }}
+          </span>
+        </div>
+        <div class="vx-col md:w-full w-full mt-5">
+           <h3>Bitte wählen Sie Berechtigung:</h3>
+         
+        <ul class="centerx">
+          <div class="vx-row" >
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="user">Nutzer</vs-checkbox>
+              </li>
+            </div>
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="customer">Kunde</vs-checkbox>
+              </li>
+            </div>
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="partner">Partner</vs-checkbox>
+              </li>
+            </div>
+          </div>
+          
+        </ul>
+        </div>
+        <div class="vx-col md:w-full w-full mt-5">
+          <vs-textarea 
+            counter="500"
+            label="Beschreibung"
+            :counter-danger.sync="counterDanger"
+            v-model="file.description"
+            height="120px"
+            v-validate="'required'"
+            name="description"
+          />
+          
+        </div>
+        <span class="text-danger text-sm" v-show="errors.has('description')">
+          {{
+          errors.first("description")
+          }}
+        </span>
+      </div>
+    </tab-content>
+
+    <!-- tab 2 content -->
+    <tab-content title="Schritt 2" class="mb-5">
+      <div class="vx-row">
+        <h3>Optional. Hier können Sie einem einzelnen Objekt weitere Dateien hinzufügen!</h3>
+         
+      </div>
+      <div class="vx-row">
+        <div class="vx-col md:w-full w-full mt-5">
+          <vs-input v-if="this.lang=='de'" label="Sprache eingeben" v-model="fileo.language" class="w-full" />
+          <vs-input v-else-if="this.lang=='sp'" label="Ingrese idiomae" v-model="fileo.language" class="w-full" />
+          <vs-input v-else label="Enter Language" v-model="fileo.language" class="w-full" />
+        </div>
+        <div class="vx-col md:w-full w-full mt-5">
+          <input
+            type="file"
+            name="file-2[]"
+            id="file-2"
+            class="inputfile inputfile-2"
+            data-multiple-caption="{count} files selected"
+            ref="file"
+            multiple
+            @click="javaScr()"
+            v-on:change="handleFileUpload()"
+          />
+          <label for="file-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+              <path
+                d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"
+              />
+            </svg>
+            
+             <span >Wähle eine Datei&hellip;</span>
+              
+          </label>
+        </div>
+      </div>
+    </tab-content>
+
+    <!-- tab 3 content -->
+    <tab-content title="Schritt 3" class="mb-5">
+      <div class="vx-row" vs-type="flex" vs-justify="center">
+        <vs-row vs-align="center" vs-type="flex" vs-justify="center" vs-w="12">
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
+            <h2 >Klicken Sie auf die Schaltfläche "Senden", um die Änderungen zu speichern!</h2>
+           
+            
+          </vs-col>
+        </vs-row>
+      </div>
+    </tab-content>
+  </form-wizard>
+
+<form-wizard v-else-if="this.lang=='sp'" 
+    color="rgba(var(--vs-primary), 1)"
+    :title="null"
+    :subtitle="null"
+    finishButtonText="Enviar"
+    @on-complete="formSubmitted"
+  >
+    <tab-content title="Paso 1" class="mb-5" :before-change="validateStep1">
+      <!-- tab 1 content -->
+      <div class="vx-row">
+        <div class="vx-col md:w-1/2 w-full mt-5">
+       
+           <vs-input 
+            label="Ingrese su nombre"
+            v-model="file.name"
+            class="w-full"
+            v-validate="'required'"
+            name="name"
+          />
+           
+          <span class="text-danger text-sm" v-show="errors.has('name')">
+            {{
+            errors.first("name")
+            }}
+          </span>
+        </div>
+        <div class="vx-col md:w-1/2 w-full mt-5">
+         
+            <vs-select
+          v-model="file.category"
+          class="w-full select-large"
+          label="Por favor elija categoría"
+          v-validate="'required'"
+          name="category"
+        >
+          <vs-select-item
+            :key="index"
+            :value="item.value"
+            :text="item.text"
+            v-for="(item, index) in Category_Spanish"
+            class="w-full"
+          />
+        </vs-select>
+            
+          <span class="text-danger text-sm" v-show="errors.has('category')">
+            {{
+            errors.first("category")
+            }}
+          </span>
+        </div>
+        <div class="vx-col md:w-full w-full mt-5">
+           
+          <h3 >Por favor seleccione permiso::</h3>
+          
+        <ul class="centerx">
+          
+          <div class="vx-row" >
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="user">Nutzer</vs-checkbox>
+              </li>
+            </div>
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="customer">cliente</vs-checkbox>
+              </li>
+            </div>
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="partner">compañero</vs-checkbox>
+              </li>
+            </div>
+          </div>
+          
+        </ul>
+        </div>
+        <div class="vx-col md:w-full w-full mt-5">
+         
+          <vs-textarea 
+            counter="500"
+            label="Descripción"
+            :counter-danger.sync="counterDanger"
+            v-model="file.description"
+            height="120px"
+            v-validate="'required'"
+            name="description"
+          />
+         
+        </div>
+        <span class="text-danger text-sm" v-show="errors.has('description')">
+          {{
+          errors.first("description")
+          }}
+        </span>
+      </div>
+    </tab-content>
+
+    <!-- tab 2 content -->
+    <tab-content title="Paso 2" class="mb-5">
+      <div class="vx-row">
+       
+         <h3 >Opcional. ¡Aquí puede agregar más archivos a un solo objeto!</h3>
+       
+      </div>
+      <div class="vx-row">
+        <div class="vx-col md:w-full w-full mt-5">
+          <vs-input v-if="this.lang=='de'" label="Sprache eingeben" v-model="fileo.language" class="w-full" />
+          <vs-input v-else-if="this.lang=='sp'" label="Ingrese idiomae" v-model="fileo.language" class="w-full" />
+          <vs-input v-else label="Enter Language" v-model="fileo.language" class="w-full" />
+        </div>
+        <div class="vx-col md:w-full w-full mt-5">
+          <input
+            type="file"
+            name="file-2[]"
+            id="file-2"
+            class="inputfile inputfile-2"
+            data-multiple-caption="{count} files selected"
+            ref="file"
+            multiple
+            @click="javaScr()"
+            v-on:change="handleFileUpload()"
+          />
+          <label for="file-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+              <path
+                d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"
+              />
+            </svg>
+            <span >Escoge un archivo&hellip;</span>
+             
+              
+          </label>
+        </div>
+      </div>
+    </tab-content>
+
+    <!-- tab 3 content -->
+    <tab-content title="Paso 3" class="mb-5">
+      <div class="vx-row" vs-type="flex" vs-justify="center">
+        <vs-row vs-align="center" vs-type="flex" vs-justify="center" vs-w="12">
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
+            
+            <h2 >¡Haga clic en el botón Enviar para guardar los cambios!</h2>
+           
+          </vs-col>
+        </vs-row>
+      </div>
+    </tab-content>
+  </form-wizard>
+<form-wizard  v-else
     color="rgba(var(--vs-primary), 1)"
     :title="null"
     :subtitle="null"
@@ -10,7 +306,8 @@
       <!-- tab 1 content -->
       <div class="vx-row">
         <div class="vx-col md:w-1/2 w-full mt-5">
-          <vs-input
+          
+           <vs-input 
             label="Enter Name"
             v-model="file.name"
             class="w-full"
@@ -24,21 +321,21 @@
           </span>
         </div>
         <div class="vx-col md:w-1/2 w-full mt-5">
-          <vs-select
-            v-model="file.category"
-            class="w-full select-large"
-            label="Please Choose Category"
-            v-validate="'required'"
-            name="category"
-          >
-            <vs-select-item
-              :key="index"
-              :value="item.value"
-              :text="item.text"
-              v-for="(item, index) in Category"
-              class="w-full"
-            />
-          </vs-select>
+        <vs-select 
+          v-model="file.category"
+          class="w-full select-large"
+          label="Please Choose Category"
+          v-validate="'required'"
+          name="category"
+        >
+          <vs-select-item
+            :key="index"
+            :value="item.value"
+            :text="item.text"
+            v-for="(item, index) in Category"
+            class="w-full"
+          />
+        </vs-select>
           <span class="text-danger text-sm" v-show="errors.has('category')">
             {{
             errors.first("category")
@@ -46,29 +343,32 @@
           </span>
         </div>
         <div class="vx-col md:w-full w-full mt-5">
-          <h3>Please Select Permission:</h3>
-          <ul class="centerx">
-            <div class="vx-row">
-              <div class="vx-col md:w-1/3 w-full mt-5">
-                <li>
-                  <vs-checkbox v-model="file.userAllowed" vs-value="user">user</vs-checkbox>
-                </li>
-              </div>
-              <div class="vx-col md:w-1/3 w-full mt-5">
-                <li>
-                  <vs-checkbox v-model="file.userAllowed" vs-value="customer">customer</vs-checkbox>
-                </li>
-              </div>
-              <div class="vx-col md:w-1/3 w-full mt-5">
-                <li>
-                  <vs-checkbox v-model="file.userAllowed" vs-value="partner">partner</vs-checkbox>
-                </li>
-              </div>
+           
+          <h3 >Please Select Permission:</h3>
+        <ul class="centerx">
+          
+          <div class="vx-row">
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="user">user</vs-checkbox>
+              </li>
             </div>
-          </ul>
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="customer">customer</vs-checkbox>
+              </li>
+            </div>
+            <div class="vx-col md:w-1/3 w-full mt-5">
+              <li>
+                <vs-checkbox v-model="file.userAllowed" vs-value="partner">partner</vs-checkbox>
+              </li>
+            </div>
+          </div>
+        </ul>
         </div>
         <div class="vx-col md:w-full w-full mt-5">
-          <vs-textarea
+          
+          <vs-textarea 
             counter="500"
             label="Description"
             :counter-danger.sync="counterDanger"
@@ -89,11 +389,13 @@
     <!-- tab 2 content -->
     <tab-content title="Step 2" class="mb-5">
       <div class="vx-row">
-        <h3>Optional. Here you can add more files to single object!</h3>
+        
+          <h3 >Optional. Here you can add more files to single object!</h3>
       </div>
       <div class="vx-row">
         <div class="vx-col md:w-full w-full mt-5">
-          <vs-input label="Enter Language" v-model="fileo.language" class="w-full" />
+          
+          <vs-input  label="Enter Language" v-model="fileo.language" class="w-full" />
         </div>
         <div class="vx-col md:w-full w-full mt-5">
           <input
@@ -113,7 +415,8 @@
                 d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"
               />
             </svg>
-            <span>Choose a file&hellip;</span>
+           
+              <span >Choose a file&hellip;</span>
           </label>
         </div>
       </div>
@@ -124,12 +427,15 @@
       <div class="vx-row" vs-type="flex" vs-justify="center">
         <vs-row vs-align="center" vs-type="flex" vs-justify="center" vs-w="12">
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
+            
             <h2>Click on submit button to save changes!</h2>
           </vs-col>
         </vs-row>
       </div>
     </tab-content>
   </form-wizard>
+
+
 </template>
 <style>
 .js .inputfile {
@@ -224,6 +530,18 @@ export default {
         language: "",
         doc: ""
       },
+      Category_Spanish: [
+        { text: "El concepto", value: "The Concept" },
+        { text: "PM Internacional", value: "PM International" },
+        { text: "Cartas de muestra", value: "Sample Letters" },
+        { text: "Documentos empresariales", value: "Business Documents" }
+      ],
+        Category_German: [
+        { text: "Das Konzept ", value: "The Concept" },
+        { text: "PM International", value: "PM International" },
+        { text: "Musterbriefe", value: "Sample Letters" },
+        { text: "Geschäftsdokumente", value: "Business Documents" }
+      ],
       Category: [
         { text: "The Concept ", value: "The Concept" },
         { text: "PM International", value: "PM International" },
@@ -239,6 +557,12 @@ export default {
         { text: "Partner+Customer", value: "partner+customer" }
       ]
     };
+  },
+   computed: {
+     lang() {
+        this.graphComponent += 1
+        return this.$i18n.locale
+      }
   },
   methods: {
     validateStep1() {
