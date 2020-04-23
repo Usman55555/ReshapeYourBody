@@ -54,9 +54,9 @@
         <div class="mt-8">
           <!-- <label class="text-sm">Languages</label> -->
           <v-select 
-            label-placeholder="Idiomas (El usuario recibirá correos electrónicos en el primer idioma que seleccione)"
-            placeholder="Idiomas (El usuario recibirá correos electrónicos en el primer idioma que seleccione)"
-            v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            label-placeholder="Idiomas"
+            placeholder="Idiomas"
+            v-model="languages" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
 
         <div class="mt-8">
@@ -173,9 +173,9 @@
         <div class="mt-8">
           <!-- <label class="text-sm">Languages</label> -->
           <v-select 
-            label-placeholder="Sprachen (Der Benutzer erhält E-Mails in der von Ihnen ausgewählten ersten Sprache.)"
-            placeholder="Sprachen (Der Benutzer erhält E-Mails in der von Ihnen ausgewählten ersten Sprache.)"
-            v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            label-placeholder="Sprachen"
+            placeholder="Sprachen"
+            v-model="languages" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
 
         <div class="mt-8">
@@ -293,9 +293,10 @@
         <div class="mt-8">
           <!-- <label class="text-sm">Languages</label> -->
           <v-select 
-            label-placeholder="Languages (User will recieve emails in the first language you select)"
-            placeholder="Languages (User will recieve emails in the first language you select)"
-            v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            label-placeholder="Languages"
+            placeholder="Languages"
+            v-model="languages" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <!-- v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> -->
         </div>
 
         <div class="mt-8">

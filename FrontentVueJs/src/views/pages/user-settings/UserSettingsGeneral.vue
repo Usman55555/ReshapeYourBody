@@ -59,7 +59,7 @@
       <label 
         v-if="this.lang != 'de' && this.lang != 'sp'" 
         class="text-sm">Languages (Emails will be sent to the first one)</label>
-      <v-select v-model="langs" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+      <v-select v-model="langs" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
     </div>
 
     <div
