@@ -9,13 +9,13 @@
         <vs-card>
         <div slot="header">
             <h3 v-if="this.lang == 'sp'">
-            Agregar preguntas frecuentes
+            añadir categoría
             </h3>
             <h3 v-if="this.lang == 'de'">
-            FAQ hinzufügen
+            Kategorie hinzufügen
             </h3>
             <h3 v-if="this.lang != 'de' && this.lang != 'sp'">
-            Add FAQ
+            Add Category
             </h3>
         </div>
         <div v-if="this.lang == 'sp'" vs-justify="center">
@@ -24,30 +24,11 @@
                 icon-no-border
                 icon="icon icon-user"
                 icon-pack="feather"
-                label-placeholder="Pregunta"
-                v-model="faq.question"
+                label-placeholder="nombre de la categoría"
+                v-model="category.name"
                 class="w-full"/>
             <br />
-            <vs-textarea
-                rows=7
-                name="answer"
-                height="200px" 
-                icon-no-border
-                icon="icon icon-user"
-                icon-pack="feather"
-                label="Responder"
-                v-model="faq.answer"/>
             <br /><br /><br />
-            <vs-button class="btnx" type="filled">{{select}}</vs-button>
-            <vs-dropdown>
-            <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
-            <!-- <a href="#">Hola mundo</a> -->
-            <vs-dropdown-menu>
-                <vs-dropdown-item v-for="(cat,index) in categoriesGet">
-                <span @click="faq.category=cat._id; select=cat.name">{{cat.name}}</span>
-                </vs-dropdown-item>
-            </vs-dropdown-menu>
-            </vs-dropdown><br>
         </div>
 
         <div v-if="this.lang == 'de'" vs-justify="center">
@@ -56,63 +37,26 @@
                 icon-no-border
                 icon="icon icon-user"
                 icon-pack="feather"
-                label-placeholder="Frage"
-                v-model="faq.question"
+                label-placeholder="Kategoriename"
+                v-model="category.name"
                 class="w-full"/>
             <br />
-            <vs-textarea
-                rows=7
-                name="answer"
-                height="200px" 
-                icon-no-border
-                icon="icon icon-user"
-                icon-pack="feather"
-                label="Antworten"
-                v-model="faq.answer"/>
             <br /><br /><br />
-            <vs-button class="btnx" type="filled">{{select}}</vs-button>
-            <vs-dropdown>
-            <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
-            <!-- <a href="#">Hola mundo</a> -->
-            <vs-dropdown-menu>
-                <vs-dropdown-item v-for="(cat,index) in categoriesGet">
-                <span @click="faq.category=cat._id; select=cat.name">{{cat.name}}</span>
-                </vs-dropdown-item>
-            </vs-dropdown-menu>
-            </vs-dropdown><br>
         </div>
 
         <div v-if="this.lang != 'de' && this.lang != 'sp'" vs-justify="center">
             <vs-input
-                name="question"
+                name="category"
                 icon-no-border
                 icon="icon icon-user"
                 icon-pack="feather"
-                label-placeholder="Question"
-                v-model="faq.question"
+                label-placeholder="Category Name"
+                v-model="category.name"
                 class="w-full"/>
             <br />
-            <vs-textarea
-                rows=7
-                name="answer"
-                height="200px" 
-                icon-no-border
-                icon="icon icon-user"
-                icon-pack="feather"
-                label="Answer"
-                v-model="faq.answer"/>
             <br /><br /><br />
-            <vs-button class="btnx" type="filled">{{select}}</vs-button>
-            <vs-dropdown>
-            <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
-            <!-- <a href="#">Hola mundo</a> -->
-            <vs-dropdown-menu>
-                <vs-dropdown-item v-for="(cat,index) in categoriesGet">
-                <span @click="faq.category=cat._id; select=cat.name">{{cat.name}}</span>
-                </vs-dropdown-item>
-            </vs-dropdown-menu>
-            </vs-dropdown><br>
         </div>
+
         <div v-if="this.lang == 'sp'" slot="footer">
             <vs-row vs-justify="center">
             <vs-button type="gradient" color="primary" icon="touch_app" @click="submit">Enviar</vs-button>
@@ -144,13 +88,9 @@
                 colorAlert:'primary',
                 alertMessage:'',
                 activeA:false,
-                select:'Select Category',
-                faq:{
-                    category:'',
-                    question:'',
-                    answer:''
-                },
-                categoriesGet:[]
+                category:{
+                    name:''
+                }
             }
         },
         computed: {
@@ -160,22 +100,10 @@
             }
         },
         methods: {
-            getCategory(){
-                return new Promise((resolve, reject) => {
-                axios.get('/category/getCategory').then(resp => {
-                this.categoriesGet=resp.data;
-                resolve(resp)
-                }).catch(err => {
-                    console.log(err)
-                    this.$router.push('/pages/login')
-                    reject(err)
-                })
-            });
-
-            },
             submit(){
+                
                 return new Promise((resolve, reject) => {
-                    axios.post('/faq/addQuestion', this.faq).then(resp => {
+                    axios.post('/category/addCategory', this.category).then(resp => {
                     if (this.lang == 'de'){
                         this.$vs.notify({
                             title: 'Erfolg',
@@ -199,7 +127,7 @@
                     else{
                         this.$vs.notify({
                             title: 'Success',
-                            text: 'FAQ added succesfully',
+                            text: 'Category added succesfully',
                             color: 'primary',
                             iconPack: 'feather',
                             position: 'top-center',
@@ -208,6 +136,7 @@
                     }
                     resolve(resp)
                     }).catch(err => {
+                        console.log(err)
                         this.colorAlert='danger';
                         if (this.lang == 'de'){
                             this.$vs.dialog({
@@ -237,9 +166,6 @@
             goBack(){
                 this.$router.push('/pages/faq')
             }
-        },
-        created() {
-            this.getCategory()
         },
         components:{
 

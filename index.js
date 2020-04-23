@@ -19,7 +19,7 @@ var {
 } = require("./db/mongoose");
 var {
   Broadcasts
-}=require("./models/broadcast")
+} = require("./models/broadcast")
 var {
   User
 } = require("./models/user");
@@ -30,6 +30,7 @@ var userRoutes = require("./routes/user");
 var imageRoutes = require("./routes/userImage");
 var keyRoutes = require("./routes/key");
 var faqRoutes = require("./routes/faq");
+var categoryRoutes = require("./routes/category");
 var downloadRoutes = require("./routes/download");
 var uploadRoutes = require("./routes/upload");
 const port = process.env.PORT || 3000;
@@ -45,28 +46,29 @@ server.listen(port, () => {
 
 /* SOCKET.IO SETUP */
 
-var io = socketIO.listen(server, { resource: '/api/socket.io' });
+var io = socketIO.listen(server, {
+  resource: '/api/socket.io'
+});
 // var io = socketIO(server);
 
-io.on("connection", (socket) =>
- {
+io.on("connection", (socket) => {
   console.log("New user connected");
 
-  socket.on("broadcastThisMessage",async (message,token) => {
+  socket.on("broadcastThisMessage", async (message, token) => {
     console.log(token)
     var decoded = jwt_decode(token);
     // console.log(decoded)
     var doc = await User.findById(decoded._id)
     // console.log(doc.usertype)
-    if (doc!=null && doc.usertype=="admin" && doc.usertype!=null){
-    var doc1={
-      body:message,
-      adminID:doc
-    }
+    if (doc != null && doc.usertype == "admin" && doc.usertype != null) {
+      var doc1 = {
+        body: message,
+        adminID: doc
+      }
       var broadcast = new Broadcasts(doc1);
       await broadcast.save();
       // console.log(doc1)
-      console.log("Message to be broadcasted: "+ message );
+      console.log("Message to be broadcasted: " + message);
       socket.broadcast.emit("newMessage", message);
     }
   });
@@ -140,7 +142,7 @@ require("./passport/google");
 
 /* VIEWS - JADE */
 
-app.set("view engine","jade")
+app.set("view engine", "jade")
 app.set('views', path.join(__dirname, '/views'));
 
 /* ROUTES */
@@ -153,6 +155,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/image", imageRoutes);
 app.use("/api/key", keyRoutes);
 app.use("/api/faq", faqRoutes);
+app.use("/api/category", categoryRoutes);
 app.use("/api/downloads", downloadRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.get("/api/", (req, res) => res.send("Hello Moto...!"));

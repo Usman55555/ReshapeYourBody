@@ -34,6 +34,13 @@
                       type="filled" 
                       @click="goToAddFaqPage"
                       >Agregue sus preguntas frecuentes</vs-button>
+                      <br><br>
+                      <vs-button 
+                      v-show="activeUserInfo.usertype == 'admin'"
+                      color="primary" 
+                      type="filled" 
+                      @click="goToAddCategory"
+                      >Añadir nueva categoria</vs-button>
                     <br><br><h4>Tabla de contenidos</h4>
                     <ul class="faq-topics mt-4">
                         <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.id">
@@ -50,6 +57,13 @@
                       type="filled" 
                       @click="goToAddFaqPage"
                       >Fügen Sie Ihre FAQ hinzu</vs-button>
+                      <br><br>
+                      <vs-button 
+                      v-show="activeUserInfo.usertype == 'admin'"
+                      color="primary" 
+                      type="filled" 
+                      @click="goToAddCategory"
+                      >neue Kategorie hinzufügen</vs-button>
                     <br><br><h4>Inhaltsverzeichnis</h4>
                     <ul class="faq-topics mt-4">
                         <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.id">
@@ -66,10 +80,21 @@
                       type="filled" 
                       @click="goToAddFaqPage"
                       >Add Your FAQ</vs-button>
+                      <br><br>
+                      <vs-button 
+                      v-show="activeUserInfo.usertype == 'admin'"
+                      color="primary" 
+                      type="filled" 
+                      @click="goToAddCategory"
+                      >Add New Category</vs-button>
+
                     <br><br><h4>Table of Content</h4>
                     <ul class="faq-topics mt-4">
                         <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.id">
                             <div class="h-3 w-3 rounded-full mr-2" :class="'bg-' + category.color"></div><span class="cursor-pointer">{{ category.name }}</span>
+                              <vx-tooltip v-if="activeUserInfo.usertype==='admin'" :style="{display:inline,float:'right'}" color="primary" text="Edit this Category">
+                                <vs-button :style="{display:inline}" color="primary" type="line" icon="edit" size="large" @click="goToEditCat(category.oid)"></vs-button>
+                              </vx-tooltip>
                         </li>
                     </ul>
 
@@ -132,6 +157,8 @@
         faqSearchQuery: '',
         faqFilter: 1,
         categories: [],
+        categoriesGet: [],
+        categoryObj: {},
         faqs:[],        
       }
     },
@@ -180,100 +207,41 @@
     }
     },
     methods: {
-      catogorylang(){
-        if(this.lang != 'de' && this.lang != 'sp'){
-          this.categories=[
-          {
-            id: 1,
-            name: 'All',
-            color: 'grey'
-          },
-          {
-            id: 2,
-            name: 'General',
-            color: 'primary'
-          },
-          {
-            id: 3,
-            name: 'Licenses',
-            color: 'success'
-          },
-          {
-            id: 4,
-            name: 'Company usage',
-            color: 'warning'
-          },
-          {
-            id: 5,
-            name: 'Trademark use',
-            color: 'danger'
-          }
-          ]
-        }
-        else if(this.lang == 'sp'){
-          this.categories=[
-          {
-            id: 1,
-            name: 'todos',
-            color: 'grey'
-          },
-          {
-            id: 2,
-            name: 'General',
-            color: 'primary'
-          },
-          {
-            id: 3,
-            name: 'Licencias',
-            color: 'success'
-          },
-          {
-            id: 4,
-            name: 'Uso de la empresa',
-            color: 'warning'
-          },
-          {
-            id: 5,
-            name: 'Uso de marca registrada',
-            color: 'danger'
-          }
-          ]
-        }
-        else if(this.lang == 'de'){
-          this.categories=[
-          {
-            id: 1,
-            name: 'Alle',
-            color: 'grey'
-          },
-          {
-            id: 2,
-            name: 'Allgemeines',
-            color: 'primary'
-          },
-          {
-            id: 3,
-            name: 'Lizenzen',
-            color: 'success'
-          },
-          {
-            id: 4,
-            name: 'Firmennutzung',
-            color: 'warning'
-          },
-          {
-            id: 5,
-            name: 'Markennutzung',
-            color: 'danger'
-          }
-          ]
-        }
-      },
       goToAddFaqPage (){
         this.$router.push('/pages/addfaq')
       },
+      goToAddCategory (){
+        this.$router.push('/pages/addCategory')
+      },
       goToEdit(idd){
         this.$router.push({ name: 'page-faq-edit', params: { id: idd } })
+      },
+      goToEditCat(idd){
+        this.$router.push({ name: 'page-category-edit', params: { id: idd } })
+      },
+      getCategory(){
+        return new Promise((resolve, reject) => {
+          axios.get('/category/getCategory').then(resp => {
+          this.categoriesGet=resp.data;
+          for(let index=0; index<this.categoriesGet.length; index++){
+            this.categoryObj= {
+              id: index+1,
+              oid: this.categoriesGet[index]['_id'],
+              name: this.categoriesGet[index]['name'],
+              color: 'grey'
+            }
+            this.categories.push(this.categoryObj)
+            this.categoryObj={}
+          }
+          console.log(this.categories)
+          resolve(resp)
+          }).catch(err => {
+              console.log(err)
+              this.$router.push('/pages/login')
+              reject(err)
+          })
+      });
+
       },
       deleteFaq(id){
         return new Promise((resolve, reject) => {
@@ -317,23 +285,16 @@
       }
     },
     created() {
-      this.catogorylang();
+      this.getCategory();
       return new Promise((resolve, reject) => {
         axios.get('/faq/getFaqs').then(resp => {
         this.faqs=resp.data;
         console.log(this.faqs)
         for(let index=0; index<this.faqs.length; index++){
-          if(this.faqs[index].category=='General'){
-            this.faqs[index].categoryId=2;
-          }
-          else if(this.faqs[index].category=='Licenses'){
-            this.faqs[index].categoryId=3;
-          }
-          else if(this.faqs[index].category=='Company usage'){
-            this.faqs[index].categoryId=4;
-          }
-          else if(this.faqs[index].category=='Trademark use'){
-            this.faqs[index].categoryId=5;
+          for(let index2=0; index2<this.categories.length; index2++){
+            if(this.faqs[index].category==this.categories[index2]['oid']){
+              this.faqs[index].categoryId=index2;
+            }
           }
         }
         resolve(resp)

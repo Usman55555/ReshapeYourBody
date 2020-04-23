@@ -35,8 +35,7 @@ const router = new Router({
       y: 0
     };
   },
-  routes: [
-    {
+  routes: [{
       // =============================================================================
       // MAIN LAYOUT ROUTES
       // =============================================================================
@@ -65,8 +64,7 @@ const router = new Router({
           name: "pages-home",
           component: () => import("@/views/pages/home.vue"),
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/home",
                 active: true
@@ -99,8 +97,7 @@ const router = new Router({
           },
           component: () => import("@/views/apps/user/user-list/UserList.vue"),
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -132,8 +129,7 @@ const router = new Router({
             }
           },
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -164,8 +160,7 @@ const router = new Router({
             }
           },
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -197,8 +192,7 @@ const router = new Router({
           component: () =>
             import("@/views/ui-elements/data-list/list-view/Key.vue"),
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -224,8 +218,7 @@ const router = new Router({
             }
           },
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -251,8 +244,7 @@ const router = new Router({
           component: () =>
             import("@/views/ui-elements/data-list/list-view/download.vue"),
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -278,8 +270,7 @@ const router = new Router({
             }
           },
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -305,8 +296,7 @@ const router = new Router({
             }
           },
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -337,8 +327,7 @@ const router = new Router({
           component: () =>
             import("@/views/pages/user-settings/UserSettings.vue"),
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -366,8 +355,7 @@ const router = new Router({
             }
           },
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -384,6 +372,34 @@ const router = new Router({
           }
         },
         {
+          path: "/pages/addCategory",
+          name: "page-category-add",
+          component: () => import("@/views/pages/AddCategory.vue"),
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && (localStorage.getItem('user-usertype') == 'admin')) {
+              next();
+            } else {
+              next("/home");
+            }
+          },
+          meta: {
+            breadcrumb: [{
+                title: "Home",
+                url: "/"
+              },
+              {
+                title: "Pages"
+              },
+              {
+                title: "Add Category",
+                active: true
+              }
+            ],
+            pageTitle: "Add Category",
+            rule: "editor"
+          }
+        },
+        {
           path: "/pages/addfaq",
           name: "page-faq-add",
           component: () => import("@/views/pages/AddFaq.vue"),
@@ -395,8 +411,7 @@ const router = new Router({
             }
           },
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -425,8 +440,7 @@ const router = new Router({
             }
           },
           meta: {
-            breadcrumb: [
-              {
+            breadcrumb: [{
                 title: "Home",
                 url: "/"
               },
@@ -441,7 +455,36 @@ const router = new Router({
             pageTitle: "Edit FAQ",
             rule: "editor"
           }
-        }
+        },
+        {
+          path: "/pages/editCat/:id",
+          name: "page-category-edit",
+          props: true,
+          component: () => import("@/views/pages/editCategory.vue"),
+          beforeEnter(to, from, next) {
+            if (localStorage.getItem('user-usertype') != null && (localStorage.getItem('user-usertype') == 'admin')) {
+              next();
+            } else {
+              next("/home");
+            }
+          },
+          meta: {
+            breadcrumb: [{
+                title: "Home",
+                url: "/"
+              },
+              {
+                title: "Pages"
+              },
+              {
+                title: "Edit Category",
+                active: true
+              }
+            ],
+            pageTitle: "Edit Category",
+            rule: "editor"
+          }
+        },
         // =============================================================================
         // CHARTS & MAPS
         // =============================================================================
@@ -450,6 +493,14 @@ const router = new Router({
         // =============================================================================
       ]
     },
+
+    // =============================================================================
+    // CHARTS & MAPS
+    // =============================================================================
+    // =============================================================================
+    // EXTENSIONS
+    // =============================================================================
+
     // =============================================================================
     // FULL PAGE LAYOUTS
     // =============================================================================
@@ -500,12 +551,10 @@ const router = new Router({
           }
         }
       ]
-    },
-    {
+    }, {
       path: "",
       component: () => import("@/layouts/full-page/FullPage.vue"),
-      children: [
-        {
+      children: [{
           path: "/pages/comingsoon",
           name: "page-coming-soon",
           component: () => import("@/views/pages/ComingSoon.vue"),
