@@ -74,14 +74,14 @@
                 <div
                   class="content-area__heading"
                   :class="{'pr-4 border-0 md:border-r border-solid border-grey-light' : $route.meta.breadcrumb}">
-                  <h2 class="mb-1">{{ routeTitle }}</h2>
+                  <!-- <h2 class="mb-1">{{ routeTitle }}</h2> -->
                 </div>
 
                 <!-- BREADCRUMB -->
                 <vx-breadcrumb class="ml-4 md:block hidden" v-if="$route.meta.breadcrumb" :route="$route" :isRTL="$vs.rtl" />
 
                 <!-- DROPDOWN -->
-                <vs-dropdown vs-trigger-click class="ml-auto md:block hidden cursor-pointer">
+                <!-- <vs-dropdown vs-trigger-click class="ml-auto md:block hidden cursor-pointer">
                   <vs-button radius icon="icon-settings" icon-pack="feather" />
 
                   <vs-dropdown-menu class="w-32">
@@ -105,7 +105,7 @@
                     </vs-dropdown-item>
                   </vs-dropdown-menu>
 
-                </vs-dropdown>
+                </vs-dropdown> -->
 
               </div>
             </transition>
@@ -130,6 +130,8 @@
 
 
 <script>
+// import _ from 'underscore'
+
 import BackToTop           from 'vue-backtotop'
 import HNavMenu            from '@/layouts/components/horizontal-nav-menu/HorizontalNavMenu.vue'
 import navMenuItems        from '@/layouts/components/vertical-nav-menu/navMenuItems.js'
@@ -139,6 +141,8 @@ import TheNavbarVertical   from '@/layouts/components/navbar/TheNavbarVertical.v
 import TheFooter           from '@/layouts/components/TheFooter.vue'
 import themeConfig         from '@/../themeConfig.js'
 import VNavMenu            from '@/layouts/components/vertical-nav-menu/VerticalNavMenu.vue'
+
+// import i18nData from '../../i18n/i18nData'
 
 const VxTour = () => import('@/components/VxTour.vue')
 
@@ -202,6 +206,8 @@ export default {
   },
   watch: {
     '$route' () {
+      // console.log((_.invert(i18nData.en))[this.$route.meta.pageTitle]);
+      // console.log(this.$route.meta.pageTitle)
       this.routeTitle = this.$route.meta.pageTitle
     },
     isThemeDark (val) {

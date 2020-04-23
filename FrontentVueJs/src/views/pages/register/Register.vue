@@ -128,7 +128,7 @@
                                 </vs-dropdown> -->
 
                                 <div class="dropdown-button-container">
-                                  <vs-button class="btnx" type="filled">Add languages (Emails will be sent in your top priority here)</vs-button>
+                                  <vs-button class="btnx" type="filled">Language</vs-button>
                                   <vs-dropdown>
                                       <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
                                       <vs-dropdown-menu>
@@ -295,10 +295,22 @@ export default {
   },
   methods: {
     addLanuage(language, index) {
-      console.log(language)
-      this.addedLanguages.push(language)
-      this.languages.splice(index, 1)
-      console.log(this.addedLanguages)
+      console.log(this.addedLanguages.length)
+      if (this.addedLanguages.length == 0){
+        this.addedLanguages.push(language)
+        this.languages.splice(index, 1)
+        console.log(this.addedLanguages)
+      }
+      else{
+        this.$vs.notify({
+          title: 'Can not add',
+          text: "You've already selected one language.",
+          color: 'danger',
+          iconPack: 'feather',
+          position: 'bottom-right',
+          icon:'icon-x'
+        })
+      }
     },
     removeLanuage(language, index) {
       console.log(language)
