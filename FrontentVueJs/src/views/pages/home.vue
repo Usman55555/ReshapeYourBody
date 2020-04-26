@@ -243,8 +243,7 @@
                     <div class="vx-row">
                         <div class="vx-col w-full mb-base">
                             <vx-card slot="no-body" class="text-center bg-primary-gradient greet-user">
-                                        <img src="@/assets/images/elements/decore-left.png" class="decore-left" alt="Decore Left" width="200" >
-                                        <img src="@/assets/images/elements/decore-right.png" class="decore-right" alt="Decore Right" width="175">
+                                <img src="@/assets/images/elements/decore-left.png" class="decore-left" alt="Decore Left" width="200" >
                                 <!-- <feather-icon icon="AwardIcon" class="p-6 mb-8 bg-primary inline-flex rounded-full text-white shadow" svgClasses="h-8 w-8"></feather-icon> -->
                                 <h1 
                                   v-if="this.lang == 'de'" 
@@ -255,6 +254,7 @@
                                 <h1 
                                   v-if="this.lang != 'de' && this.lang != 'sp'" 
                                   class="mb-6 text-white">Welcome, {{ this.$store.state.AppActiveUser.firstname }}</h1>
+                                <img src="@/assets/images/elements/decore-right.png" class="decore-right" alt="Decore Right" width="175">
                             </vx-card>
                         </div>
                     </div>
