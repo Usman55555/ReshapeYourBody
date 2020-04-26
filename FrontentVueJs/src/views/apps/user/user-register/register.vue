@@ -99,6 +99,21 @@
             class="w-full mt-4" v-model="address2"  name="Address2" />
             <!-- <span class="text-danger text-sm"  v-show="errors.has('postal')">{{ errors.first('postal') }}</span> -->
 
+        <!-- City -->
+        <div class="mt-8">
+        <!-- <label class="text-sm">City</label> -->
+
+            <vs-input
+            data-vv-validate-on="blur"
+            name="city"
+            type="city"
+            label-placeholder="Ciudad"
+            placeholder="Ciudad"
+            v-model="city"
+            class="w-full mt-6" />
+
+        </div>
+        
         <!-- Country -->
         <div class="mt-8">
         <!-- <label class="text-sm">Country</label> -->
@@ -109,23 +124,16 @@
         
         </div>
 
-        <!-- City -->
         <div class="mt-8">
-        <!-- <label class="text-sm">City</label> -->
-        <v-select 
-            label-placeholder="Ciudad"
-            placeholder="Ciudad"
-        v-model="city" :options="cityOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-
-        <vs-input
-        data-vv-validate-on="blur"
-        name="postal"
-        type="postal"
-        label-placeholder="Postal"
-        placeholder="Postal"
-        v-model="postal"
-        class="w-full mt-6" />
-    </div>
+            <vs-input
+            data-vv-validate-on="blur"
+            name="postal"
+            type="postal"
+            label-placeholder="Postal"
+            placeholder="Postal"
+            v-model="postal"
+            class="w-full mt-6" />
+        </div>
 
       </div>
     </div>
@@ -218,6 +226,21 @@
             class="w-full mt-4" v-model="address2"  name="Address2" />
             <!-- <span class="text-danger text-sm"  v-show="errors.has('postal')">{{ errors.first('postal') }}</span> -->
 
+        <!-- City -->
+        <div class="mt-8">
+        <!-- <label class="text-sm">City</label> -->
+
+            <vs-input
+            data-vv-validate-on="blur"
+            name="city"
+            type="city"
+            label-placeholder="Stadt"
+            placeholder="Stadt"
+            v-model="city"
+            class="w-full mt-6" />
+
+        </div>
+
         <!-- Country -->
         <div class="mt-8">
         <!-- <label class="text-sm">Country</label> -->
@@ -228,23 +251,16 @@
         
         </div>
 
-        <!-- City -->
         <div class="mt-8">
-        <!-- <label class="text-sm">City</label> -->
-        <v-select 
-            label-placeholder="Stadt"
-            placeholder="Stadt"
-        v-model="city" :options="cityOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-
-        <vs-input
-        data-vv-validate-on="blur"
-        name="postal"
-        type="postal"
-        label-placeholder="Post"
-        placeholder="Post"
-        v-model="postal"
-        class="w-full mt-6" />
-    </div>
+            <vs-input
+            data-vv-validate-on="blur"
+            name="postal"
+            type="postal"
+            label-placeholder="Post"
+            placeholder="Post"
+            v-model="postal"
+            class="w-full mt-6" />
+        </div>
 
       </div>
     </div>
@@ -276,7 +292,7 @@
         <vs-input 
             data-vv-validate-on="blur"
             label-placeholder="Lastname"
-            placeholder="Lastnae"
+            placeholder="Lastname"
             class="w-full mt-4" label="Last Name" v-model="lastname" v-validate="'required|alpha_spaces'" name="lastname" />
         
 
@@ -339,6 +355,21 @@
             class="w-full mt-4" v-model="address2"  name="Address2" />
             <!-- <span class="text-danger text-sm"  v-show="errors.has('postal')">{{ errors.first('postal') }}</span> -->
 
+        <!-- City -->
+        <div class="mt-8">
+        <!-- <label class="text-sm">City</label> -->
+            
+            <vs-input
+            data-vv-validate-on="blur"
+            name="city"
+            type="city"
+            label-placeholder="City"
+            placeholder="City"
+            v-model="city"
+            class="w-full mt-6" />
+
+        </div>
+
         <!-- Country -->
         <div class="mt-8">
         <!-- <label class="text-sm">Country</label> -->
@@ -349,23 +380,16 @@
         
         </div>
 
-        <!-- City -->
         <div class="mt-8">
-        <!-- <label class="text-sm">City</label> -->
-        <v-select 
-            label-placeholder="City"
-            placeholder="City"
-        v-model="city" :options="cityOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-
-        <vs-input
-        data-vv-validate-on="blur"
-        name="postal"
-        type="postal"
-        label-placeholder="Postal"
-        placeholder="Postal"
-        v-model="postal"
-        class="w-full mt-6" />
-    </div>
+            <vs-input
+            data-vv-validate-on="blur"
+            name="postal"
+            type="postal"
+            label-placeholder="Postal"
+            placeholder="Postal"
+            v-model="postal"
+            class="w-full mt-6" />
+        </div>
 
       </div>
     </div>
@@ -410,7 +434,6 @@ import phone from 'phone'
 import Datepicker from 'vuejs-datepicker'
 import { en, he } from 'vuejs-datepicker/src/locale'
 var jsonData = require('../../../pages/user-settings/countries_json.json');
-var jsonData1 = require('../../../pages/user-settings/world-cities_json.json');
 
 export default {
   components: {
@@ -437,7 +460,6 @@ export default {
       city: '',
       postal: '',
       countryOptions: jsonData,
-      cityOptions: [{}],
 
       roleOptions: [
         { label: 'Admin',  value: 'admin' },
@@ -451,20 +473,6 @@ export default {
         { label: 'Spanish',   value: 'spanish'   },
         { label: 'German',   value: 'german'   },
       ]}
-  },
-  watch: {
-    country1: function (value) {
-      if (value !== null || value !== undefined){
-        for (var key in jsonData1) {
-          if (key == value.label){
-            const uniqueSet = new Set(jsonData1[key])
-            this.cityOptions = [...uniqueSet]
-            break
-          }
-        }
-        this.country = value.label
-      }
-    }
   },
   computed: {
     lang() {

@@ -85,6 +85,35 @@
       v-model="postal"
       class="w-full mt-6" />
 
+    <!-- City -->
+    <vs-input
+      v-if="this.lang == 'de'" 
+      data-vv-validate-on="blur"
+      name="city"
+      type="city"
+      label-placeholder="Stadt"
+      placeholder="Stadt"
+      v-model="postal"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang == 'sp'" 
+      data-vv-validate-on="blur"
+      name="city"
+      type="city"
+      label-placeholder="Ciudad"
+      placeholder="Ciudad"
+      v-model="city"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang != 'de' && this.lang != 'sp'" 
+      data-vv-validate-on="blur"
+      name="city"
+      type="city"
+      label-placeholder="City"
+      placeholder="City"
+      v-model="city"
+      class="w-full mt-6" />
+
     <!-- Country -->
     <div class="mt-8">
       <label 
@@ -97,20 +126,6 @@
         v-if="this.lang != 'de' && this.lang != 'sp'" 
         class="text-sm">Country</label>
       <v-select v-model="country1" :options="countryOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-    </div>
-
-    <!-- City -->
-    <div class="mt-8">
-      <label 
-        v-if="this.lang == 'de'"
-        class="text-sm">Stadt</label>
-      <label 
-        v-if="this.lang == 'sp'"
-        class="text-sm">Ciudad</label>
-      <label 
-        v-if="this.lang != 'de' && this.lang != 'sp'"
-        class="text-sm">City</label>
-      <v-select v-model="city" :options="cityOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
     </div>
 
     <!-- Website  -->
@@ -141,7 +156,6 @@
 <script>
 import vSelect from 'vue-select'
 var jsonData = require('./countries_json.json');
-var jsonData1 = require('./world-cities_json.json');
 
 export default {
   components: {
@@ -155,27 +169,9 @@ export default {
       country: '',
       city: '',
       postal: '',
-      countryOptions: jsonData,
-      cityOptions: [{}]
+      countryOptions: jsonData
     }
   },
-  watch: {
-    country1: function (value) {
-      if (value !== null || value !== undefined){
-        for (var key in jsonData1) {
-          if (key == value.label){
-            const uniqueSet = new Set(jsonData1[key])
-            this.cityOptions = [...uniqueSet]
-            break
-          }
-        }
-        this.country = value.label
-      }
-    }
-  },
-  // created: {
-  //   countryOptions = jsonData
-  // },
   computed: {
     lang() {
       this.graphComponent += 1
