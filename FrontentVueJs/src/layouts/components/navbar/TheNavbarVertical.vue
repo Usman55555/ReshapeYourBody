@@ -22,7 +22,7 @@
     
         <vs-spacer />
 
-        <vs-row v-if='admin()'>
+        <vs-row v-if='admin()'> 
             <div class="flex  w-full bg-white chat-input-container mr-3">
                 <vs-input
                   v-if="this.lang == 'de'" 
@@ -40,13 +40,13 @@
         <vs-row v-else>
             <vs-input 
               v-if="this.lang == 'de'" 
-              class="inputx mr-3 w-full" :disabled="disabled"  placeholder="Die Sendung von Admin wird hier angezeigt..." v-model="broadcast_message"  />
+              class="inputx mr-3 w-full" :disabled="disabled"   v-model="broadcast_message"  />
             <vs-input 
               v-if="this.lang == 'sp'" 
-              class="inputx mr-3 w-full" :disabled="disabled"  placeholder="La transmisión del administrador aparecerá aquí..." v-model="broadcast_message"  />
+              class="inputx mr-3 w-full" :disabled="disabled"  v-model="broadcast_message"  />
             <vs-input 
               v-if="this.lang != 'de' && this.lang != 'sp'" 
-              class="inputx mr-3 w-full" :disabled="disabled"  placeholder="Broadcats from Admin will appear here..." v-model="broadcast_message"  />
+              class="inputx mr-3 w-full" :disabled="disabled"   v-model="broadcast_message"  />
         </vs-row>
         
         <i18n />
@@ -130,6 +130,7 @@ export default {
     }
   },
   methods: {
+    
     admin () {
       return localStorage.getItem('user-usertype') === 'admin'
     },
@@ -177,12 +178,8 @@ export default {
 }
 </script>
 <style lang="scss">
-input:disabled {
-  color: black
-}
-
-#txt {
-  color: red;
-}
+input {
+      color: #fa6e6e !important;
+    }
 
 </style>

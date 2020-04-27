@@ -158,74 +158,85 @@ router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
       console.log("user_update_id")
      console.log(user_update)
     }
+    // var s = await Requests.findOne({ status: req.body.status });
+    // console.log("updated ----------------------------------",s)
     var update_status = await Requests.findByIdAndUpdate(
       req.body.reqId,
       {
         status: req.body.status
       },
       {
-        new: true
+        new: false
       }
     ).populate('madeBy', [ 'email', 'firstname', 'lastname' ]);
+    console.log(update_status.status, 'status.......................')
     var user = await User.findOne({ _id: update_status.madeBy });
-    console.log('languages---------- ',user.languages[0]);
-    console.log("user uuuuuuuuuuuuuu",user)
+    
+    // console.log('languages---------- ',user.languages[0]);
+    // console.log("user uuuuuuuuuuuuuu",user)
       // console.log(user.laguages[0],"language.......................")
-    console.log(update_status);
-    if (user.languages[0] == "German")
+    // console.log(update_status);
+    if (update_status.status != req.body.status)
     {
-      var mailBody = `
-      <div style="
-          background-color:#fafafa;
-          padding-left: 20px;"><br />
-          <h1>Hi, ${user.firstname} </h1>
-          <h3>Your request's status is ${req.body.status}.</h3>
-          <h5>You can now view your status </h5>
-          <br />
-         
-      </div>
-      `;
-    }
-    else if (user.languages[0] == "Spanish")
-    {
-      var mailBody = `
-      <div style="
-          background-color:#fafafa;
-          padding-left: 20px;"><br />
-          <h1>Hi, ${user.firstname} </h1>
-          <h3>Your request's status is ${req.body.status}.</h3>
-          <h5>You can now view your status </h5>
-          <br />
-         
-      </div>
-      `;
-    }
-    else{
-      var mailBody = `
-      <div style="
-          background-color:#fafafa;
-          padding-left: 20px;"><br />
-          <h1>Hi, ${user.firstname} </h1>
-          <h3>Your request's status is ${req.body.status}.</h3>
-          <h5>You can now view your status </h5>
-          <br />
-         
-      </div>
-      `;
-    }
-   
 
-    const mailOptions = {
-      from: `"${project}" <${email}>`, // sender address
-      to: user.email, // list of receivers
-      subject: "Your request status is updated.", // Subject line
-      html: mailBody
-    };
-    transporter.sendMail(mailOptions, function(err, info) {
-      if (err) console.log(err);
-      else console.log(info);
-    });
-    console.log(update_status,"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+      if (user.languages[0] == "German")
+          {
+            var mailBody = `
+            <div style="
+                background-color:#fafafa;
+                padding-left: 20px;"><br />
+                <h1>Hi, ${user.firstname} </h1>
+                <h3>Your request's status is ${req.body.status}.</h3>
+                <h5>You can now view your status </h5>
+                <br />
+              
+            </div>
+            `;
+          }
+    else if (user.languages[0] == "Spanish")
+          {
+            var mailBody = `
+            <div style="
+                background-color:#fafafa;
+                padding-left: 20px;"><br />
+                <h1>Hi, ${user.firstname} </h1>
+                <h3>Your request's status is ${req.body.status}.</h3>
+                <h5>You can now view your status </h5>
+                <br />
+              
+            </div>
+            `;
+          }
+    else
+          {
+            var mailBody = `
+            <div style="
+                background-color:#fafafa;
+                padding-left: 20px;"><br />
+                <h1>Hi, ${user.firstname} </h1>
+                <h3>Your request's status is ${req.body.status}.</h3>
+                <h5>You can now view your status </h5>
+                <br />
+              
+            </div>
+            `;
+          }
+          const mailOptions = {
+            from: `"${project}" <${email}>`, // sender address
+            to: user.email, // list of receivers
+            subject: "Your request status is updated.", // Subject line
+            html: mailBody
+          };
+          transporter.sendMail(mailOptions, function(err, info) {
+            if (err) console.log(err);
+            else console.log(info);
+          });
+        
+    }
+    
+
+   
+    // console.log(update_status,"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     res.status(200).send(update_status);
   } catch {
     res.status(400).send({
