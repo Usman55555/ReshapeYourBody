@@ -164,7 +164,7 @@
         <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="popupActive=true" />
 
               <vs-popup  class="holamundo" title="Update Status" :active.sync="popupActive">
-              <vs-button @click="update(tr,'pending',indextr)" color="primary" type="border">Pending</vs-button>&nbsp;
+              <vs-button @click="update(tr,'pending',indextr)" popupActive=false color="primary" type="border">Pending</vs-button>&nbsp;
               <vs-button @click="update(tr,'accepted',indextr)" color="primary" type="border">Accepted</vs-button>&nbsp;
               <vs-button @click="update(tr,'reviewed',indextr)" color="primary" type="border">Reviewed</vs-button>&nbsp;
               <vs-button @click="update(tr,'rejected',indextr)" color="primary" type="border">Rejected</vs-button>&nbsp;
@@ -182,42 +182,13 @@
     </vs-table>
     
   </div>
-  <div v-else  id="data-list-list-view" class="data-list-container">
+  <div v-else  id="page-user-view" >
 
     <!-- <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" /> -->
 
-    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="my_request">
+    <!-- <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="my_request"> -->
 
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
-
-        <div class="flex flex-wrap-reverse items-center data-list-btn-container">
-
-          <!-- ADD NEW -->
-        <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler">
-          <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-            <span   class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ my_request.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : my_request.length }} of {{ queriedItems }}</span>
-            <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-          </div>
-          <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
-          <vs-dropdown-menu>
-
-            <vs-dropdown-item @click="itemsPerPage=4">
-              <span>4</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage=10">
-              <span>10</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage=15">
-              <span>15</span>
-            </vs-dropdown-item>
-            <vs-dropdown-item @click="itemsPerPage=20">
-              <span>20</span>
-            </vs-dropdown-item>
-          </vs-dropdown-menu>
-        </vs-dropdown>
-        </div>
-
-        <!-- ITEMS PER PAGE -->
           <div  class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-success border border-solid border-success" @click="addNewData">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
               <span v-if="this.lang == 'sp'" class="ml-2 text-base text-danger">Solicitud de socio</span>
@@ -226,46 +197,119 @@
           </div>
         
       </div>
+    
+            <div class="vx-row">
+               <div class="vx-col lg:w-1/4 xl:w-1/4 mb-base">
+                </div>
+              <div class="vx-col sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-base">
+                        
+                            <vx-card
+                                v-if="this.lang == 'de'" 
+                                title="Ihre Anfrage"
+                                title-color="#fff"
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                               
+                                
+                                <vs-tr :key="indextr" v-for="(tr, indextr) in my_request">
+                                <p class="mb-3"><strong>Status</strong></p>
+                                <vs-chip :color="getOrderStatusColor(tr.status)" class="product-order-status">{{ tr.status }}</vs-chip>
+                                <span>&nbsp;&nbsp;&nbsp;</span><br><br>
+                                  <p class="mb-3"><strong>Email: </strong></p> 
+                                 <p class="product-category">{{ tr.madeBy.email }}</p>
+                                  <br>
+                                  <p class="mb-3"><strong>Anfrage gemacht am: </strong></p> 
+                                  <p class="product-category">{{ tr.createdAt }}</p> 
+                                </vs-tr>
+                              
+                            </vx-card>
+                              <vx-card
+                                v-if="this.lang == 'sp'" 
+                                 title="Tu petición"
+                                title-color="#fff"
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                               
+                                
+                                <vs-tr :key="indextr" v-for="(tr, indextr) in my_request">
+                                <p class="mb-3"><strong>Estado</strong></p>
+                                <vs-chip :color="getOrderStatusColor(tr.status)" class="product-order-status">{{ tr.status }}</vs-chip>
+                                <span>&nbsp;&nbsp;&nbsp;</span><br><br>
+                                  <p class="mb-3"><strong>Correo electrónico: </strong></p> 
+                                 <p class="product-category">{{ tr.madeBy.email }}</p>
+                                  <br>
+                                  <p class="mb-3"><strong>Solicitud realizada el: </strong></p> 
+                                  <p class="product-category">{{ tr.createdAt }}</p> 
+                                </vs-tr>
+                            </vx-card>
+                            <vx-card 
+                                v-if="this.lang != 'de' && this.lang != 'sp' && my_request != ''  " 
+                                title="Your Request"
+                                title-color="#fff"
+                                content-color="#fff"
+                                card-background="linear-gradient(to right, #649a4c, #8fb67e)">
+                               
+                                
+                                <vs-tr  :key="indextr" v-for="(tr, indextr) in my_request">
+                                <p class="mb-3"><strong>Status</strong></p>
+                                <vs-chip :color="getOrderStatusColor(tr.status)" class="product-order-status">{{ tr.status }}</vs-chip>
+                                <span>&nbsp;&nbsp;&nbsp;</span><br><br>
+                                  <p class="mb-3"><strong>Email: </strong></p> 
+                                 <p class="product-category">{{ tr.madeBy.email }}</p>
+                                  <br>
+                                  <p class="mb-3"><strong>Request Made on: </strong></p> 
+                                  <p class="product-category">{{ tr.createdAt }}</p> 
+                                </vs-tr>
+                              
+                            </vx-card>
+                        
+                     </div>
+             </div>
+        
+       
 
-      <template slot="thead" v-if="this.lang == 'de'">
+        <!-- ITEMS PER PAGE -->
+          
+
+      <!-- <template slot="thead" v-if="this.lang == 'de'"> -->
         <!-- <vs-th sort-key="name">Name</vs-th>  -->
-          <vs-th sort-key="category">Vorname</vs-th>
+          <!-- <vs-th sort-key="category">Vorname</vs-th>
         <vs-th sort-key="popularity">Familienname, Nachname</vs-th>
         <vs-th sort-key="popularity">Benutzer Email</vs-th> 
         <vs-th sort-key="order_status">Anforderungsstatus</vs-th>
-        <vs-th sort-key="category">Hergestellt in</vs-th>
+        <vs-th sort-key="category">Hergestellt in</vs-th> -->
         <!-- <vs-th sort-key="price">Price</vs-th> -->
-        <vs-th>Aktion</vs-th>
+        <!-- <vs-th>Aktion</vs-th> -->
         
-      </template>
-      <template slot="thead" v-else-if="this.lang == 'sp'">
+      <!-- </template> -->
+      <!-- <template slot="thead" v-else-if="this.lang == 'sp'"> -->
         <!-- <vs-th sort-key="name">Name</vs-th>  -->
-          <vs-th sort-key="category">Primer nombre</vs-th>
-        <vs-th sort-key="popularity">Apellido</vs-th>
+          <!-- <vs-th sort-key="category">Primer nombre</vs-th> -->
+        <!-- <vs-th sort-key="popularity">Apellido</vs-th>
         <vs-th sort-key="popularity">Email del usuario</vs-th> 
         <vs-th sort-key="order_status">Estado de la solicitud</vs-th>
-        <vs-th sort-key="category">Creado en</vs-th>
+        <vs-th sort-key="category">Creado en</vs-th> -->
         <!-- <vs-th sort-key="price">Price</vs-th> -->
-        <vs-th>Acción</vs-th>
+        <!-- <vs-th>Acción</vs-th> -->
         
-      </template>
-      <template slot="thead" v-else>
+      <!-- </template>
+      <template slot="thead" v-else> -->
         <!-- <vs-th sort-key="name">Name</vs-th>  -->
-          <vs-th sort-key="category">First Name</vs-th>
+          <!-- <vs-th sort-key="category">First Name</vs-th>
         <vs-th sort-key="popularity">Second Name</vs-th>
         <vs-th sort-key="popularity">User Email</vs-th> 
         <vs-th sort-key="order_status">Request Status</vs-th>
-        <vs-th sort-key="category">Created At</vs-th>
+        <vs-th sort-key="category">Created At</vs-th> -->
         <!-- <vs-th sort-key="price">Price</vs-th> -->
-        <vs-th>Action</vs-th>
+        <!-- <vs-th>Action</vs-th> -->
         
-      </template>
+      <!-- </template> -->
 
-        <template >
-          <tbody  >
+        <!-- <template >
+          <tbody  > -->
             <!-- <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data"> -->
 
-            <vs-tr :key="indextr" v-for="(tr, indextr) in my_request">
+            <!-- <vs-tr :key="indextr" v-for="(tr, indextr) in my_request">
                 <vs-td>
                  <p class="product-category">{{ tr.madeBy.firstname }}</p>
               </vs-td>
@@ -277,23 +321,23 @@
               </vs-td>
               <vs-td>
                 <vs-chip :color="getOrderStatusColor(tr.status)" class="product-order-status">{{ tr.status }}</vs-chip>
-              </vs-td>
+              </vs-td> -->
 
               <!-- <vs-td>
                 <p class="product-price">${{ tr.price }}</p>
               </vs-td> -->
-                <vs-td>
+                <!-- <vs-td>
                  <p class="product-category">{{ tr.createdAt }}</p>
-              </vs-td>
+              </vs-td> -->
 
-              <vs-td class="whitespace-no-wrap">
+              <!-- <vs-td class="whitespace-no-wrap"> -->
                 <!-- <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" /> -->
-                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr._id)" />
-              </vs-td>
+                <!-- <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr._id)" />
+              </vs-td> -->
            
-            </vs-tr>
-          </tbody>
-        </template>
+            <!-- </vs-tr>
+          </tbody> -->
+        <!-- </template> -->
          <!-- <template v-if='usertype=="admin"'>
           <tbody  > -->
             <!-- <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data"> -->
@@ -329,7 +373,7 @@
           </tbody>
         </template> -->
          
-    </vs-table>
+    <!-- </vs-table> -->
     
   </div>
 </template>
@@ -619,6 +663,24 @@ export default {
 </script>
 
 <style lang="scss">
+#page-user-view {
+  table {
+    td {
+      vertical-align: top;
+      min-width: 140px;
+      padding-bottom: .8rem;
+      word-break: break-all;
+    }
+
+    &:not(.permissions-table) {
+      td {
+        @media screen and (max-width:370px) {
+          display: block;
+        }
+      }
+    }
+  }
+}
 #data-list-list-view {
   .vs-con-table {
 
