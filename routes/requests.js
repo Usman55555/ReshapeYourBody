@@ -13,6 +13,57 @@ var {
   authenticate
 } = require("../middleware/authenticate");
 
+
+const {
+  requests_de_h1_1,
+  requests_de_h3_1,
+  requests_de_h3_2,
+  requests_de_p_1,
+  requests_de_p_2,
+  requests_de_p_3,
+  requests_de_h3_3,
+  requests_de_p_4,
+  requests_de_p_5,
+  request_de_h3_4,
+
+  requests_sp_h1_1,
+  requests_sp_h3_1,
+  requests_sp_h3_2,
+  requests_sp_p_1,
+  requests_sp_p_2,
+  requests_sp_p_3,
+  requests_sp_h3_3,
+  requests_sp_p_4,
+  requests_sp_p_5,
+  request_sp_h3_4,
+
+
+  requests_en_h1_1 ,
+  requests_en_h3_1,
+  requests_en_h3_2,
+  requests_en_p_1,
+  requests_en_p_2,
+  requests_en_p_3,
+  requests_en_h3_3,
+  requests_en_p_4,
+  requests_en_p_5,
+  request_en_h3_4,
+  
+  // Update Request  (Emails will be sent upon updation of user's status...)
+  request_de_h1_1,
+  request_de_h3_1,
+  request_de_h5_1,
+ 
+
+  request_sp_h1_1,
+  request_sp_h3_1,
+  request_sp_h5_1,
+  
+
+  request_en_h1_1,
+  request_en_h3_1,
+  request_en_h5_1,
+} = require("../config/requests_email");
 var transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -57,16 +108,16 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
       <div style="
           background-color:#fafafa;
           padding-left: 20px;">
-          <h1>Hallo Admin</h1>
-          <h3>Sie haben eine neue Anfrage erhalten.</h3>
-          <h3 >${doc1.madeBy.firstname} haben darum gebeten, Partner zu werden.</h3><br>
-           <p>Bitte überprüfen Sie die Anfrage und Aktualisierung des Benutzers ${doc1.madeBy.firstname}'s status.
-           Auf diese Weise erfahren Benutzer, wie viele Rechte Benutzer an Ihren Diensten haben </h5><br>
+          <h1>${requests_de_h1_1}</h1>
+          <h3>${ requests_de_h3_1}</h3>
+          <h3 >${doc1.madeBy.firstname} ${requests_de_h3_2}</h3><br>
+           <p>${requests_de_p_1} ${doc1.madeBy.firstname}'${requests_de_p_2}.
+           ${requests_de_p_3} </h5><br>
 
-           <h3> Nutzerinformation</h3>
-           <p>Name: ${doc1.madeBy.firstname} ${doc1.madeBy.lastname}</p>
-           <p>Email: ${doc1.madeBy.email}</p>
-          <h3>Dankeschön </h3>
+           <h3>${requests_de_h3_3}</h3>
+           <p>${requests_de_p_4} ${doc1.madeBy.firstname} ${doc1.madeBy.lastname}</p>
+           <p>${requests_de_p_5} ${doc1.madeBy.email}</p>
+          <h3>${request_de_h3_4} </h3>
       </div>
       `;
     }
@@ -76,16 +127,16 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
                 <div style="
                     background-color:#fafafa;
                     padding-left: 20px;">
-                    <h1>Hola admin</h1>
-                    <h3>Tienes una nueva solicitud..</h3>
-                    <h3 >${doc1.madeBy.firstname} ha solicitado ser socio.</h3><br>
-                     <p>Por favor revise la solicitud del usuario y actualice ${doc1.madeBy.firstname}'s status.
-                     Esto le permitirá al usuario saber cuántos derechos tiene el usuario sobre sus servicios </h5><br>
-
-                     <h3> informacion del usuarion</h3>
-                     <p>Nombre: ${doc1.madeBy.firstname} ${doc1.madeBy.lastname}</p>
-                     <p>Correo electrónico: ${doc1.madeBy.email}</p>
-                    <h3> Thank You </h3>
+                    <h1>${requests_sp_h1_1}</h1>
+                    <h3>${ requests_sp_h3_1}</h3>
+                    <h3 >${doc1.madeBy.firstname} ${requests_sp_h3_2}</h3><br>
+                     <p>${requests_sp_p_1} ${doc1.madeBy.firstname}'${requests_sp_p_2}.
+                     ${requests_sp_p_3} </h5><br>
+          
+                     <h3>${requests_sp_h3_3}</h3>
+                     <p>${requests_sp_p_4} ${doc1.madeBy.firstname} ${doc1.madeBy.lastname}</p>
+                     <p>${requests_sp_p_5} ${doc1.madeBy.email}</p>
+                    <h3>${request_sp_h3_4} </h3>
                 </div>
                 `;
     }
@@ -94,17 +145,16 @@ router.post("/newRequest", usercustomerauthenticate, async (req, res) => {
       <div style="
           background-color:#fafafa;
           padding-left: 20px;">
-          <h1>Hi Admin </h1>
-          <h3>You got a new request.</h3>
-          <h3 >${doc1.madeBy.firstname} have requested to become a
-           pertner.</h3><br>
-           <p>Please review user's request and update ${doc1.madeBy.firstname}'s status.
-           This will let user to know how much rights user have to your services </h5><br>
+          <h1>${requests_en_h1_1}</h1>
+          <h3>${ requests_en_h3_1}</h3>
+          <h3 >${doc1.madeBy.firstname} ${requests_en_h3_2}</h3><br>
+           <p>${requests_en_p_1} ${doc1.madeBy.firstname}'${requests_en_p_2}.
+           ${requests_en_p_3} </h5><br>
 
-           <h3> User Information</h3>
-           <p>Name: ${doc1.madeBy.firstname} ${doc1.madeBy.lastname}</p>
-           <p>Email: ${doc1.madeBy.email}</p>
-          <h3> Thank You </h3>
+           <h3>${requests_en_h3_3}</h3>
+           <p>${requests_en_p_4} ${doc1.madeBy.firstname} ${doc1.madeBy.lastname}</p>
+           <p>${requests_en_p_5} ${doc1.madeBy.email}</p>
+          <h3>${request_en_h3_4} </h3>
       </div>
       `;
     }
@@ -185,9 +235,9 @@ router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
             <div style="
                 background-color:#fafafa;
                 padding-left: 20px;"><br />
-                <h1>Hi, ${user.firstname} </h1>
-                <h3>Your request's status is ${req.body.status}.</h3>
-                <h5>You can now view your status </h5>
+                <h1${ request_de_h1_1} ${user.firstname} </h1>
+                <h3>${request_de_h3_1} ${req.body.status}.</h3>
+                <h5>${request_de_h5_1}</h5>
                 <br />
               
             </div>
@@ -199,9 +249,9 @@ router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
             <div style="
                 background-color:#fafafa;
                 padding-left: 20px;"><br />
-                <h1>Hi, ${user.firstname} </h1>
-                <h3>Your request's status is ${req.body.status}.</h3>
-                <h5>You can now view your status </h5>
+                <h1${ request_sp_h1_1} ${user.firstname} </h1>
+                <h3>${request_sp_h3_1} ${req.body.status}.</h3>
+                <h5>${request_sp_h5_1}</h5>
                 <br />
               
             </div>
@@ -213,9 +263,9 @@ router.put("/updateRequestStatus", adminauthenticate, async (req, res) => {
             <div style="
                 background-color:#fafafa;
                 padding-left: 20px;"><br />
-                <h1>Hi, ${user.firstname} </h1>
-                <h3>Your request's status is ${req.body.status}.</h3>
-                <h5>You can now view your status </h5>
+                <h1${ request_en_h1_1} ${user.firstname} </h1>
+                <h3>${request_en_h3_1} ${req.body.status}.</h3>
+                <h5>${request_en_h5_1}</h5>
                 <br />
               
             </div>
