@@ -85,6 +85,35 @@
       v-model="postal"
       class="w-full mt-6" />
 
+    <!-- City -->
+    <vs-input
+      v-if="this.lang == 'de'" 
+      data-vv-validate-on="blur"
+      name="city"
+      type="city"
+      label-placeholder="Stadt"
+      placeholder="Stadt"
+      v-model="postal"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang == 'sp'" 
+      data-vv-validate-on="blur"
+      name="city"
+      type="city"
+      label-placeholder="Ciudad"
+      placeholder="Ciudad"
+      v-model="city"
+      class="w-full mt-6" />
+    <vs-input
+      v-if="this.lang != 'de' && this.lang != 'sp'" 
+      data-vv-validate-on="blur"
+      name="city"
+      type="city"
+      label-placeholder="City"
+      placeholder="City"
+      v-model="city"
+      class="w-full mt-6" />
+
     <!-- Country -->
     <div class="mt-8">
       <label 
@@ -97,20 +126,6 @@
         v-if="this.lang != 'de' && this.lang != 'sp'" 
         class="text-sm">Country</label>
       <v-select v-model="country1" :options="countryOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-    </div>
-
-    <!-- City -->
-    <div class="mt-8">
-      <label 
-        v-if="this.lang == 'de'"
-        class="text-sm">Stadt</label>
-      <label 
-        v-if="this.lang == 'sp'"
-        class="text-sm">Ciudad</label>
-      <label 
-        v-if="this.lang != 'de' && this.lang != 'sp'"
-        class="text-sm">City</label>
-      <v-select v-model="city" :options="cityOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
     </div>
 
     <!-- Website  -->
@@ -141,7 +156,6 @@
 <script>
 import vSelect from 'vue-select'
 var jsonData = require('./countries_json.json');
-var jsonData1 = require('./world-cities_json.json');
 
 export default {
   components: {
@@ -155,27 +169,9 @@ export default {
       country: '',
       city: '',
       postal: '',
-      countryOptions: jsonData,
-      cityOptions: [{}]
+      countryOptions: jsonData
     }
   },
-  watch: {
-    country1: function (value) {
-      if (value !== null || value !== undefined){
-        for (var key in jsonData1) {
-          if (key == value.label){
-            const uniqueSet = new Set(jsonData1[key])
-            this.cityOptions = [...uniqueSet]
-            break
-          }
-        }
-        this.country = value.label
-      }
-    }
-  },
-  // created: {
-  //   countryOptions = jsonData
-  // },
   computed: {
     lang() {
       this.graphComponent += 1
@@ -210,23 +206,63 @@ export default {
       this.$store.getters.getId.then(id => {  
         obj.id = id    
         this.$store.dispatch('edit', obj).then(() => {
-          this.$vs.notify({
-            title: 'Success',
-            text: 'Your profile updated successfully',
-            color: 'success',
-            iconPack: 'feather',
-            position: 'top-center',
-            icon:'icon-check'
-          })
+          if (this.lang == 'de'){
+            this.$vs.notify({
+              title: 'Erfolg',
+              text: 'Ihr Profil wurde erfolgreich aktualisiert',
+              color: 'primary',
+              iconPack: 'feather',
+              position: 'top-center',
+              icon:'icon-check'
+            })
+          }
+          else if (this.lang == 'sp'){
+            this.$vs.notify({
+              title: 'Éxito',
+              text: 'Tu perfil se actualizó correctamente',
+              color: 'primary',
+              iconPack: 'feather',
+              position: 'top-center',
+              icon:'icon-check'
+            })
+          }
+          else{
+            this.$vs.notify({
+              title: 'Success',
+              text: 'Your profile updated successfully',
+              color: 'primary',
+              iconPack: 'feather',
+              position: 'top-center',
+              icon:'icon-check'
+            })
+          }
         })
         .catch(e => {
           this.colorAlert = 'danger'
-          this.$vs.dialog({
-            color: this.colorAlert,
-            title: `Some thing went wrong`,
-            text: `Couldn't update your profile...`,
-            accept: this.acceptAlert
-          })
+          if (this.lang == 'de'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Etwas ist schief gelaufen`,
+              text: `Ihr Profil konnte nicht aktualisiert werden...`,
+              accept: this.acceptAlert
+            })
+          }
+          else if (this.lang == 'sp'){
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Algo salió mal`,
+              text: `No se pudo actualizar tu perfil...`,
+              accept: this.acceptAlert
+            })
+          }
+          else{
+            this.$vs.dialog({
+              color: this.colorAlert,
+              title: `Some thing went wrong`,
+              text: `Couldn't update your profile...`,
+              accept: this.acceptAlert
+            })
+          }
         })
       })
     }

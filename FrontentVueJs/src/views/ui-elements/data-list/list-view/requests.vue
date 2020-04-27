@@ -102,7 +102,8 @@
           </tbody>
         </template> -->
          <template >
-          <tbody  >
+          <!-- <tbody v-if="admin_requests[0] != null"> -->
+          <tbody>
             <!-- <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data"> -->
 
             <vs-tr :key="indextr" v-for="(tr, indextr) in admin_requests">
@@ -171,7 +172,7 @@
               </vs-popup>
              
        
-                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteUserData(tr._id)" />
+              <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteUserData(tr._id)" />
            </vs-td>
               
                 
@@ -191,9 +192,9 @@
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
           <div  class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-success border border-solid border-success" @click="addNewData">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-              <span v-if="this.lang == 'sp'" class="ml-2 text-base text-danger">Solicitud de socio</span>
-              <span v-else-if="this.lang == 'de'" class="ml-2 text-base text-danger">Anfrage für Partner</span>
-              <span v-else class="ml-2 text-base text-danger">Request for Partner</span>
+              <span v-if="this.lang == 'sp'" class="ml-2 text-base">Solicitud para ser socio</span>
+              <span v-else-if="this.lang == 'de'" class="ml-2 text-base">Antrag auf Partner</span>
+              <span v-else class="ml-2 text-base">Request for being a Partner</span>
           </div>
         
       </div>
@@ -393,7 +394,7 @@ export default {
       popupActive: false,
       // products: [],
       user_request:[],
-       colorAlert:'success',
+      colorAlert:'primary',
       alertMessage:'',
       itemsPerPage: 4,
       isMounted: false,
@@ -485,7 +486,7 @@ export default {
           if(this.lang=="sp")
           {
                 this.$vs.dialog({
-                color: 'success',
+                color: 'primary',
                 title:  "El estado de su solicitud es :"+resp.data.status,
                 accept: this.acceptAlert,
                 })
@@ -493,7 +494,7 @@ export default {
           else if (this.lang=="de")
           {
                 this.$vs.dialog({
-                color: 'success',
+                color: 'primary',
                 title:  "Der Status Ihrer Anfrage lautet : "+resp.data.status,
                 accept: this.acceptAlert,
                 })
@@ -501,7 +502,7 @@ export default {
           }
           else{
              this.$vs.dialog({
-                color: 'success',
+                color: 'primary',
                 title:  "Your request's status is: "+resp.data.status,
                 accept: this.acceptAlert,
                 })
@@ -606,7 +607,7 @@ export default {
     },
     getOrderStatusColor (status) {
       if (status === 'reviewed')   return 'warning'
-      if (status === 'accepted') return 'success'
+      if (status === 'accepted') return 'primary'
       if (status === 'rejected')  return 'danger'
       return 'primary'
     },

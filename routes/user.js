@@ -16,8 +16,103 @@ var { Faq } = require("../models/faq");
 var { Key } = require("../models/key");
 var { Requests } = require("../models/requests");
 
-var { authenticate, adminauthenticate } = require("../middleware/authenticate");
-const { project, email, password, forgetSecret, address } = require("../config/config");
+var { 
+  authenticate, 
+  adminauthenticate 
+} = require("../middleware/authenticate");
+
+const { 
+  project, 
+  email, 
+  password, 
+  forgetSecret, 
+  address 
+} = require("../config/config");
+
+const {
+  register_de_h1_1,
+  register_de_h3_1,
+  register_de_h5_1,
+  register_de_a_1,
+  register_de_h5_2,
+  register_de_a_2,
+  register_sp_h1_1,
+  register_sp_h3_1,
+  register_sp_h5_1,
+  register_sp_a_1,
+  register_sp_h5_2,
+  register_sp_a_2,
+  register_en_h1_1,
+  register_en_h3_1,
+  register_en_h5_1,
+  register_en_a_1,
+  register_en_h5_2,
+  register_en_a_2,
+
+  forget_de_h1_1,
+  forget_de_h3_1,
+  forget_de_h5_1,
+  forget_de_h5_2,
+  forget_sp_h1_1,
+  forget_sp_h3_1,
+  forget_sp_h5_1,
+  forget_sp_h5_2,
+  forget_en_h1_1,
+  forget_en_h3_1,
+  forget_en_h5_1,
+  forget_en_h5_2,
+
+  adminRegister_de_h1_1,
+  adminRegister_de_h3_1,
+  adminRegister_de_h5_1,
+  adminRegister_de_a_1,
+  adminRegister_sp_h1_1,
+  adminRegister_sp_h3_1,
+  adminRegister_sp_h5_1,
+  adminRegister_sp_a_1,
+  adminRegister_en_h1_1,
+  adminRegister_en_h3_1,
+  adminRegister_en_h5_1,
+  adminRegister_en_a_1,
+
+  email_de_h1_1,
+  email_de_h3_1,
+  email_de_h5_1,
+  email_de_a_1,
+  email_de_h3_2,
+  email_de_h3_3,
+  email_sp_h1_1,
+  email_sp_h3_1,
+  email_sp_h5_1,
+  email_sp_a_1,
+  email_sp_h3_2,
+  email_sp_h3_3,
+  email_en_h1_1,
+  email_en_h3_1,
+  email_en_h5_1,
+  email_en_a_1,
+  email_en_h3_2,
+  email_en_h3_3,
+
+  request_de_h1_1,
+  request_de_h3_1,
+  request_de_h5_1,
+  request_de_a_1,
+  request_de_h5_2,
+  request_de_a_2,
+  request_sp_h1_1,
+  request_sp_h3_1,
+  request_sp_h5_1,
+  request_sp_a_1,
+  request_sp_h5_2,
+  request_sp_a_2,
+  request_en_h1_1,
+  request_en_h3_1,
+  request_en_h5_1,
+  request_en_a_1,
+  request_en_h5_2,
+  request_en_a_2,
+} = require("../config/user_email");
 
 // Email sending setup
 var transporter = nodemailer.createTransport({
@@ -243,9 +338,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
         <div style="
             background-color:#fafafa;
             padding-left: 20px;"><br />
-            <h1>Hallo, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
-            <h3>Sie sind einen Schritt davon entfernt, unserer Community beizutreten.</h3>
-            <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+            <h1>${register_de_h1_1}&nbsp;${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+            <h3>${register_de_h3_1}</h3>
+            <h5>${register_de_h5_1}</h5>
             <a 
                 href="${address}user/${randomstring}/email/${doc1.email}"
                 style="color: white;
@@ -263,9 +358,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 transition-duration: 0.4s;
                 cursor: pointer;
                 border-radius: 10px;"
-            >Herzlich willkommen...
+            >${register_de_a_1}
             </button></a><br />
-            <h5>Oder fordern Sie eine neue E-Mail an, indem Sie auf die Schaltfläche unten klicken.</h5>
+            <h5>${register_de_h5_2}</h5>
             <a 
                 href="${address}user/email/${doc1.email}"
                 style="color: white;
@@ -283,7 +378,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 color: black;
                 border: 2px solid #e7e7e7;
                 border-radius: 10px;"
-            >Fordern Sie einen neuen Code
+            >${register_de_a_2}
             </button></a><br /><br />
         </div>
         `;
@@ -293,9 +388,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
         <div style="
             background-color:#fafafa;
             padding-left: 20px;"><br />
-            <h1>Hola, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
-            <h3>Estás a un paso de unirte a nuestra comunidad.</h3>
-            <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+            <h1>${register_sp_h1_1}&nbsp;${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+            <h3>${register_sp_h3_1}</h3>
+            <h5>${register_sp_h5_1}</h5>
             <a 
                 href="${address}user/${randomstring}/email/${doc1.email}"
                 style="color: white;
@@ -313,9 +408,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 transition-duration: 0.4s;
                 cursor: pointer;
                 border-radius: 10px;"
-            >Bienvenidos...
+            >${register_sp_a_1}
             </button></a><br />
-            <h5>O solicite un nuevo correo electrónico haciendo clic en el botón a continuación.</h5>
+            <h5>${register_sp_h5_2}</h5>
             <a 
                 href="${address}user/email/${doc1.email}"
                 style="color: white;
@@ -333,7 +428,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 color: black;
                 border: 2px solid #e7e7e7;
                 border-radius: 10px;"
-            >Solicitar un nuevo código
+            >${register_sp_a_2}
             </button></a><br /><br />
         </div>
         `;
@@ -343,9 +438,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
         <div style="
             background-color:#fafafa;
             padding-left: 20px;"><br />
-            <h1>Hi, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
-            <h3>You are one step away from joining our community.</h3>
-            <h5>Please confirm your email by clicking the button below</h5>
+            <h1>${register_en_h1_1}&nbsp;${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+            <h3>${register_en_h3_1}</h3>
+            <h5>${register_en_h5_1}</h5>
             <a 
                 href="${address}user/${randomstring}/email/${doc1.email}"
                 style="color: white;
@@ -363,9 +458,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 transition-duration: 0.4s;
                 cursor: pointer;
                 border-radius: 10px;"
-            >Welcome...
+            >${register_en_a_1}
             </button></a><br />
-            <h5>Or request a new email by clicking the button below.</h5>
+            <h5>${register_en_h5_2}</h5>
             <a 
                 href="${address}user/email/${doc1.email}"
                 style="color: white;
@@ -383,7 +478,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 color: black;
                 border: 2px solid #e7e7e7;
                 border-radius: 10px;"
-            >Request a new code
+            >${register_en_a_2}
             </button></a><br /><br />
         </div>
         `;
@@ -422,9 +517,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hallo, ${user.firstname}&nbsp;${user.lastname}</h1>
-                  <h3>Sie sind einen Schritt davon entfernt, unserer Community beizutreten.</h3>
-                  <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+                  <h1>${register_de_h1_1}&nbsp;${user.firstname}&nbsp;${user.lastname}</h1>
+                  <h3>${register_de_h3_1}</h3>
+                  <h5>${register_de_h5_1}</h5>
                   <a 
                       href="${address}user/${randomstring}/email/${user.email}"
                       style="color: white;
@@ -442,9 +537,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                       transition-duration: 0.4s;
                       cursor: pointer;
                       border-radius: 10px;"
-                  >Herzlich willkommen...
+                  >${register_de_a_1}
                   </button></a><br />
-                  <h5>Oder fordern Sie eine neue E-Mail an, indem Sie auf die Schaltfläche unten klicken.</h5>
+                  <h5>${register_de_h5_2}</h5>
                   <a 
                       href="${address}user/email/${user.email}"
                       style="color: white;
@@ -462,7 +557,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                       color: black;
                       border: 2px solid #e7e7e7;
                       border-radius: 10px;"
-                  >Fordern Sie einen neuen Code
+                  >${register_de_a_2}
                   </button></a><br /><br />
               </div>
               `;  
@@ -472,9 +567,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hola, ${user.firstname}&nbsp;${user.lastname}</h1>
-                  <h3>Estás a un paso de unirte a nuestra comunidad.</h3>
-                  <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+                  <h1>${register_sp_h1_1}&nbsp;${user.firstname}&nbsp;${user.lastname}</h1>
+                  <h3>${register_sp_h3_1}</h3>
+                  <h5>${register_sp_h5_1}</h5>
                   <a 
                       href="${address}user/${randomstring}/email/${user.email}"
                       style="color: white;
@@ -492,9 +587,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                       transition-duration: 0.4s;
                       cursor: pointer;
                       border-radius: 10px;"
-                  >Bienvenidos...
+                  >${register_sp_a_1}
                   </button></a><br />
-                  <h5>O solicite un nuevo correo electrónico haciendo clic en el botón a continuación.</h5>
+                  <h5>${register_sp_h5_2}</h5>
                   <a 
                       href="${address}user/email/${user.email}"
                       style="color: white;
@@ -512,7 +607,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                       color: black;
                       border: 2px solid #e7e7e7;
                       border-radius: 10px;"
-                  >Solicitar un nuevo código
+                  >${register_sp_a_2}
                   </button></a><br /><br />
               </div>
               `;  
@@ -522,9 +617,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
         <div style="
             background-color:#fafafa;
             padding-left: 20px;"><br />
-            <h1>Hi, ${user.firstname}&nbsp;${user.lastname}</h1>
-            <h3>You are one step away from joining our community.</h3>
-            <h5>Please confirm your email by clicking the button below</h5>
+            <h1>${register_en_h1_1}&nbsp;${user.firstname}&nbsp;${user.lastname}</h1>
+            <h3>${register_en_h3_1}</h3>
+            <h5>${register_en_h5_1}</h5>
             <a 
                 href="${address}user/${randomstring}/email/${user.email}"
                 style="color: white;
@@ -542,9 +637,9 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 transition-duration: 0.4s;
                 cursor: pointer;
                 border-radius: 10px;"
-            >Welcome...
+            >${register_en_a_1}
             </button></a><br />
-            <h5>Or request a new email by clicking the button below.</h5>
+            <h5>${register_en_h5_2}</h5>
             <a 
                 href="${address}user/email/${user.email}"
                 style="color: white;
@@ -562,7 +657,7 @@ router.post("/register", upload.single("photo"), async (req, res) => {
                 color: black;
                 border: 2px solid #e7e7e7;
                 border-radius: 10px;"
-            >Request a new code
+            >${register_en_a_2}
             </button></a><br /><br />
         </div>
         `;
@@ -766,11 +861,11 @@ router.post("/forget", async (req, res) => {
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hallo, ${doc.firstname}&nbsp;${doc.lastname}</h1>
-                  <h3>Bitte teilen Sie diesen Code niemandem mit.</h3>
-                  <h5>Unten finden Sie den Code, den Sie zum Zurücksetzen des Passworts benötigen.</h5>
+                  <h1>${forget_de_h1_1}&nbsp;${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>${forget_de_h3_1}</h3>
+                  <h5>${forget_de_h5_1}</h5>
                   <h3>${code}</h3>
-                  <h5>Dieser Code läuft in 10 Minuten ab.</h5><br />
+                  <h5>${forget_de_h5_2}</h5><br />
               </div>
               `;
       }
@@ -779,11 +874,11 @@ router.post("/forget", async (req, res) => {
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hola, ${doc.firstname}&nbsp;${doc.lastname}</h1>
-                  <h3>Por favor, no comparta este código con nadie.</h3>
-                  <h5>A continuación se muestra el código que necesitará para restablecer la contraseña.</h5>
+                  <h1>${forget_sp_h1_1}&nbsp;${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>${forget_sp_h3_1}</h3>
+                  <h5>${forget_sp_h5_1}</h5>
                   <h3>${code}</h3>
-                  <h5>Este código caducará en 10 minutos.</h5><br />
+                  <h5>${forget_sp_h5_2}</h5><br />
               </div>
               `;
       }
@@ -792,11 +887,11 @@ router.post("/forget", async (req, res) => {
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hi, ${doc.firstname}&nbsp;${doc.lastname}</h1>
-                  <h3>Please, don't share this code with anyone.</h3>
-                  <h5>Below is the code you'll need for the password reset.</h5>
+                  <h1>${forget_en_h1_1}&nbsp;${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>${forget_en_h3_1}</h3>
+                  <h5>${forget_en_h5_1}</h5>
                   <h3>${code}</h3>
-                  <h5>This code will expire in 10 minutes.</h5><br />
+                  <h5>${forget_en_h5_2}</h5><br />
               </div>
               `;
       }
@@ -905,9 +1000,9 @@ router.post(
                   <div style="
                       background-color:#fafafa;
                       padding-left: 20px;"><br />
-                      <h1>Hallo, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
-                      <h3>Dein neues Passwort ist: ${password}</h3>
-                      <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+                      <h1>${adminRegister_de_h1_1}&nbsp;${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+                      <h3>${adminRegister_de_h3_1}&nbsp;${password}</h3>
+                      <h5>${adminRegister_de_h5_1}</h5>
                       <a 
                           href="${address}user/${randomstring}/email/${doc1.email}"
                           style="color: white;
@@ -925,7 +1020,7 @@ router.post(
                           transition-duration: 0.4s;
                           cursor: pointer;
                           border-radius: 10px;"
-                      >Herzlich willkommen...
+                      >${adminRegister_de_a_1}
                       </button></a><br />
                   </div>
                   `;  
@@ -935,9 +1030,9 @@ router.post(
                   <div style="
                       background-color:#fafafa;
                       padding-left: 20px;"><br />
-                      <h1>Hola, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
-                      <h3>Tu nueva contraseña es: ${password}</h3>
-                      <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+                      <h1>${adminRegister_sp_h1_1}&nbsp;${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+                      <h3>${adminRegister_sp_h3_1}&nbsp;${password}</h3>
+                      <h5>${adminRegister_sp_h5_1}</h5>
                       <a 
                           href="${address}user/${randomstring}/email/${doc1.email}"
                           style="color: white;
@@ -955,7 +1050,7 @@ router.post(
                           transition-duration: 0.4s;
                           cursor: pointer;
                           border-radius: 10px;"
-                      >Bienvenidos...
+                      >${adminRegister_sp_a_1}
                       </button></a><br />
                   </div>
                   `;  
@@ -965,9 +1060,9 @@ router.post(
                   <div style="
                       background-color:#fafafa;
                       padding-left: 20px;"><br />
-                      <h1>Hi, ${doc1.firstname}&nbsp;${doc1.lastname}</h1>
-                      <h3>Your new password is: ${password}</h3>
-                      <h5>Please confirm your email by clicking the button below</h5>
+                      <h1>${adminRegister_en_h1_1}&nbsp;${doc1.firstname}&nbsp;${doc1.lastname}</h1>
+                      <h3>${adminRegister_en_h3_1}&nbsp;${password}</h3>
+                      <h5>${adminRegister_en_h5_1}</h5>
                       <a 
                           href="${address}user/${randomstring}/email/${doc1.email}"
                           style="color: white;
@@ -985,7 +1080,7 @@ router.post(
                           transition-duration: 0.4s;
                           cursor: pointer;
                           border-radius: 10px;"
-                      >Welcome...
+                      >${adminRegister_en_a_1}
                       </button></a><br />
                   </div>
                   `;  
@@ -1045,9 +1140,9 @@ router.post(
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hallo, ${body.firstname}&nbsp;${body.lastname}</h1>
-                  <h3>Dein neues Passwort ist: ${password}</h3>
-                  <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+                  <h1>${adminRegister_de_h1_1}&nbsp;${body.firstname}&nbsp;${body.lastname}</h1>
+                  <h3>${adminRegister_de_h3_1}&nbsp;${password}</h3>
+                  <h5>${adminRegister_de_h5_1}</h5>
                   <a 
                       href="${address}user/${randomstring}/email/${body.email}"
                       style="color: white;
@@ -1065,7 +1160,7 @@ router.post(
                       transition-duration: 0.4s;
                       cursor: pointer;
                       border-radius: 10px;"
-                  >Herzlich willkommen...
+                  >${adminRegister_de_a_1}
                   </button></a><br />
               </div>
               `;  
@@ -1075,9 +1170,9 @@ router.post(
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hola, ${body.firstname}&nbsp;${body.lastname}</h1>
-                  <h3>Tu nueva contraseña es: ${password}</h3>
-                  <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+                  <h1>${adminRegister_sp_h1_1}&nbsp;${body.firstname}&nbsp;${body.lastname}</h1>
+                  <h3>${adminRegister_sp_h3_1}&nbsp;${password}</h3>
+                  <h5>${adminRegister_sp_h5_1}</h5>
                   <a 
                       href="${address}user/${randomstring}/email/${body.email}"
                       style="color: white;
@@ -1095,7 +1190,7 @@ router.post(
                       transition-duration: 0.4s;
                       cursor: pointer;
                       border-radius: 10px;"
-                  >Bienvenidos...
+                  >${adminRegister_sp_a_1}
                   </button></a><br />
               </div>
               `;  
@@ -1105,9 +1200,9 @@ router.post(
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hi, ${body.firstname}&nbsp;${body.lastname}</h1>
-                  <h3>Your new password is: ${password}</h3>
-                  <h5>Please confirm your email by clicking the button below</h5>
+                  <h1>${adminRegister_en_h1_1}&nbsp;${body.firstname}&nbsp;${body.lastname}</h1>
+                  <h3>${adminRegister_en_h3_1}&nbsp;${password}</h3>
+                  <h5>${adminRegister_en_h5_1}</h5>
                   <a 
                       href="${address}user/${randomstring}/email/${body.email}"
                       style="color: white;
@@ -1125,7 +1220,7 @@ router.post(
                       transition-duration: 0.4s;
                       cursor: pointer;
                       border-radius: 10px;"
-                  >Welcome...
+                  >${adminRegister_en_a_1}
                   </button></a><br />
               </div>
               `;  
@@ -1422,9 +1517,9 @@ router.patch("/editEmail", authenticate, async (req, res) => {
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hallo, ${req.person.firstname}&nbsp;${req.person.lastname}</h1>
-                  <h3>Sie sind nur einen Schritt von der Aktualisierung Ihrer E-Mail-Adresse entfernt.</h3>
-                  <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+                  <h1>${email_de_h1_1}&nbsp;${req.person.firstname}&nbsp;${req.person.lastname}</h1>
+                  <h3>${email_de_h3_1}</h3>
+                  <h5>${email_de_h5_1}</h5>
                   <a 
                       href="${address}user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}"
                       style="color: white;
@@ -1442,10 +1537,10 @@ router.patch("/editEmail", authenticate, async (req, res) => {
                       transition-duration: 0.4s;
                       cursor: pointer;
                       border-radius: 10px;"
-                  >Herzlich willkommen...
+                  >${email_de_a_1}
                   </button></a><br />
-                  <h3>Diese Schaltfläche ist für die nächsten 10 Minuten gültig.</h3>
-                  <h3>Wenn Sie nichts davon wissen, können Sie es ignorieren.</h3><br />
+                  <h3>${email_de_h3_2}</h3>
+                  <h3>${email_de_h3_3}</h3><br />
               </div>
               `;  
       }
@@ -1454,9 +1549,9 @@ router.patch("/editEmail", authenticate, async (req, res) => {
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hola, ${req.person.firstname}&nbsp;${req.person.lastname}</h1>
-                  <h3>Estás a un paso de actualizar tu dirección de correo electrónico.</h3>
-                  <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+                  <h1>${email_sp_h1_1}&nbsp;${req.person.firstname}&nbsp;${req.person.lastname}</h1>
+                  <h3>${email_sp_h3_1}</h3>
+                  <h5>${email_sp_h5_1}</h5>
                   <a 
                       href="${address}user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}"
                       style="color: white;
@@ -1474,10 +1569,10 @@ router.patch("/editEmail", authenticate, async (req, res) => {
                       transition-duration: 0.4s;
                       cursor: pointer;
                       border-radius: 10px;"
-                  >Bienvenidos...
+                  >${email_sp_a_1}
                   </button></a><br />
-                  <h3>Este botón es válido por los próximos 10 minutos.</h3>
-                  <h3>Si no sabe sobre esto, puede ignorarlo.</h3><br />
+                  <h3>${email_sp_h3_2}</h3>
+                  <h3>${email_sp_h3_3}</h3><br />
               </div>
               `;  
       }
@@ -1486,9 +1581,9 @@ router.patch("/editEmail", authenticate, async (req, res) => {
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hi, ${req.person.firstname}&nbsp;${req.person.lastname}</h1>
-                  <h3>You are one step away from updatting your email address.</h3>
-                  <h5>Please confirm your email by clicking the button below</h5>
+                  <h1>${email_en_h1_1}&nbsp;${req.person.firstname}&nbsp;${req.person.lastname}</h1>
+                  <h3>${email_en_h3_1}</h3>
+                  <h5>${email_en_h5_1}</h5>
                   <a 
                       href="${address}user/change/${randomstring}/email/${req.person.email}/toBe/${body.email}"
                       style="color: white;
@@ -1506,10 +1601,10 @@ router.patch("/editEmail", authenticate, async (req, res) => {
                       transition-duration: 0.4s;
                       cursor: pointer;
                       border-radius: 10px;"
-                  >Welcome...
+                  >${email_en_a_1}
                   </button></a><br />
-                  <h3>This button is valid for next 10 minutes.</h3>
-                  <h3>If you don't know about this, then you can ignore it.</h3><br />
+                  <h3>${email_en_h3_2}</h3>
+                  <h3>${email_en_h3_3}</h3><br />
               </div>
               `;  
       }
@@ -1846,9 +1941,9 @@ router.get("/email/:em", async (req, res) => {
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hallo, ${doc.firstname}&nbsp;${doc.lastname}</h1>
-                  <h3>Sie sind einen Schritt davon entfernt, unserer Community beizutreten.</h3>
-                  <h5>Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken</h5>
+                  <h1>${request_de_h1_1}&nbsp;${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>${request_de_h3_1}</h3>
+                  <h5>${request_de_h5_1}</h5>
                   <a 
                       href="${address}user/${randomstring}/email/${doc.email}"
                       style="color: white;
@@ -1866,9 +1961,9 @@ router.get("/email/:em", async (req, res) => {
                       transition-duration: 0.4s;
                       cursor: pointer;
                       border-radius: 10px;"
-                  >Herzlich willkommen...
+                  >${request_de_a_1}
                   </button></a><br />
-                  <h5>Oder fordern Sie eine neue E-Mail an, indem Sie auf die Schaltfläche unten klicken.</h5>
+                  <h5>${request_de_h5_2}</h5>
                   <a 
                       href="${address}user/email/${doc.email}"
                       style="color: white;
@@ -1886,7 +1981,7 @@ router.get("/email/:em", async (req, res) => {
                       color: black;
                       border: 2px solid #e7e7e7;
                       border-radius: 10px;"
-                  >Fordern Sie einen neuen Code
+                  >${request_de_a_2}
                   </button></a><br /><br />
               </div>
               `;  
@@ -1896,9 +1991,9 @@ router.get("/email/:em", async (req, res) => {
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hola, ${doc.firstname}&nbsp;${doc.lastname}</h1>
-                  <h3>Estás a un paso de unirte a nuestra comunidad.</h3>
-                  <h5>Por favor confirme su correo electrónico haciendo clic en el botón de abajo</h5>
+                  <h1>${request_sp_h1_1}&nbsp;${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>${request_sp_h3_1}</h3>
+                  <h5>${request_sp_h5_1}</h5>
                   <a 
                       href="${address}user/${randomstring}/email/${doc.email}"
                       style="color: white;
@@ -1916,9 +2011,9 @@ router.get("/email/:em", async (req, res) => {
                       transition-duration: 0.4s;
                       cursor: pointer;
                       border-radius: 10px;"
-                  >Bienvenidos...
+                  >${request_sp_a_1}
                   </button></a><br />
-                  <h5>O solicite un nuevo correo electrónico haciendo clic en el botón a continuación.</h5>
+                  <h5>${request_sp_h5_2}</h5>
                   <a 
                       href="${address}user/email/${doc.email}"
                       style="color: white;
@@ -1936,7 +2031,7 @@ router.get("/email/:em", async (req, res) => {
                       color: black;
                       border: 2px solid #e7e7e7;
                       border-radius: 10px;"
-                  >Solicitar un nuevo código
+                  >${request_sp_a_2}
                   </button></a><br /><br />
               </div>
               `;
@@ -1946,9 +2041,9 @@ router.get("/email/:em", async (req, res) => {
               <div style="
                   background-color:#fafafa;
                   padding-left: 20px;"><br />
-                  <h1>Hi, ${doc.firstname}&nbsp;${doc.lastname}</h1>
-                  <h3>You are one step away from joining our community.</h3>
-                  <h5>Please confirm your email by clicking the button below</h5>
+                  <h1>${request_en_h1_1}&nbsp;${doc.firstname}&nbsp;${doc.lastname}</h1>
+                  <h3>${request_en_h3_1}</h3>
+                  <h5>${request_en_h5_1}</h5>
                   <a 
                       href="${address}user/${randomstring}/email/${doc.email}"
                       style="color: white;
@@ -1966,9 +2061,9 @@ router.get("/email/:em", async (req, res) => {
                       transition-duration: 0.4s;
                       cursor: pointer;
                       border-radius: 10px;"
-                  >Welcome...
+                  >${request_en_a_1}
                   </button></a><br />
-                  <h5>Or request a new email by clicking the button below.</h5>
+                  <h5>${request_en_h5_2}</h5>
                   <a 
                       href="${address}user/email/${doc.email}"
                       style="color: white;
@@ -1986,7 +2081,7 @@ router.get("/email/:em", async (req, res) => {
                       color: black;
                       border: 2px solid #e7e7e7;
                       border-radius: 10px;"
-                  >Request a new code
+                  >${request_en_a_2}
                   </button></a><br /><br />
               </div>
               `;  

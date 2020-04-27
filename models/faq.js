@@ -14,7 +14,8 @@ var ObjectId = Schema.ObjectId;
 
 var FaqSchema = new mongoose.Schema({
     category: {
-        type: String,
+        type: ObjectId,
+        ref: 'Category',
         required: false
     },
     question: {

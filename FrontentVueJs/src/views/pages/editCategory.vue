@@ -9,13 +9,13 @@
         <vs-card>
         <div slot="header">
             <h3 v-if="this.lang == 'sp'">
-            Editar preguntas frecuentes
+            Editar categoria
             </h3>
             <h3 v-if="this.lang == 'de'">
-            FAQ bearbeiten
+            Kategorie bearbeiten
             </h3>
             <h3 v-if="this.lang != 'de' && this.lang != 'sp'">
-            Edit FAQ
+            Edit Category
             </h3>
         </div>
         <div v-if="this.lang == 'sp'" vs-justify="center">
@@ -24,41 +24,11 @@
                 icon-no-border
                 icon="icon icon-user"
                 icon-pack="feather"
-                label-placeholder="Pregunta"
-                v-model="faq.question"
+                label-placeholder="nombre de la categoría"
+                v-model="category.name"
                 class="w-full"/>
             <br />
-            <vs-textarea
-                rows="7" 
-                name="answer"
-                height="200px" 
-                icon-no-border
-                icon="icon icon-user"
-                icon-pack="feather"
-                label="Responder"
-                v-model="faq.answer"/>
             <br />
-            <label>Seleccione una categoría</label>
-            <br /><br />
-            <vs-button class="btnx" type="filled">{{select}}</vs-button>
-            <vs-dropdown>
-            <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
-            <!-- <a href="#">Hola mundo</a> -->
-            <vs-dropdown-menu>
-                <vs-dropdown-item>
-                <span @click="faq.category='General'; select='General'">General</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Licenses'; select='Licencias'">Licencias</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Company usage'; select='Uso de la empresa'">Uso de la empresa</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Trademark use'; select='Uso de marca registrada'">Uso de marca registrada</span>
-                </vs-dropdown-item>
-            </vs-dropdown-menu>
-            </vs-dropdown><br>
         </div>
         
         <div v-if="this.lang == 'de'" vs-justify="center">
@@ -67,41 +37,12 @@
                 icon-no-border
                 icon="icon icon-user"
                 icon-pack="feather"
-                label-placeholder="Frage"
-                v-model="faq.question"
+                label-placeholder="Kategoriename"
+                v-model="category.name"
                 class="w-full"/>
             <br />
-            <vs-textarea
-                rows="7" 
-                name="answer"
-                height="200px" 
-                icon-no-border
-                icon="icon icon-user"
-                icon-pack="feather"
-                label="Antworten"
-                v-model="faq.answer"/>
+
             <br />
-            <label>Wählen Sie eine Kategorie aus</label>
-            <br /><br />
-            <vs-button class="btnx" type="filled">{{select}}</vs-button>
-            <vs-dropdown>
-            <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
-            <!-- <a href="#">Hola mundo</a> -->
-            <vs-dropdown-menu>
-                <vs-dropdown-item>
-                <span @click="faq.category='General'; select='Allgemeines'">Allgemeines</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Licenses'; select='Lizenzen'">Lizenzen</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Company usage'; select='Firmennutzung'">Firmennutzung</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Trademark use'; select='Markennutzung'">Markennutzung</span>
-                </vs-dropdown-item>
-            </vs-dropdown-menu>
-            </vs-dropdown><br>
         </div>
 
         <div v-if="this.lang != 'de' && this.lang != 'sp'" vs-justify="center">
@@ -110,42 +51,13 @@
                 icon-no-border
                 icon="icon icon-user"
                 icon-pack="feather"
-                label-placeholder="Question"
-                v-model="faq.question"
+                label-placeholder="Category Name"
+                v-model="category.name"
                 class="w-full"/>
             <br />
-            <vs-textarea
-                rows="7" 
-                name="answer"
-                height="200px" 
-                icon-no-border
-                icon="icon icon-user"
-                icon-pack="feather"
-                label="Answer"
-                v-model="faq.answer"/>
             <br />
-            <label>Select a category</label>
-            <br /><br />
-            <vs-button class="btnx" type="filled">{{select}}</vs-button>
-            <vs-dropdown>
-            <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
-            <!-- <a href="#">Hola mundo</a> -->
-            <vs-dropdown-menu>
-                <vs-dropdown-item>
-                <span @click="faq.category='General'; select='General'">General</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Licenses'; select='Licenses'">Licenses</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Company usage'; select='Company usage'">Company usage</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Trademark use'; select='Trademark use'">Trademark use</span>
-                </vs-dropdown-item>
-            </vs-dropdown-menu>
-            </vs-dropdown><br>
         </div>
+
         <div v-if="this.lang == 'sp'" slot="footer">
             <vs-row vs-justify="center">
             <vs-button type="gradient" color="primary" icon="touch_app" @click="submit">Enviar</vs-button>
@@ -178,24 +90,21 @@
                 alertMessage:'',
                 activeA:false,
                 select:'Select Category',
-                faq:{
-                    category:'',
-                    question:'',
-                    answer:''
-                },
+                category:{
+                    name:''
+                }
             }
         },
         methods: {
             submit(){
-                this.faq.faqId=this.$route.params.id;
+                this.category.categoryId=this.$route.params.id;
                 return new Promise((resolve, reject) => {
-                    axios.put('/faq/updateFaq', this.faq).then(resp => {
-                    this.colorAlert='primary';
+                    axios.put('/category/updateCategory', this.category).then(resp => {
                     if (this.lang == 'de'){
                         this.$vs.notify({
                             title: 'Erfolg',
-                            text: 'FAQ Erfolgreich bearbeitet',
-                            color: this.colorAlert,
+                            text: 'FAQ erfolgreich hinzugefügt',
+                            color: 'primary',
                             iconPack: 'feather',
                             position: 'top-center',
                             icon:'icon-check'
@@ -204,8 +113,8 @@
                     else if (this.lang == 'sp'){
                         this.$vs.notify({
                             title: 'Éxito',
-                            text: 'FAQ Editado con éxito',
-                            color: this.colorAlert,
+                            text: 'FAQ agregado exitosamente',
+                            color: 'primary',
                             iconPack: 'feather',
                             position: 'top-center',
                             icon:'icon-check'
@@ -214,8 +123,8 @@
                     else{
                         this.$vs.notify({
                             title: 'Success',
-                            text: 'FAQ Editted succesfully',
-                            color: this.colorAlert,
+                            text: 'Category added succesfully',
+                            color: 'primary',
                             iconPack: 'feather',
                             position: 'top-center',
                             icon:'icon-check'
@@ -223,6 +132,7 @@
                     }
                     resolve(resp)
                     }).catch(err => {
+                        console.log(err)
                         this.colorAlert='danger';
                         if (this.lang == 'de'){
                             this.$vs.dialog({
@@ -261,15 +171,12 @@
         },
         created() {
             return new Promise((resolve, reject) => {
-                axios.get('/faq/geFaqById',{
+                axios.get('/category/getCategoryById',{
                     params: {
-                        FaqId:this.$route.params.id
+                        CategoryId:this.$route.params.id
                     }
                 }).then(resp => {
-                    this.select=resp.data.category;
-                    this.faq.category=resp.data.category;
-                    this.faq.question=resp.data.question;
-                    this.faq.answer=resp.data.answer;
+                    this.category.name=resp.data.name;
                     resolve(resp)
                 }).catch(err => {
                     console.log(err);

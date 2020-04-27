@@ -243,8 +243,7 @@
                     <div class="vx-row">
                         <div class="vx-col w-full mb-base">
                             <vx-card slot="no-body" class="text-center bg-primary-gradient greet-user">
-                                        <img src="@/assets/images/elements/decore-left.png" class="decore-left" alt="Decore Left" width="200" >
-                                        <img src="@/assets/images/elements/decore-right.png" class="decore-right" alt="Decore Right" width="175">
+                                <img src="@/assets/images/elements/decore-left.png" class="decore-left" alt="Decore Left" width="200" >
                                 <!-- <feather-icon icon="AwardIcon" class="p-6 mb-8 bg-primary inline-flex rounded-full text-white shadow" svgClasses="h-8 w-8"></feather-icon> -->
                                 <h1 
                                   v-if="this.lang == 'de'" 
@@ -255,6 +254,7 @@
                                 <h1 
                                   v-if="this.lang != 'de' && this.lang != 'sp'" 
                                   class="mb-6 text-white">Welcome, {{ this.$store.state.AppActiveUser.firstname }}</h1>
+                                <img src="@/assets/images/elements/decore-right.png" class="decore-right" alt="Decore Right" width="175">
                             </vx-card>
                         </div>
                     </div>
@@ -635,24 +635,64 @@ export default {
     submit() {
       this.$store.dispatch('key', this.key)
       .then(res => {
-        this.$vs.notify({
-          title: 'Congratulations',
-          text: 'You are now promoted to Customer',
-          color: 'primary',
-          iconPack: 'feather',
-          position: 'top-center',
-          icon:'icon-check'
-        })
+        if (this.lang == 'de'){
+          this.$vs.notify({
+            title: 'Herzliche Glückwünsche',
+            text: 'Sie werden jetzt zum Kunden befördert',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
+        else if (this.lang == 'sp'){
+          this.$vs.notify({
+            title: 'Felicidades',
+            text: 'Ahora eres ascendido a Cliente',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
+        else{
+          this.$vs.notify({
+            title: 'Congratulations',
+            text: 'You are now promoted to Customer',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
         window.location.reload();
       })
       .catch(err => {
         this.colorAlert = 'danger'
-        this.$vs.dialog({
-          color: this.colorAlert,
-          title: `Sooo sorry`,
-          text: `You must have provided the wrong key...`,
-          accept: this.acceptAlert
-        })
+        if (this.lang == 'de'){
+          this.$vs.dialog({
+            color: this.colorAlert,
+            title: `Es tut uns leid`,
+            text: `Sie müssen den falschen Schlüssel angegeben haben...`,
+            accept: this.acceptAlert
+          })
+        }
+        else if (this.lang == 'sp'){
+          this.$vs.dialog({
+            color: this.colorAlert,
+            title: `Lo siento`,
+            text: `Debes haber proporcionado la clave incorrecta...`,
+            accept: this.acceptAlert
+          })
+        }
+        else{
+          this.$vs.dialog({
+            color: this.colorAlert,
+            title: `Sooo sorry`,
+            text: `You must have provided the wrong key...`,
+            accept: this.acceptAlert
+          })
+        }
       })
     }
   },

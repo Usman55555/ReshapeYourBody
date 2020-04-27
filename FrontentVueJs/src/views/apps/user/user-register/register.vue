@@ -56,7 +56,7 @@
           <v-select 
             label-placeholder="Idiomas"
             placeholder="Idiomas"
-          v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            v-model="languages" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
 
         <div class="mt-8">
@@ -99,6 +99,21 @@
             class="w-full mt-4" v-model="address2"  name="Address2" />
             <!-- <span class="text-danger text-sm"  v-show="errors.has('postal')">{{ errors.first('postal') }}</span> -->
 
+        <!-- City -->
+        <div class="mt-8">
+        <!-- <label class="text-sm">City</label> -->
+
+            <vs-input
+            data-vv-validate-on="blur"
+            name="city"
+            type="city"
+            label-placeholder="Ciudad"
+            placeholder="Ciudad"
+            v-model="city"
+            class="w-full mt-6" />
+
+        </div>
+        
         <!-- Country -->
         <div class="mt-8">
         <!-- <label class="text-sm">Country</label> -->
@@ -109,23 +124,16 @@
         
         </div>
 
-        <!-- City -->
         <div class="mt-8">
-        <!-- <label class="text-sm">City</label> -->
-        <v-select 
-            label-placeholder="Ciudad"
-            placeholder="Ciudad"
-        v-model="city" :options="cityOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-
-        <vs-input
-        data-vv-validate-on="blur"
-        name="postal"
-        type="postal"
-        label-placeholder="Postal"
-        placeholder="Postal"
-        v-model="postal"
-        class="w-full mt-6" />
-    </div>
+            <vs-input
+            data-vv-validate-on="blur"
+            name="postal"
+            type="postal"
+            label-placeholder="Postal"
+            placeholder="Postal"
+            v-model="postal"
+            class="w-full mt-6" />
+        </div>
 
       </div>
     </div>
@@ -175,7 +183,7 @@
           <v-select 
             label-placeholder="Sprachen"
             placeholder="Sprachen"
-          v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            v-model="languages" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
 
         <div class="mt-8">
@@ -218,6 +226,21 @@
             class="w-full mt-4" v-model="address2"  name="Address2" />
             <!-- <span class="text-danger text-sm"  v-show="errors.has('postal')">{{ errors.first('postal') }}</span> -->
 
+        <!-- City -->
+        <div class="mt-8">
+        <!-- <label class="text-sm">City</label> -->
+
+            <vs-input
+            data-vv-validate-on="blur"
+            name="city"
+            type="city"
+            label-placeholder="Stadt"
+            placeholder="Stadt"
+            v-model="city"
+            class="w-full mt-6" />
+
+        </div>
+
         <!-- Country -->
         <div class="mt-8">
         <!-- <label class="text-sm">Country</label> -->
@@ -228,23 +251,16 @@
         
         </div>
 
-        <!-- City -->
         <div class="mt-8">
-        <!-- <label class="text-sm">City</label> -->
-        <v-select 
-            label-placeholder="Stadt"
-            placeholder="Stadt"
-        v-model="city" :options="cityOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-
-        <vs-input
-        data-vv-validate-on="blur"
-        name="postal"
-        type="postal"
-        label-placeholder="Post"
-        placeholder="Post"
-        v-model="postal"
-        class="w-full mt-6" />
-    </div>
+            <vs-input
+            data-vv-validate-on="blur"
+            name="postal"
+            type="postal"
+            label-placeholder="Post"
+            placeholder="Post"
+            v-model="postal"
+            class="w-full mt-6" />
+        </div>
 
       </div>
     </div>
@@ -276,7 +292,7 @@
         <vs-input 
             data-vv-validate-on="blur"
             label-placeholder="Lastname"
-            placeholder="Lastnae"
+            placeholder="Lastname"
             class="w-full mt-4" label="Last Name" v-model="lastname" v-validate="'required|alpha_spaces'" name="lastname" />
         
 
@@ -295,7 +311,8 @@
           <v-select 
             label-placeholder="Languages"
             placeholder="Languages"
-          v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            v-model="languages" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <!-- v-model="languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> -->
         </div>
 
         <div class="mt-8">
@@ -338,6 +355,21 @@
             class="w-full mt-4" v-model="address2"  name="Address2" />
             <!-- <span class="text-danger text-sm"  v-show="errors.has('postal')">{{ errors.first('postal') }}</span> -->
 
+        <!-- City -->
+        <div class="mt-8">
+        <!-- <label class="text-sm">City</label> -->
+            
+            <vs-input
+            data-vv-validate-on="blur"
+            name="city"
+            type="city"
+            label-placeholder="City"
+            placeholder="City"
+            v-model="city"
+            class="w-full mt-6" />
+
+        </div>
+
         <!-- Country -->
         <div class="mt-8">
         <!-- <label class="text-sm">Country</label> -->
@@ -348,23 +380,16 @@
         
         </div>
 
-        <!-- City -->
         <div class="mt-8">
-        <!-- <label class="text-sm">City</label> -->
-        <v-select 
-            label-placeholder="City"
-            placeholder="City"
-        v-model="city" :options="cityOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-
-        <vs-input
-        data-vv-validate-on="blur"
-        name="postal"
-        type="postal"
-        label-placeholder="Postal"
-        placeholder="Postal"
-        v-model="postal"
-        class="w-full mt-6" />
-    </div>
+            <vs-input
+            data-vv-validate-on="blur"
+            name="postal"
+            type="postal"
+            label-placeholder="Postal"
+            placeholder="Postal"
+            v-model="postal"
+            class="w-full mt-6" />
+        </div>
 
       </div>
     </div>
@@ -409,7 +434,6 @@ import phone from 'phone'
 import Datepicker from 'vuejs-datepicker'
 import { en, he } from 'vuejs-datepicker/src/locale'
 var jsonData = require('../../../pages/user-settings/countries_json.json');
-var jsonData1 = require('../../../pages/user-settings/world-cities_json.json');
 
 export default {
   components: {
@@ -436,7 +460,6 @@ export default {
       city: '',
       postal: '',
       countryOptions: jsonData,
-      cityOptions: [{}],
 
       roleOptions: [
         { label: 'Admin',  value: 'admin' },
@@ -451,23 +474,8 @@ export default {
         { label: 'German',   value: 'german'   },
       ]}
   },
-  watch: {
-    country1: function (value) {
-      if (value !== null || value !== undefined){
-        for (var key in jsonData1) {
-          if (key == value.label){
-            const uniqueSet = new Set(jsonData1[key])
-            this.cityOptions = [...uniqueSet]
-            break
-          }
-        }
-        this.country = value.label
-      }
-    }
-  },
   computed: {
     lang() {
-      this.graphComponent += 1
       return this.$i18n.locale
     },
     isLang () {
@@ -544,14 +552,36 @@ export default {
         if (this.dob !== '' || this.dob !== null || this.dob !== undefined){
           birthdate = new Date(this.dob).toISOString()
         }
-        this.$vs.notify({
-          title: 'Please wait...',
-          text: 'Please wait while we send the email.',
-          color: 'success',
-          iconPack: 'feather',
-          position: 'top-center',
-          icon:'icon-check'
-        })
+        if (this.lang == 'de'){
+          this.$vs.notify({
+            title: 'Warten Sie mal',
+            text: 'Bitte warten Sie, während wir die E-Mail senden.',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
+        else if (this.lang == 'sp'){
+          this.$vs.notify({
+            title: 'por favor espera',
+            text: 'Por favor espere mientras enviamos el correo electrónico.',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
+        else{
+          this.$vs.notify({
+            title: 'Please wait...',
+            text: 'Please wait while we send the email.',
+            color: 'primary',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon:'icon-check'
+          })
+        }
         if (this.validphone !== ''){          
             axios.post('/user/adminRegister',
                 {
@@ -569,23 +599,59 @@ export default {
                     birthdate: birthdate
                 }
                 ).then(() => {
-                this.colorAlert = 'success'
-                this.$vs.dialog({
-                    color: this.colorAlert,
-                    title: `You have registered registered`,
-                    text: `The confirmation email has been sent.`,
-                    accept: this.acceptAlert
-                })
+                  this.colorAlert = 'primary'
+                  if (this.lang == 'de'){
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `Sie haben den Benutzer registriert.`,
+                        text: `Die Bestätigungs-E-Mail wurde gesendet.`,
+                        accept: this.acceptAlert
+                    })
+                  }
+                  else if (this.lang == 'sp'){
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `Has registrado al usuario.`,
+                        text: `El correo electrónico de confirmación ha sido enviado.`,
+                        accept: this.acceptAlert
+                    })
+                  }
+                  else{
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `You have registered the user.`,
+                        text: `The confirmation email has been sent.`,
+                        accept: this.acceptAlert
+                    })
+                  }
                 })
                 .catch(e => {
-                console.log(e)
-                this.colorAlert = 'danger'
-                this.$vs.dialog({
-                    color: this.colorAlert,
-                    title: `Unable to register`,
-                    text: `Maybe the user is already in the database...`,
-                    accept: this.acceptAlert
-                })
+                  console.log(e)
+                  this.colorAlert = 'danger'
+                  if (this.lang == 'de'){
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Registrierung nicht möglich`,
+                      text: `Möglicherweise befindet sich der Benutzer bereits in der Datenbank...`,
+                      accept: this.acceptAlert
+                    })
+                  }
+                  else if (this.lang == 'sp'){
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Incapaz de registrarse`,
+                      text: `Quizás el usuario ya está en la base de datos...`,
+                      accept: this.acceptAlert
+                    })
+                  }
+                  else{
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Unable to register`,
+                      text: `Maybe the user is already in the database...`,
+                      accept: this.acceptAlert
+                    })
+                  }
             })
         }
         else{          
@@ -604,23 +670,59 @@ export default {
                     birthdate: birthdate
                 }
                 ).then(() => {
-                this.colorAlert = 'success'
-                this.$vs.dialog({
-                    color: this.colorAlert,
-                    title: `You have registered registered`,
-                    text: `The confirmation email has been sent.`,
-                    accept: this.acceptAlert
-                })
+                  this.colorAlert = 'primary'
+                  if (this.lang == 'de'){
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `Sie haben den Benutzer registriert.`,
+                        text: `Die Bestätigungs-E-Mail wurde gesendet.`,
+                        accept: this.acceptAlert
+                    })
+                  }
+                  else if (this.lang == 'sp'){
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `Has registrado al usuario.`,
+                        text: `El correo electrónico de confirmación ha sido enviado.`,
+                        accept: this.acceptAlert
+                    })
+                  }
+                  else{
+                    this.$vs.dialog({
+                        color: this.colorAlert,
+                        title: `You have registered the user.`,
+                        text: `The confirmation email has been sent.`,
+                        accept: this.acceptAlert
+                    })
+                  }
                 })
                 .catch(e => {
-                console.log(e)
-                this.colorAlert = 'danger'
-                this.$vs.dialog({
-                    color: this.colorAlert,
-                    title: `Unable to register`,
-                    text: `Maybe the user is already in the database...`,
-                    accept: this.acceptAlert
-                })
+                  console.log(e)
+                  this.colorAlert = 'danger'
+                  if (this.lang == 'de'){
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Registrierung nicht möglich`,
+                      text: `Möglicherweise befindet sich der Benutzer bereits in der Datenbank...`,
+                      accept: this.acceptAlert
+                    })
+                  }
+                  else if (this.lang == 'sp'){
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Incapaz de registrarse`,
+                      text: `Quizás el usuario ya está en la base de datos...`,
+                      accept: this.acceptAlert
+                    })
+                  }
+                  else{
+                    this.$vs.dialog({
+                      color: this.colorAlert,
+                      title: `Unable to register`,
+                      text: `Maybe the user is already in the database...`,
+                      accept: this.acceptAlert
+                    })
+                  }
             })
         }
     },

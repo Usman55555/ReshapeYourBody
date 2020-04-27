@@ -309,25 +309,61 @@ export default {
       console.log(this.data_local)
       return new Promise((resolve, reject) => {
         axios.patch('/user/edit', this.data_local).then(resp => {
-        this.colorAlert='success';
-        this.alertMessage='User Editted succesfully';
-        this.$vs.notify({
-            title: 'Success',
-            text: this.alertMessage,
-            color: this.colorAlert,
-            iconPack: 'feather',
-            position: 'top-center',
-            icon:'icon-check'
-        })
+        this.colorAlert='primary';
+        if (this.lang == 'de'){
+          this.$vs.notify({
+              title: 'Erfolg',
+              text: 'Benutzer erfolgreich aktualisiert',
+              color: this.colorAlert,
+              iconPack: 'feather',
+              position: 'top-center',
+              icon:'icon-check'
+          })
+        }
+        else if (this.lang == 'sp'){
+          this.$vs.notify({
+              title: 'Éxito',
+              text: 'Usuario actualizado con éxito',
+              color: this.colorAlert,
+              iconPack: 'feather',
+              position: 'top-center',
+              icon:'icon-check'
+          })
+        }
+        else{
+          this.$vs.notify({
+              title: 'Success',
+              text: 'User updated succesfully',
+              color: this.colorAlert,
+              iconPack: 'feather',
+              position: 'top-center',
+              icon:'icon-check'
+          })
+        }
         resolve(resp)
         }).catch(err => {
             this.colorAlert='danger';
-            this.alertMessage='An Error occured';
-            this.$vs.dialog({
-            color: this.colorAlert,
-            title: this.alertMessage,
-            accept: this.acceptAlert
-        })
+            if (this.lang == 'de'){
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: 'Ein Fehler ist aufgetreten',
+                accept: this.acceptAlert
+              })
+            }
+            else if (this.lang == 'sp'){
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: 'Ocurrió un error',
+                accept: this.acceptAlert
+              })
+            }
+            else{
+              this.$vs.dialog({
+                color: this.colorAlert,
+                title: 'An Error occured',
+                accept: this.acceptAlert
+              })
+            }
             reject(err)
         })
     });
