@@ -40,13 +40,13 @@
         <vs-row v-else>
             <vs-input 
               v-if="this.lang == 'de'" 
-              class="inputx mr-3 w-full" :disabled="disabled"   v-model="broadcast_message"  />
+              class="inputx mr-3 w-full" :disabled="disabled"  id="colour" v-model="broadcast_message"  />
             <vs-input 
               v-if="this.lang == 'sp'" 
-              class="inputx mr-3 w-full" :disabled="disabled"  v-model="broadcast_message"  />
+              class="inputx mr-3 w-full" :disabled="disabled" id="colour"  v-model="broadcast_message"  />
             <vs-input 
               v-if="this.lang != 'de' && this.lang != 'sp'" 
-              class="inputx mr-3 w-full" :disabled="disabled"   v-model="broadcast_message"  />
+              class="inputx mr-3 w-full" :disabled="disabled" id="colour"  v-model="broadcast_message"  />
         </vs-row>
         
         <i18n />
@@ -178,7 +178,7 @@ export default {
 }
 </script>
 <style lang="scss">
-input {
+#colour {
       color: #fa6e6e !important;
     }
 
