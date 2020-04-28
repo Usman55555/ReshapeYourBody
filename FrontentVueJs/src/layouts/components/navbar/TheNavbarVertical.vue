@@ -26,13 +26,13 @@
             <div class="flex  w-full bg-white chat-input-container mr-3">
                 <vs-input
                   v-if="this.lang == 'de'" 
-                  v-model="broadcast_message" class="mr-3 w-full" placeholder="Geben Sie Ihre Nachricht ein" ></vs-input>
+                  v-model="broadcast_message" class="mr-3 w-full" id="input" ></vs-input>
                 <vs-input
                   v-if="this.lang == 'sp'" 
-                  v-model="broadcast_message" class="mr-3 w-full" placeholder="Escribe tu mensaje" ></vs-input>
+                  v-model="broadcast_message" class="mr-3 w-full" id="input"  ></vs-input>
                 <vs-input
                   v-if="this.lang != 'de' && this.lang != 'sp'" 
-                  v-model="broadcast_message" class="mr-3 w-full" placeholder="Type Your Message" ></vs-input>
+                  v-model="broadcast_message" class="mr-3 w-full"  id="input"></vs-input>
                 <vs-button v-on:click="broadcast" icon-pack="feather" icon="icon-send" ></vs-button>
             </div>
         </vs-row >
@@ -181,5 +181,7 @@ export default {
 #colour {
       color: #fa6e6e !important;
     }
-
+#input {
+      color: #fa6e6e !important;
+    }
 </style>
