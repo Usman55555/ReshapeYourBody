@@ -205,7 +205,7 @@
               <div class="vx-col sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-base">
                         
                             <vx-card
-                                v-if="this.lang == 'de'" 
+                                v-if="this.lang == 'de' && my_request != ''" 
                                 title="Ihre Anfrage"
                                 title-color="#fff"
                                 content-color="#fff"
@@ -225,7 +225,7 @@
                               
                             </vx-card>
                               <vx-card
-                                v-if="this.lang == 'sp'" 
+                                v-if="this.lang == 'sp' && my_request != '' " 
                                  title="Tu petición"
                                 title-color="#fff"
                                 content-color="#fff"
