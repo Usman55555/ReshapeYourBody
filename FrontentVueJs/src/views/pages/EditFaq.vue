@@ -45,17 +45,8 @@
             <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
             <!-- <a href="#">Hola mundo</a> -->
             <vs-dropdown-menu>
-                <vs-dropdown-item>
-                <span @click="faq.category='General'; select='General'">General</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Licenses'; select='Licencias'">Licencias</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Company usage'; select='Uso de la empresa'">Uso de la empresa</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Trademark use'; select='Uso de marca registrada'">Uso de marca registrada</span>
+                <vs-dropdown-item v-for="(cat,index) in categoriesGet">
+                <span @click="faq.category=cat._id; select=cat.name">{{cat.name}}</span>
                 </vs-dropdown-item>
             </vs-dropdown-menu>
             </vs-dropdown><br>
@@ -88,17 +79,8 @@
             <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
             <!-- <a href="#">Hola mundo</a> -->
             <vs-dropdown-menu>
-                <vs-dropdown-item>
-                <span @click="faq.category='General'; select='Allgemeines'">Allgemeines</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Licenses'; select='Lizenzen'">Lizenzen</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Company usage'; select='Firmennutzung'">Firmennutzung</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Trademark use'; select='Markennutzung'">Markennutzung</span>
+                <vs-dropdown-item v-for="(cat,index) in categoriesGet">
+                <span @click="faq.category=cat._id; select=cat.name">{{cat.name}}</span>
                 </vs-dropdown-item>
             </vs-dropdown-menu>
             </vs-dropdown><br>
@@ -131,17 +113,8 @@
             <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
             <!-- <a href="#">Hola mundo</a> -->
             <vs-dropdown-menu>
-                <vs-dropdown-item>
-                <span @click="faq.category='General'; select='General'">General</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Licenses'; select='Licenses'">Licenses</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Company usage'; select='Company usage'">Company usage</span>
-                </vs-dropdown-item>
-                <vs-dropdown-item>
-                <span @click="faq.category='Trademark use'; select='Trademark use'">Trademark use</span>
+                <vs-dropdown-item v-for="(cat,index) in categoriesGet">
+                <span @click="faq.category=cat._id; select=cat.name">{{cat.name}}</span>
                 </vs-dropdown-item>
             </vs-dropdown-menu>
             </vs-dropdown><br>
@@ -183,9 +156,23 @@
                     question:'',
                     answer:''
                 },
+                 categoriesGet:[]
             }
         },
         methods: {
+            getCategory(){
+                return new Promise((resolve, reject) => {
+                axios.get('/category/getCategory').then(resp => {
+                this.categoriesGet=resp.data;
+                resolve(resp)
+                }).catch(err => {
+                    console.log(err)
+                    this.$router.push('/pages/login')
+                    reject(err)
+                })
+            });
+
+            },
             submit(){
                 this.faq.faqId=this.$route.params.id;
                 return new Promise((resolve, reject) => {
@@ -260,13 +247,14 @@
             }
         },
         created() {
+            this.getCategory()
             return new Promise((resolve, reject) => {
                 axios.get('/faq/geFaqById',{
                     params: {
                         FaqId:this.$route.params.id
                     }
                 }).then(resp => {
-                    this.select=resp.data.category;
+                    this.select=resp.data.category.name;
                     this.faq.category=resp.data.category;
                     this.faq.question=resp.data.question;
                     this.faq.answer=resp.data.answer;

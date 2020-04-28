@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const passport = require('passport');
 const _ = require('lodash');
-
+const Category = require('../models/category');
 var {
     User
 } = require('../models/user');
@@ -197,7 +197,7 @@ router.get('/getFaqByCatogory', adminpartnerauthenticate, async function (req, r
 // 10
 router.get('/geFaqById', adminpartnerauthenticate, async function (req, res) {
     try {
-        var doc1 = await Faq.findById(req.query.FaqId).populate('askedBy');
+        var doc1 = await Faq.findById(req.query.FaqId).populate('category');
         res.status(200).send(doc1);
     } catch (e) {
         res.status(400).send({

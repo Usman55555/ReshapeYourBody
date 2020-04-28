@@ -43,8 +43,14 @@
                       >Añadir nueva categoria</vs-button>
                     <br><br><h4>Tabla de contenidos</h4>
                     <ul class="faq-topics mt-4">
-                        <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.id">
+                        <li :key="1" class="p-2 font-medium flex items-center" @click="faqFilter = 1">
+                            <div class="h-3 w-3 rounded-full mr-2" :class="'bg-grey'"></div><span class="cursor-pointer">All</span>
+                        </li>
+                        <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.oid">
                             <div class="h-3 w-3 rounded-full mr-2" :class="'bg-' + category.color"></div><span class="cursor-pointer">{{ category.name }}</span>
+                            <vx-tooltip v-if="activeUserInfo.usertype==='admin'" :style="{display:inline,float:'right'}" color="primary" text="Edit this Category">
+                                <vs-button :style="{display:inline}" color="primary" type="line" icon="edit" size="large" @click="goToEditCat(category.oid)"></vs-button>
+                            </vx-tooltip>
                         </li>
                     </ul>
 
@@ -66,8 +72,14 @@
                       >neue Kategorie hinzufügen</vs-button>
                     <br><br><h4>Inhaltsverzeichnis</h4>
                     <ul class="faq-topics mt-4">
-                        <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.id">
+                        <li :key="1" class="p-2 font-medium flex items-center" @click="faqFilter = 1">
+                            <div class="h-3 w-3 rounded-full mr-2" :class="'bg-grey'"></div><span class="cursor-pointer">All</span>
+                        </li>
+                        <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.oid">
                             <div class="h-3 w-3 rounded-full mr-2" :class="'bg-' + category.color"></div><span class="cursor-pointer">{{ category.name }}</span>
+                            <vx-tooltip v-if="activeUserInfo.usertype==='admin'" :style="{display:inline,float:'right'}" color="primary" text="Edit this Category">
+                                <vs-button :style="{display:inline}" color="primary" type="line" icon="edit" size="large" @click="goToEditCat(category.oid)"></vs-button>
+                            </vx-tooltip>
                         </li>
                     </ul>
 
@@ -90,7 +102,10 @@
 
                     <br><br><h4>Table of Content</h4>
                     <ul class="faq-topics mt-4">
-                        <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.id">
+                        <li :key="1" class="p-2 font-medium flex items-center" @click="faqFilter = 1">
+                            <div class="h-3 w-3 rounded-full mr-2" :class="'bg-grey'"></div><span class="cursor-pointer">All</span>
+                        </li>
+                        <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.oid">
                             <div class="h-3 w-3 rounded-full mr-2" :class="'bg-' + category.color"></div><span class="cursor-pointer">{{ category.name }}</span>
                               <vx-tooltip v-if="activeUserInfo.usertype==='admin'" :style="{display:inline,float:'right'}" color="primary" text="Edit this Category">
                                 <vs-button :style="{display:inline}" color="primary" type="line" icon="edit" size="large" @click="goToEditCat(category.oid)"></vs-button>
@@ -171,10 +186,7 @@
       filteredFaq () {
         return this.faqs.filter((faq) => {
           if (this.faqFilter === 1) return faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase())
-          else if (this.faqFilter === 2) return faq.categoryId === 2 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
-          else if (this.faqFilter === 3) return faq.categoryId === 3 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
-          else if (this.faqFilter === 4) return faq.categoryId === 4 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
-          else if (this.faqFilter === 5) return faq.categoryId === 5 && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
+          else return faq.category === this.faqFilter && (faq.question.toLowerCase().includes(this.faqSearchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(this.faqSearchQuery.toLowerCase()))
         })
       },
       activeUserInfo () {
