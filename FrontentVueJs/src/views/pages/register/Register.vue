@@ -128,8 +128,8 @@
                                 </vs-dropdown> -->
 
                                 <div class="dropdown-button-container">
-                                  <vs-button class="btnx" type="filled">Language</vs-button>
-                                  <vs-dropdown>
+                                  <!-- <vs-button class="btnx" type="filled">Language</vs-button> -->
+                                  <!-- <vs-dropdown>
                                       <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
                                       <vs-dropdown-menu>
                                           <vs-dropdown-item 
@@ -138,9 +138,16 @@
                                             @click="addLanuage(item, index)"
                                             > {{item}} </vs-dropdown-item>
                                       </vs-dropdown-menu>
-                                  </vs-dropdown>
+                                  </vs-dropdown> -->
+                                  
+                                  <!-- <vs-select v-model="city" class="w-full select-large mt-5" label="Event Location">
+                                      <vs-select-item :key="index" :value="item" :text="item" v-for="(item,index) in languages" v-model="lang" class="w-full" />
+                                  </vs-select> -->
+                                  <label 
+                                    class="text-sm">Languages</label>
+                                  <v-select v-model="langs" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
                                 </div>
-                                
+
                                 <div class="demo-alignment">
                                     <vs-list>
                                         <vs-list-item 
@@ -231,13 +238,21 @@
 import Datepicker from 'vuejs-datepicker'
 import { en, he } from 'vuejs-datepicker/src/locale'
 import phone from 'phone'
+import vSelect from 'vue-select'
 
 export default {
   components: {
-    Datepicker
+    Datepicker,
+    vSelect
   },
   data () {
     return {
+      langOptions: [
+        { label: 'English',  value: 'english'  },
+        { label: 'Spanish',   value: 'spanish'   },
+        { label: 'German',   value: 'german'   },
+      ],
+      langs: [],
       languages: ['English', 'German', 'Spanish'],
       addedLanguages: [],
 
@@ -327,6 +342,9 @@ export default {
 
       if (this.password != this.confirm_password) return
       else{
+        // console.log(this.langs)
+        this.addedLanguages.push(this.langs.label)
+        // console.log(this.addedLanguages)
         if (this.validphone !== ''){   
           const payload = {
             userDetails: {

@@ -38,15 +38,9 @@
         </vs-row >
 
         <vs-row v-else>
-            <vs-input 
-              v-if="this.lang == 'de'" 
-              class="inputx mr-3 w-full" :disabled="disabled"  id="colour" v-model="broadcast_message"  />
-            <vs-input 
-              v-if="this.lang == 'sp'" 
-              class="inputx mr-3 w-full" :disabled="disabled" id="colour"  v-model="broadcast_message"  />
-            <vs-input 
-              v-if="this.lang != 'de' && this.lang != 'sp'" 
-              class="inputx mr-3 w-full" :disabled="disabled" id="colour"  v-model="broadcast_message"  />
+            <div style="height: 35px; width:95%; border: 1px solid grey; border-radius: 5px;">
+              <p style="padding-left: 5px; padding-top: 8px;" id="colour">{{broadcast_message}}</p>
+            </div>
         </vs-row>
         
         <i18n />
