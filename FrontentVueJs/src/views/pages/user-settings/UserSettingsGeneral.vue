@@ -52,13 +52,13 @@
     <div class="mt-8">
       <label 
         v-if="this.lang == 'de'" 
-        class="text-sm">Sprachen (E-Mails werden an die erste gesendet)</label>
+        class="text-sm">Sprachen</label>
       <label 
         v-if="this.lang == 'sp'" 
-        class="text-sm">Idiomas (Los correos electrónicos serán enviados al primero)</label>
+        class="text-sm">Idiomas</label>
       <label 
         v-if="this.lang != 'de' && this.lang != 'sp'" 
-        class="text-sm">Languages (Emails will be sent to the first one)</label>
+        class="text-sm">Languages</label>
       <v-select v-model="langs" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
     </div>
 
