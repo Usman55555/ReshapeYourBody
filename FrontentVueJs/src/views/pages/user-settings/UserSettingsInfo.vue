@@ -178,7 +178,12 @@ export default {
       return this.$i18n.locale
     },
     isDisabled () {
-      return this.country !== '' ||  this.address1 !== '' ||  this.address2 !== '' ||  this.city !== '' ||  this.postal !== ''
+      // console.log(this.country1.__ob__ != undefined)
+      // console.log(this.address1 !== '')
+      // console.log(this.address2 !== '')
+      // console.log(this.city !== '')
+      // console.log(this.postal !== '')
+      return this.country1.__ob__ != undefined ||  this.address1 !== '' ||  this.address2 !== '' ||  this.city !== '' ||  this.postal !== ''
     },
     activeUserInfo () {
       return this.$store.state.AppActiveUser
@@ -188,8 +193,8 @@ export default {
     update () {
       const { country, address1, address2, city, postal } = this
       var obj = {}
-      if (country !== ""){
-        obj.country = country
+      if (this.country1.__ob__ != undefined){
+        obj.country = this.country1.__ob__.value.label
       }
       if (address1 !== ""){
         obj.address1 = address1

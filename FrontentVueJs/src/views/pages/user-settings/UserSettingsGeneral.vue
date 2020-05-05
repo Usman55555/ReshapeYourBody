@@ -176,7 +176,11 @@ export default {
       return this.$i18n.locale
     },
     isDisabled () {
-      return this.dob !== null && this.langs.length > 0 && this.phone !== '' && !this.isPhoneValid
+      // console.log(this.dob !== null)
+      // console.log(this.langs.__ob__.value.label != undefined)
+      // console.log(this.phone !== '')
+      // console.log(!this.isPhoneValid)
+      return this.dob !== null && this.langs.__ob__.value.label != undefined && this.phone !== '' && !this.isPhoneValid
     },
     isPhoneValid () {
       if (phone(this.phone).length > 0) {
@@ -197,9 +201,10 @@ export default {
       if (dob !== ''){
         this.birthdate = new Date(dob).toISOString()
       }
-      for (let i in this.langs){
-        this.languages.push(this.langs[i].label)
-      }
+      // for (let i in this.langs){
+      //   this.languages.push(this.langs[i].label)
+      // }
+      this.languages.push(this.langs.__ob__.value.label)
       var obj = {}
       if (firstname !== ""){
         obj.firstname = firstname
@@ -214,6 +219,7 @@ export default {
       if (birthdate !== ""){
         obj.birthdate = birthdate
       }
+      console.log(languages)
       if (languages.length > 0){
         obj.languages = languages
       }
