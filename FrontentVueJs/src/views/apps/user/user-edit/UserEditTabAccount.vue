@@ -69,11 +69,9 @@
           <flat-pickr v-model="data_local.birthdate" :config="{ dateFormat: 'd F Y' }" class="w-full" />
         </div>
         <!-- phone Number -->
-        <span class="text-danger text-sm">{{ errors.first('phone') }}</span><br />
-        <span class="text-danger text-sm" v-show="isPhoneValid">The phone number must be valid.</span>
+        <!-- <span class="text-danger text-sm">{{ errors.first('phone') }}</span><br /> -->
+        <span class="text-danger text-sm" v-show="isPhoneValid">The phone number must be valid.</span><br />
         <vs-input
-        v-validate="'required'"
-        data-vv-validate-on="blur"
         name="phone"
         type="phone"
         label-placeholder="Phone"
@@ -129,11 +127,9 @@
           <flat-pickr v-model="data_local.birthdate" :config="{ dateFormat: 'd F Y' }" class="w-full" />
         </div>
         <!-- phone Number -->
-        <span class="text-danger text-sm">{{ errors.first('phone') }}</span><br />
-        <span class="text-danger text-sm" v-show="isPhoneValid">El número de teléfono debe ser válido.</span>
+        <!-- <span class="text-danger text-sm">{{ errors.first('phone') }}</span><br /> -->
+        <span class="text-danger text-sm" v-show="isPhoneValid">El número de teléfono debe ser válido.</span><br />
         <vs-input
-        v-validate="'required'"
-        data-vv-validate-on="blur"
         name="phone"
         type="phone"
         label-placeholder="Telefono"
@@ -189,11 +185,9 @@
           <flat-pickr v-model="data_local.birthdate" :config="{ dateFormat: 'd F Y' }" class="w-full" />
         </div>
         <!-- phone Number -->
-        <span class="text-danger text-sm">{{ errors.first('phone') }}</span><br />
-        <span class="text-danger text-sm" v-show="isPhoneValid">Die Telefonnummer muss gültig sein.</span>
+        <!-- <span class="text-danger text-sm">{{ errors.first('phone') }}</span><br /> -->
+        <span class="text-danger text-sm" v-show="isPhoneValid">Die Telefonnummer muss gültig sein.</span><br />
         <vs-input
-        v-validate="'required'"
-        data-vv-validate-on="blur"
         name="phone"
         type="phone"
         label-placeholder="Telefon"
@@ -262,6 +256,9 @@ export default {
       ],
       langs:[]}
   },
+  created() {
+    // console.log(this.data_local.languages__ob__.label)
+  },
   computed: {
     lang() {
       this.graphComponent += 1
@@ -279,14 +276,15 @@ export default {
       return !this.errors.any()
     },
     isDisabled () {
-      return this.dob !== null && this.langs.length > 0 && this.phone !== '' && !this.isPhoneValid
+      // return this.dob !== null && this.langs.length > 0
+      return false
     },
     isPhoneValid () {
-      if (phone(this.phone).length > 0) {
-        this.validphone = phone(this.phone)[0]
+      if (this.data_local.phone === '' || this.data_local.phone === undefined) {
         return false
       }
-      else if (this.phone === '') {
+      else if (phone(this.data_local.phone).length > 0) {
+        this.validphone = phone(this.phone)[0]
         return false
       }
       else {
@@ -301,7 +299,13 @@ export default {
     save_changes () {
       /* eslint-disable */
       if (!this.validateForm) return
-      this.langs.push(this.data_local.languages.label);
+      // if (this.data_local.phone === undefined)
+      //   this.data_local.phone = ''
+      if (this.data_local.languages.__ob__.value.label != null){
+        // console.log(this.data_local.languages.__ob__.value.label)
+        this.langs.push(this.data_local.languages.__ob__.value.label);
+      }
+      this.data_local.languages = []
       this.data_local.languages=this.langs;
       this.data_local.usertype=this.data_local.usertype.value;
       this.data_local.id=this.data_local._id;
