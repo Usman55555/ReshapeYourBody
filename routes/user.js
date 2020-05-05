@@ -1362,7 +1362,7 @@ router.patch(
             var doc = await User.findByIdAndUpdate({ _id: body.id }, body, {
               new: true,
             });
-            console.log(doc);
+            // console.log("updated doc:", doc);
             if (doc == null) {
               res.status(400).send({
                 errmsg: "Document to be updated not found.",
@@ -1431,8 +1431,8 @@ router.patch(
                   .then(async (hash) => {
                     body.password = hash;
 
-                    console.log("body");
-                    console.log(body);
+                    // console.log("body");
+                    // console.log(body);
                     var doc = await User.findByIdAndUpdate(
                       { _id: req.person._id },
                       body,
