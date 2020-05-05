@@ -40,7 +40,7 @@
                 <!-- langs -->
         <div class="mt-8">
           <label class="text-sm">Languages</label>
-          <v-select v-model="data_local.languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          <v-select v-model="data_local.languages" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
 
         <vs-input class="w-full mt-4" label="Address 2" v-model="data_local.address2"  name="address2" />
@@ -100,7 +100,7 @@
                 <!-- langs -->
         <div class="mt-8">
           <label class="text-sm">Idiomas</label>
-          <v-select v-model="data_local.languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          <v-select v-model="data_local.languages" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
 
         <vs-input class="w-full mt-4" label="Habla a 2" v-model="data_local.address2"  name="address2" />
@@ -160,7 +160,7 @@
                 <!-- langs -->
         <div class="mt-8">
           <label class="text-sm">Sprachen</label>
-          <v-select v-model="data_local.languages" multiple :closeOnSelect="false" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          <v-select v-model="data_local.languages" :closeOnSelect="true" :options="langOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
 
         <vs-input class="w-full mt-4" label="Adresse 2" v-model="data_local.address2"  name="address2" />
@@ -259,7 +259,8 @@ export default {
         { label: 'English',  value: 'english'  },
         { label: 'Spanish',   value: 'spanish'   },
         { label: 'German',   value: 'german'   },
-      ]}
+      ],
+      langs:[]}
   },
   computed: {
     lang() {
@@ -300,12 +301,11 @@ export default {
     save_changes () {
       /* eslint-disable */
       if (!this.validateForm) return
-      for (let i in this.data_local.languages){
-        this.data_local.languages[i]=this.data_local.languages[i].value
-      }
-      this.data_local.usertype=this.data_local.usertype.value
+      this.langs.push(this.data_local.languages.label);
+      this.data_local.languages=this.langs;
+      this.data_local.usertype=this.data_local.usertype.value;
       this.data_local.id=this.data_local._id;
-      this.data_local.photo=null
+      this.data_local.photo=null;
       console.log(this.data_local)
       return new Promise((resolve, reject) => {
         axios.patch('/user/edit', this.data_local).then(resp => {
