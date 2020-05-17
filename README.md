@@ -1,6 +1,12 @@
 # ReshapeYourBody
 
 
+## Project presentation
+
+- [**Part 1**](https://drive.google.com/open?id=1QDBe0IhipINJVn7LdSoOxx9JR8v5dgtq)
+- [**Part 2**](https://drive.google.com/open?id=14GkEewMPP-RBVmTbmbK6aWQXgc7giwA4)
+
+
 ## Project setup
 
 ##### open terminal in the root directory (where index.js is)
